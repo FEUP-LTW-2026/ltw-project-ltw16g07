@@ -1,7 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
+:root {
+    --bg-dark: #0d0d0d;
+    --bg-card: #171717;
+    --text-gray: #a3a3a3;
+    --text-dark-gray: #525252;
+    --border-color: #262626;
+    
+    --neon-green: #ccff00;
+    --purple: #a855f7;
+    --red: #ef4444;
+    --orange: #f59e0b;
+}
+
 * {
-    background-color: #0d0d0d;
+    background-color: var(--bg-dark);
     color: white;
     font-family: "Inter";
 }
@@ -10,6 +23,8 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-left: 2em;
+    margin-right: 2em;
 }
 
 
@@ -19,8 +34,30 @@ header > ul {
 }
 
 header > ul > li {
-    margin-left: 8px;
-    margin-right: 8px;
+    margin-left: 0.7em;
+    margin-right: 0.7em;
+}
+
+header > ul > li > a {
+    text-decoration: none;
+    color: var(--text-dark-gray) ;
+}
+
+header > ul > li > a:hover {
+    color: white ;
+}
+
+header > div {
+    display: flex;
+}
+
+header > div > input {
+    padding-top: 1em;
+    padding-left: 2em;
+    padding-right: 2em;
+    padding-bottom: 1em;
+    border-radius: 6em;
+    margin: 0.2em;
 }
 
 .joinButton {
