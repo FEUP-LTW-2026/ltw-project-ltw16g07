@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+body {
+    color: white;
+    background-color: #0d0d0d;
+    font-family: 'Inter';
+}
+
+input {
+    display: block;
+}
+
+a {
+    color: white;
+}
+
+div {
+    
+}
