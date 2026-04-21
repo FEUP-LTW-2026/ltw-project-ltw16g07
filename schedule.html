@@ -3,46 +3,80 @@
 <head>
   <meta charset="UTF-8">
   <title>FitHub</title>
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style_schedule.css">
 </head>
 <body>
 
-  <header>
-    <div>FitHub</div>
+  <header class="topbar">
+    <div class="logo">FitHub</div>
 
-    <nav>
-      <a>Classes</a>
+    <nav class="menu">
+      <a class="active">Classes</a>
       <a>Trainers</a>
       <a>Equipment</a>
     </nav>
 
-    <div>JM</div>
+    <div class="user">JM</div>
   </header>
 
   <main>
-
     <section>
       <h1>Class Schedule</h1>
+      <p class="subtitle">48 classes this week</p>
 
-      <div>
-        <button>All</button>
+      <div class="botoes">
+        <button class="active">All</button>
         <button>Yoga</button>
         <button>Spinning</button>
+        <button>HIIT</button>
+        <button>Pilates</button>
+        <button>Boxing</button>
       </div>
+
+      <div class="separador"></div>
 
       <h2>Monday</h2>
 
       <div class="card">
-        <div>
+        <div class="card-info">
           <h3>Yoga Flow</h3>
-          <p>09:00 - 10:00 · Studio A · Ana Silva</p>
+          <p>09:00 – 10:00 · Studio A · Ana Silva</p>
+          <span class="spots green-spots">8 / 12 spots</span>
         </div>
+        <button class="enroll-btn">Enroll →</button>
+      </div>
 
-        <button>Enroll</button>
+      <div class="card hiit-card">
+        <div class="card-info">
+          <h3>HIIT Blast</h3>
+          <p>11:00 – 12:00 · Main Hall · Pedro Costa</p>
+          <span class="spots purple-spots">15 / 15 spots</span>
+        </div>
+        <button class="waitlist-btn">Waitlist</button>
+      </div>
+
+      <h2>Tuesday</h2>
+
+      <div class="card red-card">
+        <div class="card-info">
+          <h3>Pilates Core</h3>
+          <p>10:00 – 11:00 · Studio B · Sofia Nunes</p>
+          <span class="spots red-spots">4 / 15 spots</span>
+        </div>
+        <button class="enroll-btn red-btn">Enroll →</button>
+      </div>
+
+      <div class="card orange-card">
+        <div class="card-info">
+          <h3>Spinning HIIT</h3>
+          <p>18:00 – 19:00 · Cycle Room · Carlos Mendes</p>
+          <span class="spots orange-spots">10 / 20 spots</span>
+        </div>
+        <button class="enroll-btn">Enroll →</button>
       </div>
 
     </section>
-
   </main>
 
 </body>

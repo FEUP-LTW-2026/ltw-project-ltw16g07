@@ -1,0 +1,193 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #0a0a0a;
+    color: white;
+    font-family: 'Inter', 'DM Sans', system-ui, sans-serif;
+}
+
+
+.topbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 36px;
+    border-bottom: 1px solid #1e1e1e;
+}
+
+.logo{
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.menu{
+    display: flex;
+    gap: 24px;
+}
+
+.menu a{
+    font-size: 11px;
+    color: #555;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.menu a.active{
+    color: #c8f04a;
+}
+
+.user{
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: #aaa;
+}
+
+
+main{
+    padding: 0 36px;
+}
+
+h1{
+    font-size: 20px;
+    font-weight: 500;
+    padding-top: 24px;
+    padding-bottom: 4px;
+}
+
+.subtitle{
+    font-size: 11px;
+    color: #555;
+    margin-bottom: 16px;
+}
+
+/* filter chips */
+.botoes{
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.botoes button{
+    border: 1px solid #333;
+    background-color: #1a1a1a;
+    color: #888;
+    padding: 5px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 11px;
+}
+
+.botoes button.active{
+    background-color: #c8f04a;
+    border-color: #c8f04a;
+    color: #000;
+    font-weight: 500;
+}
+
+.separador{
+    border-top: 1px solid #1e1e1e;
+    margin-bottom: 16px;
+}
+
+/* day label */
+h2{
+    color: #c8f04a;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+/* cards */
+.card{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #111;
+    border-radius: 8px;
+    padding: 16px 20px 16px 24px;
+    margin-bottom: 10px;
+}
+
+.card::before{
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 4px;
+    background-color: #c8f04a;
+    border-radius: 999px;
+}
+
+.card.hiit-card::before   { background-color: #7b68ee; }
+.card.red-card::before    { background-color: #ff6b6b; }
+.card.orange-card::before { background-color: #ffb347; }
+
+.card-info h3{
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.card-info p{
+    font-size: 10px;
+    color: #555;
+    margin-bottom: 6px;
+}
+
+.spots{
+    display: inline-block;
+    font-size: 9px;
+    padding: 2px 8px;
+    border-radius: 7px;
+}
+
+.green-spots  { background-color: #1e2a1a; color: #c8f04a; }
+.purple-spots { background-color: #221e3a; color: #7b68ee; }
+.red-spots    { background-color: #2a1a1a; color: #ff6b6b; }
+.orange-spots { background-color: #2a1e0a; color: #ffb347; }
+
+
+.enroll-btn{
+    background-color: #c8f04a;
+    color: #000;
+    font-weight: 500;
+    font-size: 12px;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: inherit;
+    white-space: nowrap;
+}
+
+.enroll-btn.red-btn{
+    background-color: #ff6b6b;
+    color: #fff;
+}
+
+.waitlist-btn{
+    background-color: #1a1a1a;
+    color: #7b68ee;
+    font-size: 12px;
+    border: 1px solid #7b68ee;
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: inherit;
+    white-space: nowrap;
+}
