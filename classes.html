@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>FitHub</title>
+        <link rel="stylesheet" href="style.css">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <header>
+            <h2>FitHub</h2>
+            <ul>
+                <li><a href="">Classes</a></li>
+                <li><a href="">Trainers</a></li>
+                <li><a href="">Equipment</a></li>
+            </ul>
+            <div>
+                <input type="button" value="Login">
+                <input class="joinButton" type="button" value="Join">
+            </div>
+        </header>
+        <nav id="menu">
+            <h1>Class Schedule</h1>
+            <p>48 classes this week</p>
+            <ul>
+                <li><button class="filter-btn" data-filter="All">All</button></li>
+                <li><button class="filter-btn" data-filter="Yoga">Yoga</button></li>
+                <li><button class="filter-btn" data-filter="Spinning">Spinning</button></li>
+                <li><button class="filter-btn" data-filter="HIIT">HIIT</button></li>
+                <li><button class="filter-btn" data-filter="Pilates">Pilates</button></li>
+                <li><button class="filter-btn" data-filter="Boxing">Boxing</button></li>
+            </ul>
+        </nav>
+        <div class="filters">
+
+            <select id="trainer-filter">
+               <option value="">Trainer</option>
+             </select>
+
+            <select id="day-filter">
+              <option value="">Day</option>
+            </select>
+
+            <select id="time-filter">
+              <option value="">Time</option>
+            </select>
+
+        </div>
+        <div class="schedule">
+            <div class="day" data-day="monday">
+                <h2>Monday</h2>
+                <div class="classes-container"></div>
+            </div>
+            <div class="day" data-day="tuesday">
+                <h2>Tuesday</h2>
+                <div class="classes-container"></div>
+            </div>
+            <div class="day" data-day="wednesday">
+                <h2>Wednesday</h2>
+                <div class="classes-container"></div>
+            </div>
+            <div class="day" data-day="thursday">
+                <h2>Thursday</h2>
+                <div class="classes-container"></div>
+            </div>
+            <div class="day" data-day="friday">
+                <h2>Friday</h2>
+                <div class="classes-container"></div>
+            </div>
+            <div class="day" data-day="saturday">
+                <h2>Saturday</h2>
+                <div class="classes-container"></div>
+            </div>
+            <div class="day" data-day="sunday">
+                <h2>Sunday</h2>
+                <div class="classes-container"></div>
+            </div>
+        </div>
+
+
+
+
+
+        <template id="class-template">
+            <div class="class-card">
+                <h3 class="title"></h3>
+                <p class="info"></p>
+                <p class="spots"></p>
+                <p class="rating"></p>
+                <div class="class-actions">
+                  <button class="action-btn">Enroll</button>
+                </div>
+            </div>
+        </template>
+    </body>
+</html>

@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+* {
+    background-color: #0d0d0d;
+    color: white;
+    font-family: "Inter";
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+header > ul {
+    display: fleX;
+    list-style-type: none;
+}
+
+header > ul > li {
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.joinButton {
+    background-color: white;
+    color: black;
+}
