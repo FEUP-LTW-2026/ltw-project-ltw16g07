@@ -1,0 +1,164 @@
+body {
+  padding: 0 2rem;
+}
+
+#menu h1{
+    border-top: 1px solid #797878;
+    margin-bottom: 5px;
+    padding-top:1rem;
+}
+#menu p{
+    color:#797878;
+    margin-bottom: 0.10rem;
+    margin-top: 0;
+
+}
+
+
+#menu ul {
+    display:flex;
+    flex-wrap:wrap;
+    gap: 0.4rem;
+    list-style: none;
+    padding:0;
+    
+
+}
+
+.filter-btn:hover {
+  background: #c7ff58;
+  color: #000;
+  
+}
+
+.filter-btn {
+    border:1px solid #797878;
+    border-radius: 999px;
+    padding: 0.4rem 1rem;
+    background-color: #1a1b1e;
+    color:#797878;
+}
+
+.filter-btn.active {
+  background: #c7ff58;
+  color: #000;
+}
+
+.filters select{
+    border:1px solid #797878;
+    border-radius: 6px;
+    padding:0.4rem 3rem;
+    background-color: #1a1b1e;
+    color:#797878;
+
+    
+
+}
+
+.filter-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #555;
+  padding-bottom: 0.03rem;
+  
+}
+
+.day h2 {
+  color: #c7ff58;
+}
+
+.class-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: #1a1b1e;
+  border: 1px solid #555;
+  border-left: 3px solid #f59e0b;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.action-btn {
+  background: #c7ff58;
+  color: #000;
+  border: none;
+  border-radius: 999px;
+  padding: 0.6rem 1.5rem;
+}
+
+.class-actions{
+    background: #1a1b1e;
+}
+
+.class-info {
+  background: #1a1b1e;  
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.day h2 {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.rating{
+    background: #1a1b1e;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    
+}
+
+.title{
+    background: #1a1b1e;
+    margin:0;
+}
+
+.info{
+    color: #797878;
+    background: #1a1b1e;
+    margin: 0;
+}
+
+.spots{
+    color: #4ade80;
+    background:#1a2e1a;
+    padding-left:5px;
+    padding-right: 5px;
+    margin: 0;
+    border-radius: 500px;
+    width: fit-content;
+}
+
+.rating .stars {
+  background: #1a1b1e;
+  color: #c7ff58;
+}
+
+[data-type="yoga"] .spots {
+  background: #1a2e1a;
+  border: 1px solid #2d4a2d;
+  color: #4ade80;
+}
+
+[data-type="hiit"] .spots {
+  background: #2e1a1a;
+  border: 1px solid #4a2d2d;
+  color: #f87171;
+}
+
+[data-type="pilates"] .spots {
+  background: #2e1a2a;
+  border: 1px solid #4a2d3d;
+  color: #f472b6;
+}
+
+[data-type="spinning"] .spots {
+  background: #2e2a1a;
+  border: 1px solid #4a3d1a;
+  color: #fbbf24;
+}
