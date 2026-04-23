@@ -2,6 +2,8 @@
 <html>
     <head>
         <title>FitHub</title>
+        <link rel="icon" type="image/png" href="https://i.imgur.com/WT1OtgQ.png">
+        <link rel="stylesheet" href="style.css">
         <link rel="stylesheet" href="index.css">
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     </head>
@@ -19,14 +21,15 @@
                 <button type="button" class="joinButton">Join</button>
             </div>
         </header>
-
+        
         <h1>PREMIUM FITNESS</h1>
-        <h2>Train Smarter.</h2>
-        <h3 class="gray">Feel Stronger.</h3>
-        <p class="gray">Book classes, track progress, and connect with expert trainers.</p>
-
-        <button type="button">Browse Classes</button>
-        <button type="button">Meet Trainers</button>
+        <h2 class="slogan">Train Smarter.</h2>
+        <h3 class="gray slogan">Feel Stronger.</h3>
+        <p class="gray marginLeft">Book classes, track progress, and connect with expert trainers.</p>
+        <div id="midButtons">
+            <button type="button">Browse Classes</button>
+            <button type="button">Meet Trainers</button>
+        </div>
 
         <ul id="stats">
             <li><p>48</p>
@@ -48,36 +51,45 @@
 
         <div id="upClasses">
             <p>Upcoming Classes</p>
-            <a href="">See all &rarr;</p>
+            <a href="">See all &rarr;</a>
         </div>
-        <ul>
+
+        <ul id="listClass">
             <li>
-                Yoga Flow <br>
-                Mon - 09:00 - Studio A<br>
-                Ana Silva<br>
-                8/12 spots
-                <button type="button">Enroll</button>
+                <p>Yoga Flow </p>
+                <p>Mon - 09:00 - Studio A</p>
+                <p>Ana Silva</p>
+                <div class="classEnroll">                    
+                    <p>8/12 spots</p>
+                    <button type="button">Enroll</button>
+                </div>
             </li>
             <li>
-                Spinning HIIT <br>
-                Tue - 18:00 - Cycle Room<br>
-                Carlos Mendes<br>
-                10/10 spots
-                <button type="button">Waitlist</button>
+                <p>Spinning HIIT</p>
+                <p>Tue - 18:00 - Cycle Room</p>
+                <p>Carlos Mendes</p>
+                <div class="classEnroll">
+                    <p>10/10 spots</p>
+                    <button type="button">Waitlist</button>
+                </div>
             </li>
             <li>
-                Pilates Core <br>
-                Wed - 10:00 - Studio B<br>
-                Sofia Nunes<br>
-                4/15 spots
-                <button type="button">Enroll</button>
+                <p>Pilates Core </p>
+                <p>Wed - 10:00 - Studio B</p>
+                <p>Sofia Nunes</p>
+                <div class="classEnroll">
+                    <p>4/15 spots</p>
+                    <button type="button">Enroll</button>
+                </div>
             </li>
             <li>
-                Boxing Basics <br>
-                Thu - 19:00 - Main Hall<br>
-                Pedro Costa<br>
-                6/20 spots
-                <button type="button">Enroll</button>
+                <p>Boxing Basics</p>
+                <p>Thu - 19:00 - Main Hall</p>
+                <p>Pedro Costa</p>
+                <div class="classEnroll">
+                    <p>6/20 spots</p>
+                    <button type="button">Enroll</button>                    
+                </div>
             </li>
         </ul>
 

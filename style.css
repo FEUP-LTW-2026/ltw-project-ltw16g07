@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+:root {
+    --bg-dark: #0d0d0d;
+    --bg-card: #1c1c1c;
+    --text-gray: #b5b5b5;
+    --text-dark-gray: #656565;
+    
+    --neon-green: #ccff00;
+    --purple: #a855f7;
+    --red: #ef4444;
+    --orange: #f59e0b;
+    --spots: #414141;
+}
+
+* {
+    background-color: var(--bg-dark);
+    color: white;
+    font-family: "Inter";
+}
+
+button {
+    padding: 1em 2em;
+    border-radius: 6em;
+    margin: 0.2em;
+    border-color: var(--text-dark-gray);
+    color: var(--text-gray);
+    font-weight: bold;
+    border-style: solid;
+    cursor:pointer;
+    transition: opacity 0.2s ease, transform 0.1s ease;
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+
+body > *:not(header) {
+    margin-left: 1em;
+    margin-right: 2em;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 2em;
+    margin-right: 2em;
+}
+
+
+header > ul {
+    display: fleX;
+    list-style-type: none;
+}
+
+header > ul > li {
+    margin-left: 0.7em;
+    margin-right: 0.7em;
+}
+
+header > ul > li > a {
+    text-decoration: none;
+    color: var(--text-dark-gray) ;
+}
+
+header > ul > li > a:hover {
+    color: white ;
+}
+
+header > div {
+    display: flex;
+}
+
+.joinButton {
+    background-color: white;
+    color: black;
+    border-color: white;
+}

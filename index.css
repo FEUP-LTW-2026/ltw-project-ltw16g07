@@ -1,97 +1,38 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
-
-:root {
-    --bg-dark: #0d0d0d;
-    --bg-card: #171717;
-    --text-gray: #b5b5b5;
-    --text-dark-gray: #656565;
-    
-    --neon-green: #ccff00;
-    --purple: #a855f7;
-    --red: #ef4444;
-    --orange: #f59e0b;
-}
-
-* {
-    background-color: var(--bg-dark);
-    color: white;
-    font-family: "Inter";
-}
-
-
-
-body > *:not(header) {
-    margin-left: 1em;
-    margin-right: 2em;
-}
-
-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-left: 2em;
-    margin-right: 2em;
-}
-
-
-header > ul {
-    display: fleX;
-    list-style-type: none;
-}
-
-header > ul > li {
-    margin-left: 0.7em;
-    margin-right: 0.7em;
-}
-
-header > ul > li > a {
-    text-decoration: none;
-    color: var(--text-dark-gray) ;
-}
-
-header > ul > li > a:hover {
-    color: white ;
-}
-
-header > div {
-    display: flex;
-}
-
-header > div > button {
-    padding-top: 1em;
-    padding-left: 2em;
-    padding-right: 2em;
-    padding-bottom: 1em;
-    border-radius: 6em;
-    margin: 0.2em;
-    border-color: var(--text-dark-gray);
-    color: var(--text-gray);
-    font-weight: bold;
-    border-style: solid;
-    cursor:pointer;
-    transition: opacity 0.2s ease, transform 0.1s ease;
-}
-
-button:active {
-    transform: scale(0.95);
-}
-
-.joinButton {
-    background-color: white;
-    color: black;
-    border-color: white;
-}
-
 h1 {
+    font-size: 1.5em;
     color:var(--neon-green);
     padding-left: 0.4em;
     border-left: 0.1em solid var(--neon-green);
     font-weight: 100;
+    padding-top: 0.5em;
     padding-bottom: 1em;
+    margin-bottom: 0;
 }
 
 .gray {
     color: var(--text-gray);
+}
+
+.marginLeft{
+    margin-left: 2em;
+}
+
+.slogan {
+    font-size: 4em;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 0.5em;
+}
+
+#midButtons > button {
+    font-size: 1em;
+    margin-left: 1em;
+}
+
+#midButtons > button:first-child {
+    background-color: var(--neon-green);
+    border-color: var(--neon-green);
+    color: var(--bg-dark);
 }
 
 #stats {
@@ -100,7 +41,9 @@ h1 {
     justify-content: space-between;
     list-style-type: none;
     text-align: center;
-    margin: 0;
+    margin-top: 3em;
+    margin-right: 0;
+    margin-left: 0;
     padding: 0;
 }
 
@@ -112,11 +55,12 @@ h1 {
 #stats > li >:first-child {
     font-size: 2.5em;
     margin-bottom: 0;
-    margin-top: 0.3em;
+    margin-top: 0.7em;
 }
 
 #stats > li >:last-child {
     margin-top: 0;
+    margin-bottom: 2.5em;
     color: var(--text-dark-gray);
 }
 
@@ -141,3 +85,88 @@ h1 {
     color: white;
 }
 
+#listClass {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#listClass > li {
+    flex: 1;
+    border: 0.1em solid var(--bg-card);
+    border-radius: 1em;
+    overflow: hidden;
+    background-color: var(--bg-card);
+}
+
+#listClass > li > div > button {
+    border-radius: 6em;
+    margin:0;
+}
+
+#listClass > li > div > p {
+    padding: 0.5em 1em;
+    border-radius: 6em;
+    background-color: var(--spots);
+    margin:0;
+    display: flex;
+    align-items: center;}
+
+#listClass > li > p {
+    background-color: var(--bg-card);
+    margin:0;
+} 
+
+.classEnroll {
+    background-color: var(--bg-card);
+    margin:0;
+    display: flex;
+    justify-content: space-between;
+}
+
+#listClass > li:first-child {
+    border-top: 0.3em solid var(--neon-green);
+}
+
+#listClass > li:first-child > div > button {
+    background-color: var(--neon-green);
+    border-color: var(--neon-green);
+    color: var(--bg-card);
+}
+#listClass > li:nth-child(2) {
+    border-top: 0.3em solid var(--purple);
+}
+#listClass > li:nth-child(2) > div > button {
+    border-color: var(--purple);
+    color: var(--purple);
+}
+#listClass > li:nth-child(3) {
+    border-top: 0.3em solid var(--red);
+}
+#listClass > li:nth-child(3) > div > button {
+    background-color: var(--red);
+    border-color: var(--red);
+    color: var(--bg-card);
+}
+#listClass > li:last-child {
+    border-top: 0.3em solid var(--orange);
+}
+#listClass > li:last-child > div >  button {
+    background-color: var(--orange);
+    border-color: var(--orange);
+    color: var(--bg-card);
+}
+
+
+#listClass > li {
+    margin: 0 1em;
+    padding: 1.7em;
+}
+
+#listClass > li >:last-child {
+    margin-top: 0;
+    color: var(--text-dark-gray);
+}
