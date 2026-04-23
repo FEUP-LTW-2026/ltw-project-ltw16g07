@@ -1,11 +1,21 @@
+
+
 body {
   padding: 0 2rem;
 }
 
+
+
+
+
+#menu {
+  border-top: 1px solid #5f5f5f;
+  padding: 0.5rem 2rem 0 2rem; 
+  margin-top: 0.5rem;
+}
+
 #menu h1{
-    border-top: 1px solid #797878;
-    margin-bottom: 5px;
-    padding-top:1rem;
+  margin-bottom: 0;
 }
 #menu p{
     color:#797878;
@@ -68,17 +78,20 @@ body {
   color: #c7ff58;
 }
 
+.day {
+  margin-top: 2rem;
+}
+
 .class-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
   background: #1a1b1e;
-  border: 1px solid #555;
   border-left: 3px solid #f59e0b;
   border-radius: 8px;
-  padding: 1rem;
-  margin-bottom: 0.5rem;
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .action-btn {
@@ -123,6 +136,7 @@ body {
     display: flex;
     align-items: center;
     gap: 0.3rem;
+    color: #797878;
     
     
 }
@@ -151,6 +165,10 @@ body {
 .rating .stars {
   background: #1a1b1e;
   color: #c7ff58;
+  display: inline-flex;
+  align-items: center;
+  letter-spacing: -1px; 
+  line-height: 1;
 }
 
 [data-type="yoga"] .spots {
@@ -175,4 +193,20 @@ body {
   background: #2e2a1a;
   border: 1px solid #4a3d1a;
   color: #fbbf24;
+}
+
+[data-type="yoga"] {
+  border-left: 4px solid #c7ff58;
+}
+
+[data-type="hiit"] {
+  border-left: 4px solid #a78bfa;
+}
+
+[data-type="pilates"] {
+  border-left: 4px solid #ef4444;
+}
+
+[data-type="spinning"] {
+  border-left: 4px solid #f59e0b;
 }
