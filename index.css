@@ -130,17 +130,23 @@ h1 {
 #listClass > li:first-child {
     border-top: 0.3em solid var(--neon-green);
 }
-
 #listClass > li:first-child > div > button {
     background-color: var(--neon-green);
     border-color: var(--neon-green);
     color: var(--bg-card);
 }
+#listClass > li:first-child > div > p {
+    color: var(--neon-green);
+}
 #listClass > li:nth-child(2) {
     border-top: 0.3em solid var(--purple);
 }
 #listClass > li:nth-child(2) > div > button {
+    background-color: var(--bg-card);
     border-color: var(--purple);
+    color: var(--purple);
+}
+#listClass > li:nth-child(2) > div > p {
     color: var(--purple);
 }
 #listClass > li:nth-child(3) {
@@ -151,6 +157,9 @@ h1 {
     border-color: var(--red);
     color: var(--bg-card);
 }
+#listClass > li:nth-child(3) > div > p {
+    color: var(--red);
+}
 #listClass > li:last-child {
     border-top: 0.3em solid var(--orange);
 }
@@ -158,6 +167,9 @@ h1 {
     background-color: var(--orange);
     border-color: var(--orange);
     color: var(--bg-card);
+}
+#listClass > li:last-child > div > p {
+    color: var(--orange);
 }
 
 

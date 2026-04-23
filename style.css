@@ -3,14 +3,14 @@
 :root {
     --bg-dark: #0d0d0d;
     --bg-card: #1c1c1c;
-    --text-gray: #b5b5b5;
+    --text-gray: #898989;
     --text-dark-gray: #656565;
     
     --neon-green: #ccff00;
     --purple: #a855f7;
     --red: #ef4444;
     --orange: #f59e0b;
-    --spots: #414141;
+    --spots: #313131;
 }
 
 * {
@@ -66,7 +66,7 @@ header > ul > li > a {
 }
 
 header > ul > li > a:hover {
-    color: white ;
+    color: var(--neon-green) ;
 }
 
 header > div {
