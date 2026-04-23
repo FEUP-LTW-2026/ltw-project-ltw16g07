@@ -89,6 +89,19 @@ body {
   padding: 0.6rem 1.5rem;
 }
 
+.action-btn.waitlist {
+  background: transparent;
+  color: #a78bfa;
+  border: 1.5px solid #a78bfa;
+}
+
+
+[data-type="pilates"] .action-btn.enroll {
+  background: #ef4444;
+  color: #fff;
+}
+
+
 .class-actions{
     background: #1a1b1e;
 }
@@ -110,6 +123,7 @@ body {
     display: flex;
     align-items: center;
     gap: 0.3rem;
+    
     
 }
 
@@ -147,7 +161,7 @@ body {
 
 [data-type="hiit"] .spots {
   background: #2e1a1a;
-  border: 1px solid #4a2d2d;
+   border: 1px solid #4a2d2d;
   color: #f87171;
 }
 
