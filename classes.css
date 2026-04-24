@@ -9,7 +9,7 @@ body {
 
 
 #menu {
-  border-top: 1px solid #5f5f5f;
+  border-top: 1px solid var(--text-dark-gray);
   padding: 0.5rem 2rem 0 2rem; 
   margin-top: 0.5rem;
 }
@@ -18,7 +18,7 @@ body {
   margin-bottom: 0;
 }
 #menu p{
-    color:#797878;
+    color:var(--text-gray);
     margin-bottom: 0.10rem;
     margin-top: 0;
 
@@ -36,46 +36,41 @@ body {
 }
 
 .filter-btn:hover {
-  background: #c7ff58;
-  color: #000;
+  background: var(--neon-green);
+  color: black;
   
 }
 
 .filter-btn {
-    border:1px solid #797878;
+    border:1px solid var(--text-dark-gray);
     border-radius: 999px;
     padding: 0.4rem 1rem;
-    background-color: #1a1b1e;
-    color:#797878;
+    color:var(--text-gray);
 }
 
 .filter-btn.active {
-  background: #c7ff58;
-  color: #000;
+  background: var(--neon-green);
+  color: black;
 }
 
 .filters select{
-    border:1px solid #797878;
+    border:1px solid var(--text-gray);
     border-radius: 6px;
     padding:0.4rem 3rem;
-    background-color: #1a1b1e;
-    color:#797878;
-
-    
-
+    color:var(--text-gray);
 }
 
 .filter-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #555;
+  border-bottom: 1px solid var(--text-dark-gray);
   padding-bottom: 0.03rem;
   
 }
 
 .day h2 {
-  color: #c7ff58;
+  color: var(--neon-green);
 }
 
 .day {
@@ -87,16 +82,16 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  background: #1a1b1e;
-  border-left: 3px solid #f59e0b;
+  background: var(--bg-card);
+  border-left: 3px solid var(--orange);
   border-radius: 8px;
   padding: 1.2rem 1.5rem;
   margin-bottom: 1rem;
 }
 
 .action-btn {
-  background: #c7ff58;
-  color: #000;
+  background: var(--neon-green);
+  color: black;
   border: none;
   border-radius: 999px;
   padding: 0.6rem 1.5rem;
@@ -104,23 +99,22 @@ body {
 
 .action-btn.waitlist {
   background: transparent;
-  color: #a78bfa;
-  border: 1.5px solid #a78bfa;
+  color: var(--purple);
+  border: 1.5px solid var(--purple);
 }
 
 
 [data-type="pilates"] .action-btn.enroll {
-  background: #ef4444;
-  color: #fff;
+  background: var(--red);
 }
 
 
 .class-actions{
-    background: #1a1b1e;
+    background: var(--bg-card);
 }
 
 .class-info {
-  background: #1a1b1e;  
+  background: var(--bg-card);  
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
@@ -132,29 +126,29 @@ body {
 }
 
 .rating{
-    background: #1a1b1e;
+    background: var(--bg-card);
     display: flex;
     align-items: center;
     gap: 0.3rem;
-    color: #797878;
+    color: var(--text-gray);
     
     
 }
 
 .title{
-    background: #1a1b1e;
+    background: var(--bg-card);
     margin:0;
 }
 
 .info{
-    color: #797878;
-    background: #1a1b1e;
+    color: var(--text-gray);
+    background: var(--bg-card);
     margin: 0;
 }
 
 .spots{
-    color: #4ade80;
-    background:#1a2e1a;
+    color: var(--spots-green);
+    background:var(--spots-bg-green);
     padding-left:5px;
     padding-right: 5px;
     margin: 0;
@@ -163,8 +157,8 @@ body {
 }
 
 .rating .stars {
-  background: #1a1b1e;
-  color: #c7ff58;
+  background: var(--bg-card);
+  color: var(--neon-green);
   display: inline-flex;
   align-items: center;
   letter-spacing: -1px; 
@@ -172,41 +166,27 @@ body {
 }
 
 [data-type="yoga"] .spots {
-  background: #1a2e1a;
-  border: 1px solid #2d4a2d;
-  color: #4ade80;
+  background: var(--spots-bg-green);
+  color: var(--spots-green);
 }
 
 [data-type="hiit"] .spots {
-  background: #2e1a1a;
-   border: 1px solid #4a2d2d;
-  color: #f87171;
-}
-
-[data-type="pilates"] .spots {
-  background: #2e1a2a;
-  border: 1px solid #4a2d3d;
-  color: #f472b6;
-}
-
-[data-type="spinning"] .spots {
-  background: #2e2a1a;
-  border: 1px solid #4a3d1a;
-  color: #fbbf24;
+  background: var(--spots-bg-red);
+  color: var(--spots-red);
 }
 
 [data-type="yoga"] {
-  border-left: 4px solid #c7ff58;
+  border-left: 4px solid var(--neon-green);
 }
 
 [data-type="hiit"] {
-  border-left: 4px solid #a78bfa;
+  border-left: 4px solid var(--purple);
 }
 
 [data-type="pilates"] {
-  border-left: 4px solid #ef4444;
+  border-left: 4px solid var(--red);
 }
 
 [data-type="spinning"] {
-  border-left: 4px solid #f59e0b;
+  border-left: 4px solid var(--orange);
 }
