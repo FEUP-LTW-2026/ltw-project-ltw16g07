@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>FitHub</title>
+        <link rel="stylesheet" href="classes.css">
+        <link rel="stylesheet" href="style.css">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <header>
+            <h2>FitHub</h2>
+            <ul>
+                <li><a href="">Classes</a></li>
+                <li><a href="">Trainers</a></li>
+                <li><a href="">Equipment</a></li>
+            </ul>
+            <div>
+                <button>Login</button>
+                <button class="joinButton">Join</button>
+            </div>
+        </header>
+        <nav id="menu">
+            <h1>Class Schedule</h1>
+            <p>48 classes this week</p>
+            <div class="filter-row">
+              <ul>
+                <li><button class="filter-btn active" data-filter="All">All</button></li>
+                <li><button class="filter-btn" data-filter="Yoga">Yoga</button></li>
+                <li><button class="filter-btn" data-filter="Spinning">Spinning</button></li>
+                <li><button class="filter-btn" data-filter="HIIT">HIIT</button></li>
+                <li><button class="filter-btn" data-filter="Pilates">Pilates</button></li>
+                <li><button class="filter-btn" data-filter="Boxing">Boxing</button></li>
+            </ul>
+        
+           <div class="filters">
+
+            <select id="trainer-filter">
+               <option value="">Trainer</option>
+             </select>
+
+            <select id="day-filter">
+              <option value="">Day</option>
+            </select>
+
+            <select id="time-filter">
+              <option value="">Time</option>
+            </select>
+
+            </div>
+            </div>
+        </nav>
+        <div class="schedule">
+            <div class="day" data-day="monday">
+                <h2>Monday</h2>
+                <div class="classes-container">
+                 <div class="class-card" data-type="yoga">
+                   <div class="class-info">
+                    <h3 class="title">Yoga Flow</h3>
+                    <p class="info">09:00 – 10:00 · Studio A · Ana Silva</p>
+                    <p class="spots">8 / 12 spots</p>
+                   </div>
+                    <p class="rating"><span class="stars">★★★★★</span> 4.9</p>
+                    <div class="class-actions">
+                     <button class="action-btn enroll">Enroll →</button>
+                    </div>
+                 </div>
+
+                 <div class="class-card" data-type="hiit">
+                    <div class="class-info">
+                     <h3 class="title">HIIT Blast</h3>
+                     <p class="info">11:00 – 12:00 · Main Hall · Pedro Costa</p>
+                     <p class="spots">15 / 15 spots</p>
+                    </div>
+                     <p class="rating"><span class="stars">★★★★</span> 4.2</p>
+                     <div class="class-actions">
+                      <button class="action-btn waitlist">Waitlist</button>
+                     </div>
+                 </div>
+                </div>
+            </div>
+            <div class="day" data-day="tuesday">
+                <h2>Tuesday</h2>
+                <div class="classes-container">
+
+                  <div class="class-card" data-type="pilates">
+                   <div class="class-info">
+                    <h3 class="title">Pilates Core</h3>
+                    <p class="info">10:00 – 11:00 · Studio B · Sofia Nunes</p>
+                    <p class="spots">4 / 15 spots</p>
+                  </div>
+                    <p class="rating"><span class="stars">★★★★★</span> 5.0</p>
+                    <div class="class-actions">
+                     <button class="action-btn enroll">Enroll →</button>
+                    </div>
+                </div>
+
+                <div class="class-card" data-type="spinning">
+                  <div class="class-info">
+                   <h3 class="title">Spinning HIIT</h3>
+                   <p class="info">18:00 – 19:00 · Cycle Room · Carlos Mendes</p>
+                   <p class="spots">10 / 20 spots</p>
+                  </div>
+                   <p class="rating"><span class="stars">★★★★</span> 4.6</p>
+                   <div class="class-actions">
+                    <button class="action-btn enroll">Enroll →</button>
+                   </div>
+                  </div>
+
+                </div>
+            </div>
+            <div class="day" data-day="wednesday">
+                <h2>Wednesday</h2>
+                <div class="classes-container"></div>
+            </div>
+            <div class="day" data-day="thursday">
+                <h2>Thursday</h2>
+                <div class="classes-container"></div>
+            </div>
+            <div class="day" data-day="friday">
+                <h2>Friday</h2>
+                <div class="classes-container"></div>
+            </div>
+            <div class="day" data-day="saturday">
+                <h2>Saturday</h2>
+                <div class="classes-container"></div>
+            </div>
+            <div class="day" data-day="sunday">
+                <h2>Sunday</h2>
+                <div class="classes-container"></div>
+            </div>
+        </div>
+
+
+
+
+
+        <template id="class-template">
+            <div class="class-card">
+              <div class="class-info">
+                <h3 class="title"></h3>
+                <p class="info"></p>
+                <p class="spots"></p>
+              </div>
+                <p class="rating"><span class="stars"></span></p>
+                <div class="class-actions">
+                  <button class="action-btn">Enroll</button>
+                </div>
+            </div>
+        </template>
+
+       
+    </body>
+</html>
