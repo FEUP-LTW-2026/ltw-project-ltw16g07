@@ -12,6 +12,8 @@ body {
   border-top: 1px solid var(--text-dark-gray);
   padding: 0.5rem 2rem 0 2rem; 
   margin-top: 0.5rem;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 #menu h1{

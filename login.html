@@ -2,19 +2,42 @@
 <html>
     <head>
         <title>FitHub - Login</title>
+        <link rel="icon" type="image/png" href="https://i.imgur.com/WT1OtgQ.png">
         <link rel="stylesheet" href="login.css">
+        <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <div class="login-box">
+        <header>
             <h2>FitHub</h2>
-            <p class="subtitle">Bem-vindo de volta</p>
-            
-            <form action="#" method="post">
-                <input type="text" placeholder="Email">
-                <input type="password" placeholder="Password">
-                <input type="submit" value="Entrar">
-            </form>
-            <a href="">Recuperar Password</a> 
+            <ul>
+                <li><a href="">Classes</a></li>
+                <li><a href="">Trainers</a></li>
+                <li><a href="">Equipment</a></li>
+            </ul>
+            <div>
+                <button class="joinButton">Join</button>
+            </div>
+        </header>
+        <div class="login-box">
+            <div class="login-card">
+              <h2>Welcome back</h2>
+              <p class="sub">Log in to your FitHub account</p>
+              <label>Email</label>
+              <input type="email" placeholder="you@email.com">
+              <label>Password</label>
+              <input type="password" placeholder="••••••••">
+              <button>Log in</button>
+              <a class="forgot" href="#">Forgot your password?</a>
+              <button class="btn-login">Log in</button>
+
+              <div class="divider">
+             <span></span>
+  or
+  <span></span>
+</div>
+
+<p class="switch">Don't have an account? <a href="#">Sign up</a></p>
+  </div>
         </div>
     </body>
 </html>
