@@ -10,7 +10,11 @@
     --purple: #a855f7;
     --red: #ef4444;
     --orange: #f59e0b;
-    --spots: #313131;
+
+    --spots-bg-gray: #313131;
+    --spots-green: #8cff9a;
+    --spots-bg-green: #163d1a;
+    --spots-bg-red: #3d1616;
 }
 
 * {
@@ -35,10 +39,17 @@ button:active {
     transform: scale(0.95);
 }
 
+a {
+    text-decoration: none;
+}
 
 body > *:not(header) {
     margin-left: 1em;
     margin-right: 2em;
+}
+
+a:hover {
+    color: var(--neon-green) ;
 }
 
 header {
@@ -61,13 +72,9 @@ header > ul > li {
 }
 
 header > ul > li > a {
-    text-decoration: none;
     color: var(--text-dark-gray) ;
 }
 
-header > ul > li > a:hover {
-    color: var(--neon-green) ;
-}
 
 header > div {
     display: flex;
@@ -77,4 +84,9 @@ header > div {
     background-color: white;
     color: black;
     border-color: white;
+}
+
+.active {
+  color: var(--neon-green);
+  font-weight: bold;
 }
