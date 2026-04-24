@@ -8,6 +8,8 @@ header {
   margin-top: 1.5em;
 }
 
+
+
 .utilizador {
   background: var(--bg-card);
   width: 35px;
@@ -158,6 +160,10 @@ header {
   color: var(--red);
 }
 
+.avaliacoes h3{
+  font-size: 1em;
+}
+
 .lista-avaliacoes {
   display: flex;
   gap: 20px;
@@ -169,8 +175,4 @@ header {
   padding: 20px;
   border-radius: 15px;
   flex: 1;
-}
-
-.avaliacao h4 {
-    background: var(--bg-card);
 }
