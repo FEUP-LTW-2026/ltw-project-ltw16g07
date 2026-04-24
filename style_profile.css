@@ -10,7 +10,6 @@ body {
   color: #fff;
 }
 
-/* TOPO */
 .topo {
   display: flex;
   justify-content: space-between;
@@ -44,14 +43,12 @@ nav .ativo {
   justify-content: center;
 }
 
-/* LAYOUT */
 .pagina {
   display: flex;
   gap: 40px;
   padding: 40px;
 }
 
-/* CARTAO */
 .cartao {
   background: #111;
   padding: 30px;
@@ -133,7 +130,6 @@ nav .ativo {
   cursor: pointer;
 }
 
-/* CONTEUDO */
 .conteudo {
   flex: 1;
 }
