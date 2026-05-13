@@ -1,0 +1,103 @@
+<?php
+session_start();
+
+require_once __DIR__ . '/config/database.php';
+
+$current_page = 'home';
+$extra_css = 'index.css';
+
+$stats = [];
+
+$stmt = $db->query("SELECT COUNT(*) as total FROM classes");
+$stats['weekly_classes'] = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+
+$stmt = $db->query("SELECT COUNT(*) as total FROM trainers");
+$stats['trainers'] = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+
+$stmt = $db->query("SELECT COUNT(*) as total FROM equipment");
+$stats['equipment'] = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+
+$stmt = $db->query("SELECT ROUND(AVG(rating), 1) as avg_rating FROM trainers");
+$stats['avg_rating'] = $stmt->fetch(PDO::FETCH_ASSOC)['avg_rating'];
+
+$stmt = $db->prepare("
+    SELECT c.*, t.name as trainer_name 
+    FROM classes c 
+    JOIN trainers t ON c.trainer_id = t.id 
+    ORDER BY 
+        CASE c.day_of_week 
+            WHEN 'Monday' THEN 1 
+            WHEN 'Tuesday' THEN 2 
+            WHEN 'Wednesday' THEN 3 
+            WHEN 'Thursday' THEN 4 
+            WHEN 'Friday' THEN 5 
+            WHEN 'Saturday' THEN 6 
+            WHEN 'Sunday' THEN 7 
+        END, 
+        c.time_start 
+    LIMIT 4
+");
+$stmt->execute();
+$upcoming_classes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+require_once __DIR__ . '/partials/header.php';
+?>
+
+<h1>PREMIUM FITNESS</h1>
+<h2 class="slogan">Train Smarter.</h2>
+<h3 class="gray slogan">Feel Stronger.</h3>
+<p class="gray marginLeft">Book classes, track progress, and connect with expert trainers.</p>
+<div id="midButtons">
+    <a href="classes.php"><button type="button">Browse Classes</button></a>
+    <a href="trainers.php"><button type="button">Meet Trainers</button></a>
+</div>
+
+<ul id="stats">
+    <li>
+        <p><?= $stats['weekly_classes'] ?></p>
+        <p>Weekly Classes</p>
+    </li>
+    <li>
+        <p><?= $stats['trainers'] ?></p>
+        <p>Expert Trainers</p>
+    </li>
+    <li>
+        <p><?= $stats['equipment'] ?>+</p>
+        <p>Equipment Items</p>
+    </li>
+    <li>
+        <p><?= $stats['avg_rating'] ?></p>
+        <p>Avg. Rating</p>
+    </li>
+</ul>
+
+<div id="upClasses">
+    <p>Upcoming Classes</p>
+    <a href="classes.php">See all &rarr;</a>
+</div>
+
+<ul id="listClass">
+    <?php foreach ($upcoming_classes as $class): ?>
+        <li>
+            <p><?= htmlspecialchars($class['title']) ?></p>
+            <p><?= htmlspecialchars($class['day_of_week']) ?> - <?= htmlspecialchars($class['time_start']) ?> - <?= htmlspecialchars($class['location']) ?></p>
+            <p><?= htmlspecialchars($class['trainer_name']) ?></p>
+            <div class="classEnroll">
+                <?php
+                $remaining = $class['total_spots'] - $class['booked_spots'];
+                if ($remaining > 0):
+                ?>
+                    <p><?= $class['booked_spots'] ?>/<?= $class['total_spots'] ?> spots</p>
+                    <button type="button">Enroll</button>
+                <?php else: ?>
+                    <p><?= $class['booked_spots'] ?>/<?= $class['total_spots'] ?> spots</p>
+                    <button type="button">Waitlist</button>
+                <?php endif; ?>
+            </div>
+        </li>
+    <?php endforeach; ?>
+</ul>
+
+<?php
+require_once __DIR__ . '/partials/footer.php';
+?>
