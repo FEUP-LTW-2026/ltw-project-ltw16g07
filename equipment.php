@@ -4,43 +4,79 @@ require_once __DIR__ . '/config/database.php';
 
 $current_page = 'equipment';
 $page_title = 'Equipment';
+$extra_css = 'equipment.css';
 
-$categories = $db->query("SELECT DISTINCT category FROM equipment ORDER BY category")->fetchAll(PDO::FETCH_ASSOC);
-
-$equipment_by_category = [];
-foreach ($categories as $cat) {
-    $stmt = $db->prepare("SELECT * FROM equipment WHERE category = ? ORDER BY name");
-    $stmt->execute([$cat['category']]);
-    $equipment_by_category[$cat['category']] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Mudar status via POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['equipment_id'], $_POST['status'])) {
+    $allowed = ['available', 'full', 'maintenance'];
+    if (in_array($_POST['status'], $allowed)) {
+        $stmt = $db->prepare("UPDATE equipment SET status = ? WHERE id = ?");
+        $stmt->execute([$_POST['status'], $_POST['equipment_id']]);
+    }
+    header('Location: equipment.php');
+    exit;
 }
+
+$equipment = $db->query("SELECT * FROM equipment ORDER BY category, name")->fetchAll(PDO::FETCH_ASSOC);
+$categories = $db->query("SELECT DISTINCT category FROM equipment ORDER BY category")->fetchAll(PDO::FETCH_ASSOC);
 
 require_once __DIR__ . '/partials/header.php';
 ?>
 
-<h1>Equipment</h1>
-<p style="color: var(--text-gray); margin-bottom: 2em;">Explore our premium fitness equipment.</p>
+<div class="equipment-header">
+    <h1>Equipment</h1>
+    <p>Main training area · Updated now</p>
+    <div class="filter-row-equipment">
+        <button class="filter-btn-eq active" data-filter="all">All</button>
+        <?php foreach ($categories as $cat): ?>
+            <button class="filter-btn-eq" data-filter="<?= strtolower(htmlspecialchars($cat['category'])) ?>">
+                <?= htmlspecialchars($cat['category']) ?>
+            </button>
+        <?php endforeach; ?>
+    </div>
+</div>
 
-<?php foreach ($equipment_by_category as $category => $items): ?>
-    <section style="margin-bottom: 2em;">
-        <h2 style="color: var(--neon-green); margin-bottom: 0.5em;"><?= htmlspecialchars($category) ?></h2>
-        <div style="display: flex; flex-wrap: wrap; gap: 1em;">
-            <?php foreach ($items as $item): ?>
-                <div style="flex: 1; min-width: 200px; background: var(--bg-card); border-radius: 12px; padding: 1.5em; border-left: 4px solid var(--neon-green);">
-                    <h3 style="margin: 0 0 0.5em 0; background: var(--bg-card);"><?= htmlspecialchars($item['name']) ?></h3>
-                    <p style="color: var(--text-gray); margin: 0; background: var(--bg-card);">
-                        Quantity: <?= $item['quantity'] ?>
-                    </p>
-                    <?php if ($item['description']): ?>
-                        <p style="color: var(--text-dark-gray); font-size: 0.85em; margin-top: 0.5em; background: var(--bg-card);">
-                            <?= htmlspecialchars($item['description']) ?>
-                        </p>
-                    <?php endif; ?>
-                </div>
-            <?php endforeach; ?>
+<div class="equipment-grid" id="equipment-grid">
+    <?php foreach ($equipment as $item): 
+        $status = $item['status'] ?? 'available';
+        $category_lower = strtolower($item['category']);
+    ?>
+        <div class="equipment-card" data-status="<?= $status ?>" data-category="<?= htmlspecialchars($category_lower) ?>">
+            <h3><?= htmlspecialchars($item['name']) ?></h3>
+            <p class="category"><?= htmlspecialchars($item['category']) ?></p>
+            <?php if ($item['description']): ?>
+                <p class="description"><?= htmlspecialchars($item['description']) ?></p>
+            <?php endif; ?>
+            <div class="card-footer">
+                <span class="status-badge <?= $status ?>"><?= ucfirst($status) ?></span>
+                <span class="usage"><?= $item['quantity'] ?> units</span>
+            </div>
+            <form method="POST" class="status-form">
+                <input type="hidden" name="equipment_id" value="<?= $item['id'] ?>">
+                <select name="status" onchange="this.form.submit()">
+                    <option value="available"  <?= $status === 'available'   ? 'selected' : '' ?>>Available</option>
+                    <option value="full"        <?= $status === 'full'        ? 'selected' : '' ?>>Full</option>
+                    <option value="maintenance" <?= $status === 'maintenance' ? 'selected' : '' ?>>Maintenance</option>
+                </select>
+            </form>
         </div>
-    </section>
-<?php endforeach; ?>
+    <?php endforeach; ?>
+</div>
 
-<?php
-require_once __DIR__ . '/partials/footer.php';
-?>
+<script>
+    const btns = document.querySelectorAll('.filter-btn-eq');
+    const cards = document.querySelectorAll('.equipment-card');
+
+    btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            btns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const filter = btn.dataset.filter;
+            cards.forEach(card => {
+                card.style.display = (filter === 'all' || card.dataset.category === filter) ? '' : 'none';
+            });
+        });
+    });
+</script>
+
+<?php require_once __DIR__ . '/partials/footer.php'; ?>

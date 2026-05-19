@@ -9,3 +9,5 @@ try {
 } catch (PDOException $e) {
     die("Erro na conexão à base de dados: " . $e->getMessage());
 }
+
+

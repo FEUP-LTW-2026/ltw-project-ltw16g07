@@ -1,0 +1,173 @@
+.equipment-header {
+  padding: 1.5rem 2rem 0 2rem;
+  border-top: 1px solid var(--text-dark-gray);
+  margin-top: 0.5rem;
+}
+
+.equipment-header h1 {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0 0 0.2rem 0;
+  border-left: 4px solid var(--neon-green);
+  padding-left: 0.7rem;
+}
+
+.equipment-header p {
+  color: var(--text-gray);
+  margin: 0 0 1rem 0;
+  font-size: 0.9rem;
+  padding-left: 1.1rem;
+}
+
+.filter-row-equipment {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--text-dark-gray);
+}
+
+.filter-btn-eq {
+  border: 1px solid var(--text-dark-gray);
+  border-radius: 999px;
+  padding: 0.4rem 1.2rem;
+  color: var(--text-gray);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.filter-btn-eq:hover {
+  background: var(--neon-green);
+  color: black;
+}
+
+.filter-btn-eq.active {
+  background: var(--neon-green);
+  color: black;
+  border-color: var(--neon-green);
+}
+
+.equipment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  padding: 1.5rem 2rem;
+}
+
+.equipment-card {
+  background: var(--bg-card);
+  border-radius: 10px;
+  padding: 1.4rem 1.5rem;
+  border-left: 4px solid var(--neon-green);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  transition: transform 0.15s;
+}
+
+.equipment-card:hover {
+  transform: translateY(-2px);
+}
+
+.equipment-card[data-category="cardio"] {
+  border-left-color: var(--neon-green);
+}
+
+.equipment-card[data-category="strength"] {
+  border-left-color: var(--orange);
+}
+
+.equipment-card[data-category="flexibility"] {
+  border-left-color: var(--purple);
+}
+
+.equipment-card[data-category="boxing"] {
+  border-left-color: var(--red);
+}
+
+.equipment-card h3 {
+  background: var(--bg-card);
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.equipment-card .description {
+  background: var(--bg-card);
+  color: var(--text-dark-gray);
+  font-size: 0.82rem;
+  margin: 0;
+}
+
+.equipment-card .category {
+  background: var(--bg-card);
+  color: var(--text-gray);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.equipment-card .card-footer {
+  background: var(--bg-card);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.6rem;
+}
+
+.status-badge {
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.status-badge.available {
+  background: var(--spots-bg-green);
+  color: var(--spots-green);
+}
+
+.status-badge.full {
+  background: var(--spots-bg-red);
+  color: var(--red);
+}
+
+.status-badge.maintenance {
+  background: #2e1f00;
+  color: var(--orange);
+}
+
+.equipment-card .usage {
+  background: var(--bg-card);
+  color: var(--text-gray);
+  font-size: 0.85rem;
+}
+
+.status-form {
+  background: var(--bg-card);
+  margin-top: 0.6rem;
+}
+
+.status-form select {
+  background: var(--bg-card);
+  color: var(--text-gray);
+  border: 1px solid var(--text-dark-gray);
+  border-radius: 6px;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.82rem;
+  width: 100%;
+  cursor: pointer;
+}
+
+.status-badge.full {
+  background: var(--spots-bg-red);
+  color: var(--red);
+}
+
+.status-badge.maintenance {
+  background: #2e1f00;
+  color: var(--orange);
+}

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>FitHub - Equipment</title>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/WT1OtgQ.png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="equipment.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <a href="index.html"><h2>FitHub</h2></a>
+        <ul>
+            <li><a href="classes.html">Classes</a></li>
+            <li><a href="profile-trainers.html">Trainers</a></li>
+            <li><a class="active" href="equipment.html">Equipment</a></li>
+        </ul>
+        <div>
+            <button type="button">Login</button>
+            <button type="button" class="joinButton">Join</button>
+        </div>
+    </header>
+
+    <div class="equipment-header">
+        <h1>Equipment</h1>
+        <p>Main training area · Updated now</p>
+        <div class="filter-row-equipment">
+            <button class="filter-btn-eq active" data-filter="all">All</button>
+            <button class="filter-btn-eq" data-filter="available">Available</button>
+            <button class="filter-btn-eq" data-filter="full">Full</button>
+            <button class="filter-btn-eq" data-filter="maintenance">Maintenance</button>
+        </div>
+    </div>
+
+    <div class="equipment-grid" id="equipment-grid">
+
+        <div class="equipment-card" data-status="available">
+            <h3>Treadmill</h3>
+            <p class="category">Cardio zone</p>
+            <div class="card-footer">
+                <span class="status-badge available">Available</span>
+                <span class="usage">4 / 8 in use</span>
+            </div>
+        </div>
+
+        <div class="equipment-card" data-status="full">
+            <h3>Stationary bike</h3>
+            <p class="category">Cardio zone</p>
+            <div class="card-footer">
+                <span class="status-badge full">Full</span>
+                <span class="usage">10 / 10 in use</span>
+            </div>
+        </div>
+
+        <div class="equipment-card" data-status="available">
+            <h3>Weight bench</h3>
+            <p class="category">Free weights area</p>
+            <div class="card-footer">
+                <span class="status-badge available">Available</span>
+                <span class="usage">2 / 6 in use</span>
+            </div>
+        </div>
+
+        <div class="equipment-card" data-status="maintenance">
+            <h3>Rowing machine</h3>
+            <p class="category">Cardio zone</p>
+            <div class="card-footer">
+                <span class="status-badge maintenance">Maintenance</span>
+                <span class="usage">0 / 4 in use</span>
+            </div>
+        </div>
+
+        <div class="equipment-card" data-status="available">
+            <h3>Cable machine</h3>
+            <p class="category">Weights area</p>
+            <div class="card-footer">
+                <span class="status-badge available">Available</span>
+                <span class="usage">1 / 4 in use</span>
+            </div>
+        </div>
+
+        <div class="equipment-card" data-status="full">
+            <h3>Smith machine</h3>
+            <p class="category">Weights area</p>
+            <div class="card-footer">
+                <span class="status-badge full">Full</span>
+                <span class="usage">3 / 3 in use</span>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const btns = document.querySelectorAll('.filter-btn-eq');
+        const cards = document.querySelectorAll('.equipment-card');
+
+        btns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                btns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.dataset.filter;
+                cards.forEach(card => {
+                    card.style.display = (filter === 'all' || card.dataset.status === filter) ? '' : 'none';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
