@@ -9,7 +9,7 @@ $error = '';
 $success = '';
 
 if (isset($_SESSION['user_id'])) {
-    header('Location: index.php');
+    header('Location: dashboard.php');
     exit;
 }
 
@@ -52,6 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <title>FitHub - <?= $page_title ?></title>
     <link rel="stylesheet" href="login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="login-box">
@@ -59,10 +60,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p class="subtitle">Create your account</p>
         
         <?php if ($error !== ''): ?>
-            <p style="color: #ef4444; font-size: 0.9em;"><?= htmlspecialchars($error) ?></p>
+            <p class="error-msg"><?= htmlspecialchars($error) ?></p>
         <?php endif; ?>
         <?php if ($success !== ''): ?>
-            <p style="color: #8cff9a; font-size: 0.9em;"><?= htmlspecialchars($success) ?></p>
+            <p class="success-msg"><?= htmlspecialchars($success) ?></p>
         <?php endif; ?>
 
         <form action="register.php" method="post">
@@ -73,8 +74,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="password" name="confirm_password" placeholder="Confirm Password" required>
             <input type="submit" value="Create Account">
         </form>
-        <p style="margin-top: 1em; color: #656565; font-size: 0.85em;">
-            Already have an account? <a href="login.php" style="color: #ccff00;">Login</a>
+        <p class="footer-text">
+            Already have an account? <a href="login.php">Login</a>
         </p>
     </div>
 </body>

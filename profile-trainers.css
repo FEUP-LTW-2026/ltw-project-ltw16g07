@@ -176,3 +176,132 @@ header {
   border-radius: 15px;
   flex: 1;
 }
+
+.trainers-grid-page {
+  padding: 40px;
+}
+
+.trainers-grid-page h1 {
+  font-size: 2em;
+  margin-bottom: 8px;
+}
+
+.trainers-subtitle {
+  color: var(--text-gray);
+  margin-bottom: 40px;
+}
+
+.trainers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 24px;
+}
+
+.trainer-card-link {
+  text-decoration: none;
+  color: white;
+}
+
+.trainer-card-page {
+  background: var(--bg-card);
+  padding: 32px 20px;
+  border-radius: 16px;
+  text-align: center;
+  transition: border-color 0.2s;
+  border: 1px solid transparent;
+}
+
+.trainer-card-page:hover {
+  border-color: var(--neon-green);
+}
+
+.trainer-avatar-page {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid var(--neon-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--neon-green);
+  margin: 0 auto 16px;
+}
+
+.trainer-card-page h3 {
+  font-size: 1em;
+  margin-bottom: 8px;
+}
+
+.trainer-rating-page {
+  margin-bottom: 12px;
+  font-size: 0.85em;
+  color: var(--text-gray);
+}
+
+.trainer-rating-page .stars {
+  color: var(--neon-green);
+}
+
+.trainer-tags-page {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.trainer-tags-page span {
+  background: transparent;
+  border: 1px solid var(--text-dark-gray);
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-size: 0.75em;
+  color: var(--text-gray);
+}
+
+.trainer-bio-page {
+  color: var(--text-dark-gray);
+  font-size: 0.8em;
+  line-height: 1.4;
+}
+
+.review-form {
+  display: none;
+  margin-top: 20px;
+  padding: 20px;
+  background: var(--bg-card);
+  border-radius: 15px;
+}
+
+.review-form textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid var(--text-dark-gray);
+  background: var(--bg-dark);
+  color: white;
+  resize: vertical;
+  min-height: 80px;
+  font-family: inherit;
+  margin: 12px 0;
+  box-sizing: border-box;
+}
+
+.star-rating {
+  display: flex;
+  gap: 4px;
+}
+
+.star {
+  font-size: 28px;
+  cursor: pointer;
+  color: var(--neon-green);
+  background: var(--bg-card);
+  transition: transform 0.1s;
+}
+
+.star:hover {
+  transform: scale(1.2);
+}

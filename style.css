@@ -90,3 +90,29 @@ header > div {
   color: var(--neon-green);
   font-weight: bold;
 }
+
+.flash {
+    padding: 12px 20px;
+    margin: 10px 2em;
+    border-radius: 10px;
+    font-size: 0.9em;
+    font-weight: 500;
+    animation: fadeOut 3s forwards;
+}
+
+.flash-success {
+    background: var(--spots-bg-green);
+    color: var(--spots-green);
+    border: 1px solid var(--spots-green);
+}
+
+.flash-error {
+    background: var(--spots-bg-red);
+    color: var(--red);
+    border: 1px solid var(--red);
+}
+
+@keyframes fadeOut {
+    0%, 70% { opacity: 1; }
+    100% { opacity: 0; display: none; }
+}

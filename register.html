@@ -1,15 +1,26 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>FitHub - Registo</title>
-        <link rel="stylesheet" href="login.css">
-    </head>
-    <body>
-        <p>Registo</p>
-        <input type="text" placeholder="Primeiro Nome">
-        <input type="text" placeholder="Último Nome">
-        <input type="text" placeholder="Email">
-        <input type="password" placeholder="Password">
-        <input type="submit" value="Criar Conta">
-    </body>
+<head>
+    <title>FitHub - Register</title>
+    <link rel="stylesheet" href="login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="login-box">
+        <a href="index.html"><h2>FitHub</h2></a>
+        <p class="subtitle">Create your account</p>
+
+        <form action="register.php" method="post">
+            <input type="text" name="first_name" placeholder="First Name" required>
+            <input type="text" name="last_name" placeholder="Last Name" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password (min 6 characters)" required>
+            <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+            <input type="submit" value="Create Account">
+        </form>
+        <p class="footer-text">
+            Already have an account? <a href="login.html">Login</a>
+        </p>
+    </div>
+</body>
 </html>
