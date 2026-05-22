@@ -8,6 +8,15 @@ $page_title = 'Trainers';
 
 $trainer_id = $_GET['id'] ?? null;
 
+// If current user is a trainer, get their ID to check own classes
+$logged_trainer_id = null;
+if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'trainer') {
+    $stmt = $db->prepare("SELECT id FROM trainers WHERE name = ?");
+    $stmt->execute([$_SESSION['user_name']]);
+    $t = $stmt->fetch(PDO::FETCH_ASSOC);
+    $logged_trainer_id = $t ? (int) $t['id'] : null;
+}
+
 if ($trainer_id) {
     $stmt = $db->prepare("SELECT * FROM trainers WHERE id = ?");
     $stmt->execute([$trainer_id]);
@@ -78,6 +87,7 @@ if ($trainer_id) {
                     <?php foreach ($classes as $class): 
                         $remaining = $class['total_spots'] - $class['booked_spots'];
                         $is_full = $remaining <= 0;
+                        $is_own_class = $logged_trainer_id && (int) $class['trainer_id'] === $logged_trainer_id;
                     ?>
                         <div class="item-aula">
                             <div>
@@ -85,14 +95,18 @@ if ($trainer_id) {
                                 <p><?= htmlspecialchars($class['day_of_week']) ?> · <?= htmlspecialchars($class['time_start']) ?> – <?= htmlspecialchars($class['time_end']) ?> · <?= htmlspecialchars($class['location']) ?></p>
                                 <span class="vagas <?= $is_full ? 'vermelho' : 'verde' ?>"><?= $class['booked_spots'] ?> / <?= $class['total_spots'] ?> spots</span>
                             </div>
-                            <form method="POST" action="book_class.php">
-                                <input type="hidden" name="class_id" value="<?= $class['id'] ?>">
-                                <?php if ($is_full): ?>
-                                    <button class="btn-contorno pequeno" disabled>Full</button>
-                                <?php else: ?>
-                                    <button class="btn-principal pequeno" type="submit">Enroll</button>
-                                <?php endif; ?>
-                            </form>
+                            <?php if ($is_own_class): ?>
+                                <span style="display: inline-block; padding: 0.4rem 0.8rem; border-radius: 6px; background: rgba(0,150,255,0.1); color: #0096ff; font-size: 0.8rem;">Your class</span>
+                            <?php else: ?>
+                                <form method="POST" action="book_class.php">
+                                    <input type="hidden" name="class_id" value="<?= $class['id'] ?>">
+                                    <?php if ($is_full): ?>
+                                        <button class="btn-contorno pequeno" disabled>Full</button>
+                                    <?php else: ?>
+                                        <button class="btn-principal pequeno" type="submit">Enroll</button>
+                                    <?php endif; ?>
+                                </form>
+                            <?php endif; ?>
                         </div>
                     <?php endforeach; ?>
                 <?php endif; ?>

@@ -10,6 +10,14 @@ if (!isset($_SESSION['user_id'])) {
 $current_page = 'home';
 $extra_css = 'index.css';
 
+$logged_trainer_id = null;
+if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'trainer') {
+    $stmt = $db->prepare("SELECT id FROM trainers WHERE name = ?");
+    $stmt->execute([$_SESSION['user_name']]);
+    $t = $stmt->fetch(PDO::FETCH_ASSOC);
+    $logged_trainer_id = $t ? (int) $t['id'] : null;
+}
+
 $stats = [];
 
 $stmt = $db->query("SELECT COUNT(*) as total FROM classes");
@@ -50,10 +58,21 @@ require_once __DIR__ . '/partials/header.php';
 <h1>PREMIUM FITNESS</h1>
 <h2 class="slogan">Train Smarter.</h2>
 <h3 class="gray slogan">Feel Stronger.</h3>
-<p class="gray marginLeft">Book classes, track progress, and connect with expert trainers.</p>
+<p class="gray marginLeft">
+    <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+        Welcome back, Admin! Manage the system from the <a href="admin.php" style="color: var(--accent);">Admin Panel</a>.
+    <?php elseif (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'trainer'): ?>
+        Welcome back, Trainer! View your <a href="trainer_dashboard.php" style="color: var(--accent);">Trainer Dashboard</a>.
+    <?php else: ?>
+        Book classes, track progress, and connect with expert trainers.
+    <?php endif; ?>
+</p>
 <div id="midButtons">
     <a href="classes.php"><button type="button">Browse Classes</button></a>
     <a href="trainers.php"><button type="button">Meet Trainers</button></a>
+    <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+        <a href="admin.php"><button type="button">Admin Panel</button></a>
+    <?php endif; ?>
 </div>
 
 <ul id="stats">
@@ -81,15 +100,20 @@ require_once __DIR__ . '/partials/header.php';
 </div>
 
 <ul id="listClass">
-    <?php foreach ($upcoming_classes as $class): ?>
+    <?php foreach ($upcoming_classes as $class):
+        $is_own_class = $logged_trainer_id && (int) $class['trainer_id'] === $logged_trainer_id;
+    ?>
         <li>
             <p><?= htmlspecialchars($class['title']) ?></p>
             <p><?= htmlspecialchars($class['day_of_week']) ?> - <?= htmlspecialchars($class['time_start']) ?> - <?= htmlspecialchars($class['location']) ?></p>
             <p><?= htmlspecialchars($class['trainer_name']) ?></p>
             <div class="classEnroll">
-                <?php
-                $remaining = $class['total_spots'] - $class['booked_spots'];
-                if ($remaining > 0):
+                <?php if ($is_own_class): ?>
+                    <p><?= $class['booked_spots'] ?>/<?= $class['total_spots'] ?> spots</p>
+                    <span style="color: #0096ff; font-size: 0.8rem;">Your class</span>
+                <?php else:
+                    $remaining = $class['total_spots'] - $class['booked_spots'];
+                    if ($remaining > 0):
                 ?>
                     <p><?= $class['booked_spots'] ?>/<?= $class['total_spots'] ?> spots</p>
                     <form method="POST" action="book_class.php">
@@ -99,7 +123,7 @@ require_once __DIR__ . '/partials/header.php';
                 <?php else: ?>
                     <p><?= $class['booked_spots'] ?>/<?= $class['total_spots'] ?> spots</p>
                     <button type="button" disabled>Full</button>
-                <?php endif; ?>
+                <?php endif; endif; ?>
             </div>
         </li>
     <?php endforeach; ?>

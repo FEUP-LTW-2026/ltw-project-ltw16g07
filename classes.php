@@ -7,6 +7,15 @@ $extra_css = 'classes.css';
 
 $page_title = 'Classes';
 
+// If current user is a trainer, get their trainer ID to check own classes
+$logged_trainer_id = null;
+if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'trainer') {
+    $stmt = $db->prepare("SELECT id FROM trainers WHERE name = ?");
+    $stmt->execute([$_SESSION['user_name']]);
+    $t = $stmt->fetch(PDO::FETCH_ASSOC);
+    $logged_trainer_id = $t ? (int) $t['id'] : null;
+}
+
 $filter_type = $_GET['type'] ?? 'All';
 $filter_trainer = $_GET['trainer'] ?? '';
 $filter_day = $_GET['day'] ?? '';
@@ -145,6 +154,7 @@ require_once __DIR__ . '/partials/header.php';
                     <?php foreach ($day_classes as $class): 
                         $remaining = $class['total_spots'] - $class['booked_spots'];
                         $is_full = $remaining <= 0;
+                        $is_own_class = $logged_trainer_id && (int) $class['trainer_id'] === $logged_trainer_id;
                     ?>
                         <div class="class-card" data-type="<?= strtolower($class['type']) ?>">
                             <div class="class-info">
@@ -157,14 +167,18 @@ require_once __DIR__ . '/partials/header.php';
                                 <?= $class['rating'] ?>
                             </p>
                             <div class="class-actions">
-                                <form method="POST" action="book_class.php">
-                                    <input type="hidden" name="class_id" value="<?= $class['id'] ?>">
-                                    <?php if ($is_full): ?>
-                                        <button class="action-btn waitlist" disabled>Full</button>
-                                    <?php else: ?>
-                                        <button class="action-btn enroll" type="submit">Enroll →</button>
-                                    <?php endif; ?>
-                                </form>
+                                <?php if ($is_own_class): ?>
+                                    <span class="own-class-badge">Your class</span>
+                                <?php else: ?>
+                                    <form method="POST" action="book_class.php">
+                                        <input type="hidden" name="class_id" value="<?= $class['id'] ?>">
+                                        <?php if ($is_full): ?>
+                                            <button class="action-btn waitlist" disabled>Full</button>
+                                        <?php else: ?>
+                                            <button class="action-btn enroll" type="submit">Enroll →</button>
+                                        <?php endif; ?>
+                                    </form>
+                                <?php endif; ?>
                             </div>
                         </div>
                     <?php endforeach; ?>

@@ -192,3 +192,13 @@ body {
 [data-type="spinning"] {
   border-left: 4px solid var(--orange);
 }
+
+.own-class-badge {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  background: rgba(0, 150, 255, 0.1);
+  color: #0096ff;
+  font-size: 0.8rem;
+  font-weight: 500;
+}

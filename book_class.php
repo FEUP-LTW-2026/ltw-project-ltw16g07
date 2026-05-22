@@ -34,6 +34,18 @@ if ($stmt->fetch()) {
     exit;
 }
 
+// Prevent trainers from enrolling in their own classes
+if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'trainer') {
+    $stmt = $db->prepare("SELECT id FROM trainers WHERE name = ?");
+    $stmt->execute([$_SESSION['user_name']]);
+    $trainer = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($trainer && (int) $trainer['id'] === (int) $class['trainer_id']) {
+        $_SESSION['flash_error'] = 'You cannot enroll in your own class.';
+        header('Location: classes.php');
+        exit;
+    }
+}
+
 $remaining = $class['total_spots'] - $class['booked_spots'];
 if ($remaining <= 0) {
     $_SESSION['flash_error'] = 'This class is full. Please try the waitlist.';

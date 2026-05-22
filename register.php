@@ -37,8 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             
             $stmt = $db->prepare("
-                INSERT INTO users (first_name, last_name, email, password) 
-                VALUES (?, ?, ?, ?)
+                INSERT INTO users (first_name, last_name, email, password, role) 
+                VALUES (?, ?, ?, ?, 'member')
             ");
             $stmt->execute([$first_name, $last_name, $email, $hashed_password]);
             

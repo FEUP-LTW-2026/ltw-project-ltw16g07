@@ -12,11 +12,17 @@
 </head>
 <body>
     <header>
-        <a href="index.php"><h2>FitHub</h2></a>
+        <a href="dashboard.php"><h2>FitHub</h2></a>
         <ul>
             <li><a href="classes.php" class="<?= $current_page === 'classes' ? 'active' : '' ?>">Classes</a></li>
             <li><a href="trainers.php" class="<?= $current_page === 'trainers' ? 'active' : '' ?>">Trainers</a></li>
             <li><a href="equipment.php" class="<?= $current_page === 'equipment' ? 'active' : '' ?>">Equipment</a></li>
+            <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+                <li><a href="admin.php" class="<?= $current_page === 'admin' ? 'active' : '' ?>">Admin</a></li>
+            <?php endif; ?>
+            <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'trainer'): ?>
+                <li><a href="trainer_dashboard.php" class="<?= $current_page === 'trainer_dashboard' ? 'active' : '' ?>">My Dashboard</a></li>
+            <?php endif; ?>
         </ul>
         <div>
             <?php if (isset($_SESSION['user_id'])): ?>
