@@ -1,43 +1,24 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>FitHub - Login</title>
-        <link rel="icon" type="image/png" href="https://i.imgur.com/WT1OtgQ.png">
-        <link rel="stylesheet" href="login.css">
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <header>
-            <h2>FitHub</h2>
-            <ul>
-                <li><a href="">Classes</a></li>
-                <li><a href="">Trainers</a></li>
-                <li><a href="">Equipment</a></li>
-            </ul>
-            <div>
-                <button class="joinButton">Join</button>
-            </div>
-        </header>
-        <div class="login-box">
-            <div class="login-card">
-              <h2>Welcome back</h2>
-              <p class="sub">Log in to your FitHub account</p>
-              <label>Email</label>
-              <input type="email" placeholder="you@email.com">
-              <label>Password</label>
-              <input type="password" placeholder="••••••••">
-              <button>Log in</button>
-              <a class="forgot" href="#">Forgot your password?</a>
-              <button class="btn-login">Log in</button>
+<head>
+    <title>FitHub - Login</title>
+    <link rel="stylesheet" href="login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="login-box">
+        <a href="index.html"><h2>FitHub</h2></a>
+        <p class="subtitle">Welcome back</p>
 
-              <div class="divider">
-             <span></span>
-  or
-  <span></span>
-</div>
-
-<p class="switch">Don't have an account? <a href="#">Sign up</a></p>
-  </div>
-        </div>
-    </body>
+        <form action="login.php" method="post">
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="submit" value="Login">
+        </form>
+        <p class="footer-text">
+            Don't have an account? <a href="register.html">Register</a>
+        </p>
+        <a href="forgot_password.php" class="forgot-link">Forgot password?</a>
+    </div>
+</body>
 </html>

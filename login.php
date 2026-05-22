@@ -9,7 +9,7 @@ $extra_css = 'login.css';
 $error = '';
 
 if (isset($_SESSION['user_id'])) {
-    header('Location: index.php');
+    header('Location: dashboard.php');
     exit;
 }
 
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['user_name'] = $user['first_name'] . ' ' . $user['last_name'];
             $_SESSION['user_initials'] = strtoupper(substr($user['first_name'], 0, 1) . substr($user['last_name'], 0, 1));
             
-            header('Location: index.php');
+            header('Location: dashboard.php');
             exit;
         } else {
             $error = 'Invalid email or password.';
@@ -42,25 +42,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <title>FitHub - <?= $page_title ?></title>
     <link rel="stylesheet" href="login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="login-box">
         <a href="index.php"><h2>FitHub</h2></a>
-        <p class="subtitle">Bem-vindo de volta</p>
+        <p class="subtitle">Welcome back</p>
         
         <?php if ($error !== ''): ?>
-            <p style="color: #ef4444; font-size: 0.9em;"><?= htmlspecialchars($error) ?></p>
+            <p class="error-msg"><?= htmlspecialchars($error) ?></p>
         <?php endif; ?>
 
         <form action="login.php" method="post">
             <input type="email" name="email" placeholder="Email" required>
             <input type="password" name="password" placeholder="Password" required>
-            <input type="submit" value="Entrar">
+            <input type="submit" value="Login">
         </form>
-        <p style="margin-top: 1em; color: #656565; font-size: 0.85em;">
-            Don't have an account? <a href="register.php" style="color: #ccff00;">Register</a>
+        <p class="footer-text">
+            Don't have an account? <a href="register.php">Register</a>
         </p>
-        <a href="">Recuperar Password</a> 
+        <a href="forgot_password.php" class="forgot-link">Forgot password?</a>
     </div>
 </body>
 </html>

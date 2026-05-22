@@ -157,11 +157,14 @@ require_once __DIR__ . '/partials/header.php';
                                 <?= $class['rating'] ?>
                             </p>
                             <div class="class-actions">
-                                <?php if ($is_full): ?>
-                                    <button class="action-btn waitlist">Waitlist</button>
-                                <?php else: ?>
-                                    <button class="action-btn enroll">Enroll →</button>
-                                <?php endif; ?>
+                                <form method="POST" action="book_class.php">
+                                    <input type="hidden" name="class_id" value="<?= $class['id'] ?>">
+                                    <?php if ($is_full): ?>
+                                        <button class="action-btn waitlist" disabled>Full</button>
+                                    <?php else: ?>
+                                        <button class="action-btn enroll" type="submit">Enroll →</button>
+                                    <?php endif; ?>
+                                </form>
                             </div>
                         </div>
                     <?php endforeach; ?>

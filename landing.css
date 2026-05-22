@@ -1,0 +1,523 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #0d0d0d;
+    color: white;
+}
+
+.landing-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+}
+
+.landing-nav h2 {
+    color: #ccff00;
+    font-size: 1.4em;
+}
+
+.landing-nav ul {
+    display: flex;
+    list-style: none;
+    gap: 32px;
+}
+
+.landing-nav a {
+    text-decoration: none;
+    color: #898989;
+    font-size: 0.9em;
+    transition: color 0.2s;
+}
+
+.landing-nav a:hover {
+    color: white;
+}
+
+.landing-nav div {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid #656565;
+    color: #898989;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.9em;
+    transition: border-color 0.2s, color 0.2s;
+}
+
+.btn-outline:hover {
+    border-color: #ccff00;
+    color: #ccff00;
+}
+
+.btn-primary {
+    background: #ccff00;
+    border: none;
+    color: black;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 0.9em;
+    transition: opacity 0.2s;
+}
+
+.btn-primary:hover {
+    opacity: 0.85;
+}
+
+.btn-large {
+    padding: 14px 32px;
+    font-size: 1em;
+}
+
+.hero {
+    padding: 80px 48px 60px;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 0.9em;
+    color: #ccff00;
+    font-weight: 500;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+.hero-slogan {
+    font-size: 4em;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 20px;
+}
+
+.hero-text {
+    color: #898989;
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin-bottom: 40px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-bottom: 60px;
+}
+
+.hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+}
+
+.hero-stats div {
+    color: #656565;
+    font-size: 0.85em;
+}
+
+.hero-stats span {
+    display: block;
+    color: white;
+    font-size: 2.5em;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.section {
+    padding: 80px 48px;
+}
+
+.section-dark {
+    background: #1c1c1c;
+}
+
+.section-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.section-content h2 {
+    font-size: 2em;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.section-sub {
+    color: #656565;
+    font-size: 1em;
+    margin-bottom: 48px;
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.feature-card {
+    background: #1c1c1c;
+    padding: 32px 20px;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.feature-icon {
+    font-size: 2em;
+    color: #ccff00;
+    margin-bottom: 16px;
+}
+
+.feature-card h3 {
+    font-size: 1em;
+    margin-bottom: 10px;
+}
+
+.feature-card p {
+    color: #898989;
+    font-size: 0.85em;
+    line-height: 1.5;
+}
+
+.trainer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.trainer-card {
+    background: #0d0d0d;
+    padding: 32px 20px;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.trainer-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid #ccff00;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 600;
+    color: #ccff00;
+    margin: 0 auto 16px;
+}
+
+.trainer-card h3 {
+    font-size: 1em;
+    margin-bottom: 8px;
+}
+
+.trainer-rating {
+    margin-bottom: 12px;
+    font-size: 0.85em;
+    color: #898989;
+}
+
+.trainer-rating .stars {
+    color: #ccff00;
+}
+
+.trainer-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+}
+
+.trainer-tags span {
+    background: transparent;
+    border: 1px solid #313131;
+    padding: 4px 10px;
+    border-radius: 10px;
+    font-size: 0.75em;
+    color: #898989;
+}
+
+.section-cta {
+    margin-top: 40px;
+}
+
+.class-types {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+}
+
+.class-type-card {
+    background: #1c1c1c;
+    padding: 32px 16px;
+    border-radius: 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    border: 1px solid transparent;
+}
+
+.class-type-card:hover {
+    border-color: #313131;
+}
+
+.class-type-card .class-detail {
+    display: none;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #313131;
+    color: #656565;
+    font-size: 0.8em;
+    line-height: 1.5;
+}
+
+.class-type-card.expanded .class-detail {
+    display: block;
+}
+
+.class-type-icon {
+    font-size: 2.2em;
+    margin-bottom: 12px;
+}
+
+.class-type-icon.yoga { color: #a855f7; }
+.class-type-icon.hiit { color: #ef4444; }
+.class-type-icon.pilates { color: #ccff00; }
+.class-type-icon.spinning { color: #f59e0b; }
+.class-type-icon.boxing { color: #3b82f6; }
+
+.class-type-card h3 {
+    font-size: 1em;
+    margin-bottom: 8px;
+}
+
+.class-type-card p {
+    color: #898989;
+    font-size: 0.8em;
+    line-height: 1.4;
+}
+
+.plans {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    align-items: start;
+}
+
+.plan-card {
+    background: #0d0d0d;
+    padding: 40px 24px;
+    border-radius: 20px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    border: 1px solid transparent;
+}
+
+.plan-card:hover {
+    border-color: #313131;
+}
+
+.plan-featured:hover {
+    border-color: #ccff00;
+}
+
+.plan-featured {
+    border: 1px solid #ccff00;
+    transform: scale(1.05);
+}
+
+.plan-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ccff00;
+    color: black;
+    font-size: 0.75em;
+    font-weight: 600;
+    padding: 4px 14px;
+    border-radius: 12px;
+}
+
+.plan-card h3 {
+    font-size: 1.1em;
+    margin-bottom: 16px;
+    color: #898989;
+}
+
+.plan-price {
+    font-size: 3em;
+    font-weight: 800;
+    margin-bottom: 4px;
+}
+
+.plan-price span {
+    font-size: 0.35em;
+    font-weight: 400;
+    color: #656565;
+}
+
+.plan-note {
+    color: #656565;
+    font-size: 0.8em;
+    margin-bottom: 20px;
+}
+
+.plan-card ul {
+    list-style: none;
+    margin: 24px 0;
+    text-align: left;
+    display: inline-block;
+}
+
+.plan-card li {
+    color: #898989;
+    font-size: 0.85em;
+    padding: 6px 0;
+}
+
+.plan-card li::before {
+    content: "✓ ";
+    color: #ccff00;
+}
+
+.cta-section {
+    text-align: center;
+    padding: 80px 48px;
+}
+
+.cta-section h2 {
+    font-size: 2.5em;
+    margin-bottom: 12px;
+}
+
+.cta-section p {
+    color: #898989;
+    font-size: 1.1em;
+    margin-bottom: 32px;
+}
+
+.landing-footer {
+    text-align: center;
+    padding: 32px;
+    border-top: 1px solid #1c1c1c;
+    color: #656565;
+    font-size: 0.85em;
+}
+
+.landing-footer p {
+    margin: 4px 0;
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-overlay.show {
+    display: flex;
+}
+
+.modal-content {
+    background: #1c1c1c;
+    padding: 40px;
+    border-radius: 20px;
+    width: 420px;
+    max-width: 90vw;
+    position: relative;
+    text-align: center;
+}
+
+.modal-content h3 {
+    font-size: 1.3em;
+    margin-bottom: 8px;
+}
+
+.modal-content h4 {
+    color: #898989;
+    font-size: 0.9em;
+    margin: 20px 0 12px;
+}
+
+.modal-content ul {
+    list-style: none;
+    text-align: left;
+    display: inline-block;
+    margin-bottom: 24px;
+}
+
+.modal-content li {
+    color: #898989;
+    font-size: 0.85em;
+    padding: 5px 0;
+}
+
+.modal-content li::before {
+    content: "✓ ";
+    color: #ccff00;
+}
+
+.modal-close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 1.8em;
+    color: #656565;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.modal-close:hover {
+    color: white;
+}
+
+@media (max-width: 900px) {
+    .features, .trainer-grid, .class-types, .plans {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .hero-slogan {
+        font-size: 2.5em;
+    }
+    .hero-stats {
+        flex-wrap: wrap;
+        gap: 24px;
+    }
+}
+
+@media (max-width: 600px) {
+    .features, .trainer-grid, .class-types, .plans {
+        grid-template-columns: 1fr;
+    }
+    .landing-nav ul {
+        display: none;
+    }
+    .hero {
+        padding: 40px 24px;
+    }
+}
