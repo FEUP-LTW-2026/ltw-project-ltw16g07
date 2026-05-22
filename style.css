@@ -17,8 +17,11 @@
     --spots-bg-red: #3d1616;
 }
 
-* {
+html, body {
     background-color: var(--bg-dark);
+}
+
+* {
     color: white;
     font-family: "Inter";
 }

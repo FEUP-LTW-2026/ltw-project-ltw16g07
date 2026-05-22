@@ -32,9 +32,6 @@ header {
   border-radius: 20px;
   width: 300px;
 }
-.cartao h2, .etiquetas,.estrelas, h3, p {
-  background: var(--bg-card);
-}
 
 .foto {
   width: 180px;
