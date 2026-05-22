@@ -56,6 +56,7 @@ body {
 }
 
 .filters select{
+    background-color: var(--bg-card);
     border:1px solid var(--text-gray);
     border-radius: 6px;
     padding:0.4rem 3rem;

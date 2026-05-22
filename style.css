@@ -27,6 +27,7 @@ html, body {
 }
 
 button {
+    background-color: transparent;
     padding: 1em 2em;
     border-radius: 6em;
     margin: 0.2em;
@@ -40,6 +41,18 @@ button {
 
 button:active {
     transform: scale(0.95);
+}
+
+select {
+    background-color: var(--bg-card);
+    color: white;
+    border: 1px solid var(--text-dark-gray);
+    outline: none;
+}
+
+select option {
+    background-color: var(--bg-card);
+    color: white;
 }
 
 a {
