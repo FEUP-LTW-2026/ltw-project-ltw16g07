@@ -38,21 +38,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>FitHub - <?= $page_title ?></title>
-    <link rel="stylesheet" href="../css/login.css"> >
+    <link rel="stylesheet" href="../css/login.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="login-box">
+    <main class="login-box">
         <a href="../index.php"><h2>FitHub</h2></a>
         <p class="subtitle">Welcome back</p>
-        
+ 
         <?php if ($error !== ''): ?>
             <p class="error-msg"><?= htmlspecialchars($error) ?></p>
         <?php endif; ?>
-
+ 
         <form action="login.php" method="post">
             <input type="email" name="email" placeholder="Email" required>
             <input type="password" name="password" placeholder="Password" required>
@@ -62,6 +63,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             Don't have an account? <a href="register.php">Register</a>
         </p>
         <a href="forgot_password.php" class="forgot-link">Forgot password?</a>
-    </div>
+    </main>
 </body>
 </html>
+ 
+
