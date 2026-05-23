@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/../config/database.php';
 
 $page_title = 'Forgot Password';
 
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $db->prepare("INSERT INTO password_resets (email, token, expires_at) VALUES (?, ?, ?)");
             $stmt->execute([$email, $token, $expires]);
 
-            $reset_link = "//{$_SERVER['HTTP_HOST']}" . dirname($_SERVER['SCRIPT_NAME']) . "/reset_password.php?token=$token";
+            $reset_link = "//{$_SERVER['HTTP_HOST']}" . dirname($_SERVER['SCRIPT_NAME']) . "/../pages/reset_password.php?token=$token";
             $success = "Click <a href=\"$reset_link\" class=\"success-link\">here</a> to reset your password. (Link valid for 1 hour)";
         } else {
             $error = 'No account found with that email.';
@@ -50,12 +50,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html>
 <head>
     <title>FitHub - <?= $page_title ?></title>
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="../css/login.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="login-box">
-        <a href="index.php"><h2>FitHub</h2></a>
+        <a href="../index.php"><h2>FitHub</h2></a>
         <p class="subtitle">Reset your password</p>
 
         <?php if ($error !== ''): ?>
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
         <?php endif; ?>
         <p class="footer-text">
-            <a href="login.php">Back to Login</a>
+            <a href="../pages/login.php">Back to Login</a>
         </p>
     </div>
 </body>

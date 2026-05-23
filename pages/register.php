@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/../config/database.php';
 
 $page_title = 'Register';
 $extra_css = 'login.css';
@@ -9,7 +9,7 @@ $error = '';
 $success = '';
 
 if (isset($_SESSION['user_id'])) {
-    header('Location: dashboard.php');
+    header('Location: ../pages/dashboard.php');
     exit;
 }
 
@@ -51,12 +51,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html>
 <head>
     <title>FitHub - <?= $page_title ?></title>
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="../css/login.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="login-box">
-        <a href="index.php"><h2>FitHub</h2></a>
+        <a href="../index.php"><h2>FitHub</h2></a>
         <p class="subtitle">Create your account</p>
         
         <?php if ($error !== ''): ?>
@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="submit" value="Create Account">
         </form>
         <p class="footer-text">
-            Already have an account? <a href="login.php">Login</a>
+            Already have an account? <a href="../pages/login.php">Login</a>
         </p>
     </div>
 </body>

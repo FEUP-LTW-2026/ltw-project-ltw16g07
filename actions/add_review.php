@@ -1,15 +1,15 @@
 <?php
 session_start();
-require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/../config/database.php';
 
 if (!isset($_SESSION['user_id'])) {
     $_SESSION['flash_error'] = 'Please login to leave a review.';
-    header('Location: login.php');
+    header('Location: ../pages/login.php');
     exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['trainer_id'])) {
-    header('Location: trainers.php');
+    header('Location: ../pages/trainers.php');
     exit;
 }
 
@@ -20,13 +20,13 @@ $comment = trim($_POST['comment'] ?? '');
 
 if ($rating < 1 || $rating > 5) {
     $_SESSION['flash_error'] = 'Please select a rating between 1 and 5.';
-    header('Location: trainers.php?id=' . $trainer_id);
+    header('Location: ../pages/trainers.php?id=' . $trainer_id);
     exit;
 }
 
 if ($comment === '') {
     $_SESSION['flash_error'] = 'Please write a comment.';
-    header('Location: trainers.php?id=' . $trainer_id);
+    header('Location: ../pages/trainers.php?id=' . $trainer_id);
     exit;
 }
 
@@ -34,7 +34,7 @@ $stmt = $db->prepare("SELECT id FROM reviews WHERE user_id = ? AND trainer_id = 
 $stmt->execute([$user_id, $trainer_id]);
 if ($stmt->fetch()) {
     $_SESSION['flash_error'] = 'You have already reviewed this trainer.';
-    header('Location: trainers.php?id=' . $trainer_id);
+    header('Location: ../pages/trainers.php?id=' . $trainer_id);
     exit;
 }
 
@@ -57,5 +57,5 @@ try {
     $_SESSION['flash_error'] = 'Something went wrong. Please try again.';
 }
 
-header('Location: trainers.php?id=' . $trainer_id);
+header('Location: ../pages/trainers.php?id=' . $trainer_id);
 exit;

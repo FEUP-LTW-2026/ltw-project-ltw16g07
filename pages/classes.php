@@ -1,9 +1,9 @@
 <?php
 session_start();
-require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/../config/database.php';
 
 $current_page = 'classes';
-$extra_css = 'classes.css';
+$extra_css = '../css/classes.css';
 
 $page_title = 'Classes';
 
@@ -75,7 +75,7 @@ $trainers = $db->query("SELECT id, name FROM trainers ORDER BY name")->fetchAll(
 
 $types = $db->query("SELECT DISTINCT type FROM classes ORDER BY type")->fetchAll(PDO::FETCH_ASSOC);
 
-require_once __DIR__ . '/partials/header.php';
+require_once __DIR__ . '/../partials/header.php';
 ?>
 
 <nav id="menu">
@@ -98,7 +98,7 @@ require_once __DIR__ . '/partials/header.php';
 
         <!-- Filtros dropdown -->
         <div class="filters">
-            <form action="classes.php" method="GET">
+            <form action="../actions/book_class.php" method="GET">
                 <?php if ($filter_type !== 'All'): ?>
                     <input type="hidden" name="type" value="<?= htmlspecialchars($filter_type) ?>">
                 <?php endif; ?>

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/../config/database.php';
 
 $current_page = 'login';
 $page_title = 'Login';
@@ -9,7 +9,7 @@ $extra_css = 'login.css';
 $error = '';
 
 if (isset($_SESSION['user_id'])) {
-    header('Location: dashboard.php');
+    header('Location: ../pages/dashboard.php');
     exit;
 }
 
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['user_name'] = $user['first_name'] . ' ' . $user['last_name'];
             $_SESSION['user_initials'] = strtoupper(substr($user['first_name'], 0, 1) . substr($user['last_name'], 0, 1));
             
-            header('Location: dashboard.php');
+            header('Location: ../pages/dashboard.php');
             exit;
         } else {
             $error = 'Invalid email or password.';
@@ -41,12 +41,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html>
 <head>
     <title>FitHub - <?= $page_title ?></title>
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="../css/login.css"> >
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="login-box">
-        <a href="index.php"><h2>FitHub</h2></a>
+        <a href="../index.php"><h2>FitHub</h2></a>
         <p class="subtitle">Welcome back</p>
         
         <?php if ($error !== ''): ?>

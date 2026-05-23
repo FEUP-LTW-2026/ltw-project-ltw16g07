@@ -1,14 +1,14 @@
 <?php
 session_start();
-require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/../config/database.php';
 
 if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
+    header('Location: ../pages/login.php'); 
     exit;
 }
 
 $current_page = 'profile';
-$extra_css = 'profile.css';
+$extra_css = '../css/profile.css';
 $page_title = 'My Profile';
 
 $user_id = $_SESSION['user_id'];
@@ -55,7 +55,7 @@ $stmt = $db->prepare("
 $stmt->execute([$user_id]);
 $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-require_once __DIR__ . '/partials/header.php';
+require_once __DIR__ . '/../partials/header.php';
 ?>
 
 <main class="profile-page">
@@ -72,7 +72,7 @@ require_once __DIR__ . '/partials/header.php';
         <?php if (empty($bookings)): ?>
             <div class="empty-state">
                 <p>You haven't booked any classes yet.</p>
-                <a href="classes.php"><button class="btn-primary">Browse Classes</button></a>
+                <a href="../pages/classes.php"><button class="btn-primary">Browse Classes</button></a>
             </div>
         <?php else: ?>
             <?php foreach ($bookings as $booking):

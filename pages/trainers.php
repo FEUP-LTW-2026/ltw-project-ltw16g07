@@ -1,9 +1,9 @@
 <?php
 session_start();
-require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/../config/database.php';
 
 $current_page = 'trainers';
-$extra_css = 'profile-trainers.css';
+$extra_css = '../css/profile-trainers.css';
 $page_title = 'Trainers';
 
 $trainer_id = $_GET['id'] ?? null;
@@ -39,7 +39,7 @@ if ($trainer_id) {
 
     $specialties = explode(',', $trainer['specialties']);
 
-    require_once __DIR__ . '/partials/header.php';
+    require_once __DIR__ . '/../partials/header.php';
     ?>
 
     <main class="pagina">
@@ -61,7 +61,7 @@ if ($trainer_id) {
             </div>
 
             <button class="reservar">Book Personal Training</button>
-            <a href="trainers.php" class="btn-contorno" style="display:block;text-align:center;margin-top:10px;">&larr; All Trainers</a>
+            <a href="../pages/trainers.php" class="btn-contorno" style="display:block;text-align:center;margin-top:10px;">&larr; All Trainers</a>
         </section>
 
         <section class="conteudo">
@@ -85,7 +85,7 @@ if ($trainer_id) {
                                 <p><?= htmlspecialchars($class['day_of_week']) ?> · <?= htmlspecialchars($class['time_start']) ?> – <?= htmlspecialchars($class['time_end']) ?> · <?= htmlspecialchars($class['location']) ?></p>
                                 <span class="vagas <?= $is_full ? 'vermelho' : 'verde' ?>"><?= $class['booked_spots'] ?> / <?= $class['total_spots'] ?> spots</span>
                             </div>
-                            <form method="POST" action="book_class.php">
+                            <form method="POST" action="../actions/book_class.php">
                                 <input type="hidden" name="class_id" value="<?= $class['id'] ?>">
                                 <?php if ($is_full): ?>
                                     <button class="btn-contorno pequeno" disabled>Full</button>
@@ -117,7 +117,7 @@ if ($trainer_id) {
 
                 <button class="btn-contorno" onclick="toggleReviewForm()">Leave a Review</button>
 
-                <form method="POST" action="add_review.php" class="review-form" id="review-form">
+                <form method="POST" action="../actions/add_review.php" class="review-form" id="review-form">
                     <input type="hidden" name="trainer_id" value="<?= $trainer['id'] ?>">
                     <div class="star-rating">
                         <span class="star" data-value="1">☆</span>
@@ -152,11 +152,11 @@ if ($trainer_id) {
     </script>
 
     <?php
-    require_once __DIR__ . '/partials/footer.php';
+    require_once __DIR__ . '/../partials/footer.php';
 } else {
     $all_trainers = $db->query("SELECT * FROM trainers ORDER BY name")->fetchAll(PDO::FETCH_ASSOC);
 
-    require_once __DIR__ . '/partials/header.php';
+    require_once __DIR__ . '/../partials/header.php';
     ?>
 
     <div class="trainers-grid-page">
@@ -167,7 +167,7 @@ if ($trainer_id) {
             <?php foreach ($all_trainers as $trainer):
                 $specs = explode(',', $trainer['specialties']);
             ?>
-                <a href="trainers.php?id=<?= $trainer['id'] ?>" class="trainer-card-link">
+                <a href="../pages/trainers.php?id=<?= $trainer['id'] ?>" class="trainer-card-link">
                     <div class="trainer-card-page">
                         <div class="trainer-avatar-page"><?= htmlspecialchars($trainer['photo_initials']) ?></div>
                         <h3><?= htmlspecialchars($trainer['name']) ?></h3>
@@ -188,6 +188,6 @@ if ($trainer_id) {
     </div>
 
     <?php
-    require_once __DIR__ . '/partials/footer.php';
+    require_once __DIR__ . '/../partials/footer.php';
 }
 ?>
