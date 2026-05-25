@@ -23,3 +23,7 @@ INSERT INTO equipment (name, category, quantity, description) VALUES
 INSERT INTO reviews (trainer_id, rating, comment) VALUES
 (1, 5, 'Amazing class. Ana knows how to motivate the whole group.'),
 (1, 4, 'Great sessions, very professional. Would love more advanced levels.');
+
+-- Admin user (password: admin123)
+INSERT INTO users (first_name, last_name, email, password, role) VALUES
+('Admin', 'FitHub', 'admin@fithub.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin');

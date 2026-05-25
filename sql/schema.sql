@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS users (
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
-    password TEXT NOT NULL,       
+    password TEXT NOT NULL,
+    role TEXT NOT NULL DEFAULT 'member',       
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -56,7 +57,8 @@ CREATE TABLE IF NOT EXISTS equipment (
     name TEXT NOT NULL,
     category TEXT NOT NULL,        
     quantity INTEGER DEFAULT 1,
-    description TEXT
+    description TEXT,
+    status TEXT NOT NULL DEFAULT 'available'
 );
 
 -- Tabela de reviews de treinadores

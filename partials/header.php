@@ -18,6 +18,12 @@
             <li><a href="../pages/classes.php" class="<?= ($current_page ?? '') === 'classes' ? 'nav-active' : '' ?>">Classes</a></li>
             <li><a href="../pages/trainers.php" class="<?= ($current_page ?? '') === 'trainers' ? 'nav-active' : '' ?>">Trainers</a></li>
             <li><a href="../pages/equipment.php" class="<?= ($current_page ?? '') === 'equipment' ? 'nav-active' : '' ?>">Equipment</a></li>
+            <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+                <li><a href="../pages/admin.php" class="<?= ($current_page ?? '') === 'admin' ? 'nav-active' : '' ?>">Admin</a></li>
+            <?php endif; ?>
+            <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'trainer'): ?>
+                <li><a href="../pages/trainer_dashboard.php" class="<?= ($current_page ?? '') === 'trainer_dashboard' ? 'nav-active' : '' ?>">My Dashboard</a></li>
+            <?php endif; ?>
         </ul>
         <div>
             <?php if (isset($_SESSION['user_id'])): ?>
