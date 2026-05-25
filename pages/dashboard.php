@@ -47,58 +47,58 @@ $upcoming_classes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 require_once __DIR__ . '/../partials/header.php';
 ?>
 
-<h1>PREMIUM FITNESS</h1>
-<h2 class="slogan">Train Smarter.</h2>
-<h3 class="gray slogan">Feel Stronger.</h3>
-<p class="gray marginLeft">Book classes, track progress, and connect with expert trainers.</p>
-<div id="midButtons">
-    <a href="classes.php"><button type="button">Browse Classes</button></a>
-    <a href="trainers.php"><button type="button">Meet Trainers</button></a>
-</div>
+<section class="principal">
+    <h1>Premium Fitness</h1>
+    <h2>Train Smarter.<br>Feel Stronger.</h2>
+    <p>Book classes, track progress, and connect with expert trainers.</p>
+    <div class="botoes">
+        <a href="classes.php"><button type="button" class="btn-primary">Browse Classes</button></a>
+        <a href="trainers.php"><button type="button" class="btn-outline">Meet Trainers</button></a>
+    </div>
+</section>
 
-<ul id="stats">
+<ul class="estatisticas">
     <li>
-        <p><?= $stats['weekly_classes'] ?></p>
-        <p>Weekly Classes</p>
+        <span class="valor"><?= $stats['weekly_classes'] ?>+</span>
+        <span class="legenda">Weekly Classes</span>
     </li>
     <li>
-        <p><?= $stats['trainers'] ?></p>
-        <p>Expert Trainers</p>
+        <span class="valor"><?= $stats['trainers'] ?>+</span>
+        <span class="legenda">Expert Trainers</span>
     </li>
     <li>
-        <p><?= $stats['equipment'] ?>+</p>
-        <p>Equipment Items</p>
+        <span class="valor"><?= $stats['equipment'] ?>+</span>
+        <span class="legenda">Equipment Items</span>
     </li>
     <li>
-        <p><?= $stats['avg_rating'] ?></p>
-        <p>Avg. Rating</p>
+        <span class="valor"><?= $stats['avg_rating'] ?></span>
+        <span class="legenda">Avg. Rating</span>
     </li>
 </ul>
 
-<div id="upClasses">
-    <p>Upcoming Classes</p>
+<div class="up-classes">
+    <h3>Upcoming Classes</h3>
     <a href="classes.php">See all &rarr;</a>
 </div>
 
-<ul id="listClass">
+<ul class="lista-aulas">
     <?php foreach ($upcoming_classes as $class): ?>
-        <li>
-            <p><?= htmlspecialchars($class['title']) ?></p>
-            <p><?= htmlspecialchars($class['day_of_week']) ?> - <?= htmlspecialchars($class['time_start']) ?> - <?= htmlspecialchars($class['location']) ?></p>
-            <p><?= htmlspecialchars($class['trainer_name']) ?></p>
-            <div class="classEnroll">
-                <?php
-                $remaining = $class['total_spots'] - $class['booked_spots'];
-                if ($remaining > 0):
-                ?>
-                    <p><?= $class['booked_spots'] ?>/<?= $class['total_spots'] ?> spots</p>
+        <?php $remaining = $class['total_spots'] - $class['booked_spots']; ?>
+        <li class="cartao-aula">
+            <p class="titulo"><?= htmlspecialchars($class['title']) ?></p>
+            <p class="info"><?= htmlspecialchars($class['day_of_week']) ?> · <?= htmlspecialchars($class['time_start']) ?> · <?= htmlspecialchars($class['location']) ?></p>
+            <p class="treinador"><?= htmlspecialchars($class['trainer_name']) ?></p>
+            <div class="rodape">
+                <span class="vagas <?= $remaining <= 0 ? 'cheio' : '' ?>">
+                    <?= $class['booked_spots'] ?>/<?= $class['total_spots'] ?> spots
+                </span>
+                <?php if ($remaining > 0): ?>
                     <form method="POST" action="../actions/book_class.php">
                         <input type="hidden" name="class_id" value="<?= $class['id'] ?>">
-                        <button type="submit">Enroll</button>
+                        <button type="submit" class="reservar">Enroll</button>
                     </form>
                 <?php else: ?>
-                    <p><?= $class['booked_spots'] ?>/<?= $class['total_spots'] ?> spots</p>
-                    <button type="button" disabled>Full</button>
+                    <button type="button" class="reservar" disabled>Full</button>
                 <?php endif; ?>
             </div>
         </li>
@@ -106,5 +106,5 @@ require_once __DIR__ . '/../partials/header.php';
 </ul>
 
 <?php
-require_once __DIR__ . '/partials/footer.php';
+require_once __DIR__ . '/../partials/footer.php';
 ?>

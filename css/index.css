@@ -1,197 +1,210 @@
-h1 {
-    font-size: 1.5em;
-    color:var(--neon-green);
-    padding-left: 0.4em;
-    border-left: 0.1em solid var(--neon-green);
-    font-weight: 100;
-    padding-top: 0.5em;
-    padding-bottom: 1em;
-    margin-bottom: 0;
+body {
+    padding: 0 2rem;
 }
 
-.gray {
-    color: var(--text-gray);
+.landing-nav {
+    margin-left: -2rem;
+    margin-right: -2rem;
+    padding-left: 48px;
+    padding-right: 48px;
 }
 
-.marginLeft{
-    margin-left: 2em;
+.principal {
+    padding: 3rem 0 2rem;
 }
 
-.slogan {
-    font-size: 4em;
-    margin-top: 0;
-    margin-bottom: 0;
-    margin-left: 0.5em;
-}
-
-#midButtons > button {
-    font-size: 1em;
-    margin-left: 1em;
-}
-
-#midButtons > button:first-child {
-    background-color: var(--neon-green);
-    border-color: var(--neon-green);
-    color: var(--bg-dark);
-}
-
-#stats {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    list-style-type: none;
-    text-align: center;
-    margin-top: 3em;
-    margin-right: 0;
-    margin-left: 0;
+.principal h1 {
+    font-size: 0.85em;
+    color: var(--neon-green);
+    font-weight: 500;
+    letter-spacing: 2px;
+    margin: 0 0 0.6rem;
+    text-transform: uppercase;
+    border: none;
     padding: 0;
 }
 
-#stats > li {
-    flex: 1;
-    border: 0.1em solid var(--bg-card); 
+.principal h2 {
+    font-size: 3.2em;
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 0 0 0.8rem;
 }
 
-#stats > li >:first-child {
-    font-size: 2.5em;
-    margin-bottom: 0;
-    margin-top: 0.7em;
+.principal p {
+    color: var(--text-gray);
+    font-size: 1em;
+    line-height: 1.6;
+    margin: 0 0 2rem;
 }
 
-#stats > li >:last-child {
-    margin-top: 0;
-    margin-bottom: 2.5em;
+.botoes {
+    display: flex;
+    gap: 12px;
+}
+
+.estatisticas {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin: 2.5rem 0;
+    list-style: none;
+    padding: 0;
+}
+
+.estatisticas li {
+    background: var(--bg-card);
+    border-radius: 14px;
+    padding: 1.5rem;
+    text-align: center;
+    border: 1px solid transparent;
+    transition: border-color 0.2s;
+}
+
+.estatisticas li:hover {
+    border-color: #313131;
+}
+
+.estatisticas .valor {
+    display: block;
+    font-size: 2.4em;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 4px;
+}
+
+.estatisticas .legenda {
+    display: block;
+    font-size: 0.82em;
     color: var(--text-dark-gray);
 }
 
-
-#upClasses {
+.up-classes {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 1rem;
 }
 
-#upClasses > p {
-    font-size: 1.6em;
-    font-weight: 600;
+.up-classes h3 {
+    font-size: 1.2em;
+    font-weight: 700;
 }
 
-#upClasses > a {
+.up-classes a {
     color: var(--text-dark-gray);
+    font-size: 0.88em;
+    transition: color 0.2s;
 }
 
-#upClasses > a:hover {
+.up-classes a:hover {
     color: white;
 }
 
-#listClass {
+.lista-aulas {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2.5rem;
+}
+
+.cartao-aula {
+    background: var(--bg-card);
+    border-radius: 14px;
+    padding: 1.4rem 1.5rem;
+    border-left: 4px solid var(--neon-green);
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    transition: transform 0.15s;
+}
+
+.cartao-aula:nth-child(2) { border-left-color: var(--purple); }
+.cartao-aula:nth-child(3) { border-left-color: var(--red); }
+.cartao-aula:nth-child(4) { border-left-color: var(--orange); }
+
+.cartao-aula .titulo {
+    font-size: 1em;
+    font-weight: 700;
+    margin: 0;
+    background: transparent;
+}
+
+.cartao-aula .info {
+    color: var(--text-gray);
+    font-size: 0.82em;
+    margin: 0;
+    background: transparent;
+}
+
+.cartao-aula .treinador {
+    color: var(--text-dark-gray);
+    font-size: 0.8em;
+    margin: 0;
+    background: transparent;
+}
+
+.cartao-aula .rodape {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
+    margin-top: 0.8rem;
+    background: transparent;
 }
 
-#listClass > li {
-    flex: 1;
-    border: 0.1em solid var(--bg-card);
-    border-radius: 1em;
-    overflow: hidden;
-    background-color: var(--bg-card);
+.vagas {
+    background: var(--spots-bg-green);
+    color: var(--spots-green);
+    font-size: 0.78em;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
 }
 
-#listClass > li > div > button {
-    border-radius: 6em;
-    margin:0;
-}
-
-#listClass > li > p {
-    background-color: var(--bg-card);
-    margin:0;
-}
-
-#listClass > li > div > p {
-    padding: 0.5em 1em;
-    border-radius: 6em;
-    background-color: var(--spots);
-    margin:0;
-    display: flex;
-    align-items: center;}
-
-.classEnroll {
-    background-color: var(--bg-card);
-    margin:0;
-    display: flex;
-    justify-content: space-between;
-}
-
-#listClass > li > p:first-child {
-    font-size: 1.3em;
-    font-weight: 700;
-}
-#listClass > li > p:nth-child(2) {
-    margin-top: 1em;
-    color: var(--text-gray)
-}
-#listClass > li > p:nth-child(3) {
-    margin-top: 1em;
-    margin-bottom: 0.7em;
-    color: var(--text-gray)
-}
-
-#listClass > li:first-child {
-    border-top: 0.3em solid var(--neon-green);
-}
-#listClass > li:first-child > div > button {
-    background-color: var(--neon-green);
-    border-color: var(--neon-green);
-    color: var(--bg-card);
-}
-#listClass > li:first-child > div > p {
-    color: var(--neon-green);
-}
-#listClass > li:nth-child(2) {
-    border-top: 0.3em solid var(--purple);
-}
-#listClass > li:nth-child(2) > div > button {
-    background-color: var(--bg-card);
-    border-color: var(--purple);
-    color: var(--purple);
-}
-#listClass > li:nth-child(2) > div > p {
-    color: var(--purple);
-}
-#listClass > li:nth-child(3) {
-    border-top: 0.3em solid var(--red);
-}
-#listClass > li:nth-child(3) > div > button {
-    background-color: var(--red);
-    border-color: var(--red);
-    color: var(--bg-card);
-}
-#listClass > li:nth-child(3) > div > p {
+.vagas.cheio {
+    background: var(--spots-bg-red);
     color: var(--red);
 }
-#listClass > li:last-child {
-    border-top: 0.3em solid var(--orange);
-}
-#listClass > li:last-child > div >  button {
-    background-color: var(--orange);
-    border-color: var(--orange);
-    color: var(--bg-card);
-}
-#listClass > li:last-child > div > p {
-    color: var(--orange);
+
+.reservar {
+    background: var(--neon-green);
+    color: black;
+    border: none;
+    border-radius: 999px;
+    padding: 0.4rem 1.1rem;
+    font-size: 0.82em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    margin: 0;
 }
 
-
-#listClass > li {
-    margin: 0 1em;
-    padding: 1.7em;
+.reservar:hover {
+    opacity: 0.85;
 }
 
-#listClass > li >:last-child {
-    margin-top: 0;
-    color: var(--text-dark-gray);
+.cartao-aula:nth-child(1) .reservar { background: var(--neon-green); color: black; border-color: var(--neon-green); }
+.cartao-aula:nth-child(2) .reservar { background: transparent; border: 1.5px solid var(--purple); color: var(--purple); }
+.cartao-aula:nth-child(3) .reservar { background: var(--red); color: white; border-color: var(--red); }
+.cartao-aula:nth-child(4) .reservar { background: var(--orange); color: black; border-color: var(--orange); }
+
+.reservar[disabled] {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+@media (max-width: 900px) {
+    .estatisticas,
+    .lista-aulas {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .estatisticas,
+    .lista-aulas {
+        grid-template-columns: 1fr;
+    }
 }
