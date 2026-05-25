@@ -3,7 +3,7 @@ session_start();
 require_once __DIR__ . '/config/database.php';
 
 if (isset($_SESSION['user_id'])) {
-    header('Location: dashboard.php');
+    header('Location: pages/dashboard.php');
     exit;
 }
 
@@ -32,7 +32,9 @@ $stats['avg_rating'] = $stmt->fetch(PDO::FETCH_ASSOC)['avg'];
 <head>
     <meta charset="UTF-8">
     <title><?= $page_title ?></title>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/WT1OtgQ.png">
     <link rel="stylesheet" href="landing.css">
+    <link rel="stylesheet" href="css/landing.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -45,8 +47,8 @@ $stats['avg_rating'] = $stmt->fetch(PDO::FETCH_ASSOC)['avg'];
             <li><a href="#plans">Plans</a></li>
         </ul>
         <div>
-            <a href="login.php"><button class="btn-outline">Login</button></a>
-            <a href="register.php"><button class="btn-primary">Join Free</button></a>
+            <a href="pages/login.php"><button class="btn-outline">Login</button></a>
+            <a href="pages/register.php"><button class="btn-primary">Join Free</button></a>
         </div>
     </nav>
 
@@ -55,8 +57,8 @@ $stats['avg_rating'] = $stmt->fetch(PDO::FETCH_ASSOC)['avg'];
         <h2 class="hero-slogan">Train Smarter.<br>Feel Stronger.</h2>
         <p class="hero-text">Book classes, track progress, and connect with expert trainers.<br>Your fitness journey starts here.</p>
         <div class="hero-buttons">
-            <a href="register.php"><button class="btn-primary btn-large">Get Started Free</button></a>
-            <a href="classes.php"><button class="btn-outline btn-large">Browse Classes</button></a>
+            <a href="pages/register.php"><button class="btn-primary btn-large">Get Started Free</button></a>
+            <a href="pages/classes.php"><button class="btn-outline btn-large">Browse Classes</button></a>
         </div>
         <div class="hero-stats">
             <div><span><?= $stats['classes'] ?>+</span> Weekly Classes</div>
@@ -118,7 +120,7 @@ $stats['avg_rating'] = $stmt->fetch(PDO::FETCH_ASSOC)['avg'];
                 <?php endforeach; ?>
             </div>
             <div class="section-cta">
-                <a href="trainers.php"><button class="btn-outline">View All Trainers</button></a>
+                <a href="pages/trainers.php"><button class="btn-outline">View All Trainers</button></a>
             </div>
         </div>
     </section>
@@ -222,7 +224,7 @@ $stats['avg_rating'] = $stmt->fetch(PDO::FETCH_ASSOC)['avg'];
         <div class="section-content">
             <h2>Ready to Transform?</h2>
             <p>Join FitHub today and start your fitness journey.</p>
-            <a href="register.php"><button class="btn-primary btn-large">Join Free</button></a>
+            <a href="pages/register.php"><button class="btn-primary btn-large">Join Free</button></a>
         </div>
     </section>
 

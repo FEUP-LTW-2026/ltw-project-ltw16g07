@@ -1,15 +1,15 @@
 <?php
 session_start();
-require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/../config/database.php';
 
 if (!isset($_SESSION['user_id'])) {
     $_SESSION['flash_error'] = 'Please login to book a class.';
-    header('Location: login.php');
+    header('Location: /../pages/login.php');
     exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['class_id'])) {
-    header('Location: classes.php');
+    header('Location: /../pages/classes.php');
     exit;
 }
 
@@ -22,7 +22,7 @@ $class = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$class) {
     $_SESSION['flash_error'] = 'Class not found.';
-    header('Location: classes.php');
+    header('Location: /../pages/classes.php');
     exit;
 }
 
@@ -30,7 +30,7 @@ $stmt = $db->prepare("SELECT id FROM bookings WHERE user_id = ? AND class_id = ?
 $stmt->execute([$user_id, $class_id]);
 if ($stmt->fetch()) {
     $_SESSION['flash_error'] = 'You are already enrolled in this class.';
-    header('Location: classes.php');
+    header('Location: /../pages/classes.php');
     exit;
 }
 
@@ -49,7 +49,7 @@ if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'trainer') {
 $remaining = $class['total_spots'] - $class['booked_spots'];
 if ($remaining <= 0) {
     $_SESSION['flash_error'] = 'This class is full. Please try the waitlist.';
-    header('Location: classes.php');
+    header('Location: /../pages/classes.php');
     exit;
 }
 
@@ -68,5 +68,5 @@ try {
     $_SESSION['flash_error'] = 'Something went wrong. Please try again.';
 }
 
-header('Location: classes.php');
+header('Location: /../pages/classes.php');
 exit;

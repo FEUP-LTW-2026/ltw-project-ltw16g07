@@ -15,6 +15,7 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 20px 48px;
+    position: relative;
 }
 
 .landing-nav h2 {
@@ -26,6 +27,9 @@ body {
     display: flex;
     list-style: none;
     gap: 32px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .landing-nav a {
@@ -37,6 +41,31 @@ body {
 
 .landing-nav a:hover {
     color: white;
+}
+
+.nav-active {
+    color: white !important;
+    font-weight: 600;
+}
+
+.user-initials {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid #ccff00;
+    color: #ccff00 !important;
+    font-size: 0.8em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-decoration: none;
+}
+
+.user-initials:hover {
+    background: rgba(204, 255, 0, 0.1);
 }
 
 .landing-nav div {

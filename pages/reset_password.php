@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/../config/database.php';
 
 $page_title = 'Reset Password';
 
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $reset) {
         $stmt = $db->prepare("DELETE FROM password_resets WHERE email = ?");
         $stmt->execute([$reset['email']]);
 
-        $success = 'Password reset successfully! <a href="login.php" class="success-link">Login</a>';
+        $success = 'Password reset successfully! <a href="../pages/login.php" class="success-link">Login</a>';
     }
 }
 ?>
@@ -47,12 +47,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $reset) {
 <html>
 <head>
     <title>FitHub - <?= $page_title ?></title>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/WT1OtgQ.png">
     <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="../css/login.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="login-box">
-        <a href="index.php"><h2>FitHub</h2></a>
+        <a href="../index.php"><h2>FitHub</h2></a>
         <p class="subtitle">New password</p>
 
         <?php if ($error !== ''): ?>

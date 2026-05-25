@@ -1,9 +1,9 @@
 <?php
 session_start();
-require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/../config/database.php';
 
 $current_page = 'classes';
-$extra_css = 'classes.css';
+$extra_css = '../css/classes.css';
 
 $page_title = 'Classes';
 
@@ -84,35 +84,35 @@ $trainers = $db->query("SELECT id, name FROM trainers ORDER BY name")->fetchAll(
 
 $types = $db->query("SELECT DISTINCT type FROM classes ORDER BY type")->fetchAll(PDO::FETCH_ASSOC);
 
-require_once __DIR__ . '/partials/header.php';
+require_once __DIR__ . '/../partials/header.php';
 ?>
 
 <nav id="menu">
     <h1>Class Schedule</h1>
     <p><?= count($classes) ?> classes this week</p>
-    
+ 
     <div class="filter-row">
-        <!-- Filtro por tipo (botões) -->
         <ul>
-            <li><a href="classes.php?type=All" class="filter-btn <?= $filter_type === 'All' ? 'active' : '' ?>">All</a></li>
+            <li>
+                <a href="classes.php?type=All" class="filter-btn <?= $filter_type === 'All' ? 'active' : '' ?>">All</a>
+            </li>
             <?php foreach ($types as $t): ?>
                 <li>
-                    <a href="classes.php?type=<?= urlencode($t['type']) ?><?= $filter_trainer ? '&trainer=' . $filter_trainer : '' ?><?= $filter_day ? '&day=' . $filter_day : '' ?><?= $filter_time ? '&time=' . $filter_time : '' ?>" 
+                    <a href="classes.php?type=<?= urlencode($t['type']) ?><?= $filter_trainer ? '&trainer=' . $filter_trainer : '' ?><?= $filter_day ? '&day=' . $filter_day : '' ?><?= $filter_time ? '&time=' . $filter_time : '' ?>"
                        class="filter-btn <?= $filter_type === $t['type'] ? 'active' : '' ?>">
                         <?= htmlspecialchars($t['type']) ?>
                     </a>
                 </li>
             <?php endforeach; ?>
         </ul>
-
-        <!-- Filtros dropdown -->
+ 
         <div class="filters">
             <form action="classes.php" method="GET">
                 <?php if ($filter_type !== 'All'): ?>
                     <input type="hidden" name="type" value="<?= htmlspecialchars($filter_type) ?>">
                 <?php endif; ?>
-                
-                <select name="trainer" id="trainer-filter" onchange="this.form.submit()">
+ 
+                <select name="trainer" onchange="this.form.submit()">
                     <option value="">Trainer</option>
                     <?php foreach ($trainers as $t): ?>
                         <option value="<?= $t['id'] ?>" <?= $filter_trainer == $t['id'] ? 'selected' : '' ?>>
@@ -120,32 +120,30 @@ require_once __DIR__ . '/partials/header.php';
                         </option>
                     <?php endforeach; ?>
                 </select>
-
-                <select name="day" id="day-filter" onchange="this.form.submit()">
+ 
+                <select name="day" onchange="this.form.submit()">
                     <option value="">Day</option>
                     <?php foreach ($days_order as $day): ?>
-                        <option value="<?= $day ?>" <?= $filter_day === $day ? 'selected' : '' ?>>
-                            <?= $day ?>
-                        </option>
+                        <option value="<?= $day ?>" <?= $filter_day === $day ? 'selected' : '' ?>><?= $day ?></option>
                     <?php endforeach; ?>
                 </select>
-
-                <select name="time" id="time-filter" onchange="this.form.submit()">
+ 
+                <select name="time" onchange="this.form.submit()">
                     <option value="">Time</option>
-                    <option value="morning" <?= $filter_time === 'morning' ? 'selected' : '' ?>>Morning</option>
+                    <option value="morning"   <?= $filter_time === 'morning'   ? 'selected' : '' ?>>Morning</option>
                     <option value="afternoon" <?= $filter_time === 'afternoon' ? 'selected' : '' ?>>Afternoon</option>
-                    <option value="evening" <?= $filter_time === 'evening' ? 'selected' : '' ?>>Evening</option>
+                    <option value="evening"   <?= $filter_time === 'evening'   ? 'selected' : '' ?>>Evening</option>
                 </select>
             </form>
         </div>
     </div>
 </nav>
-
-<div class="schedule">
-    <?php foreach ($days_order as $day): 
+ 
+<main class="schedule">
+    <?php foreach ($days_order as $day):
         $day_classes = $classes_by_day[$day] ?? [];
     ?>
-        <div class="day" data-day="<?= strtolower($day) ?>">
+        <section class="day" data-day="<?= strtolower($day) ?>">
             <h2><?= $day ?></h2>
             <div class="classes-container">
                 <?php if (empty($day_classes)): ?>
@@ -156,21 +154,25 @@ require_once __DIR__ . '/partials/header.php';
                         $is_full = $remaining <= 0;
                         $is_own_class = $logged_trainer_id && (int) $class['trainer_id'] === $logged_trainer_id;
                     ?>
-                        <div class="class-card" data-type="<?= strtolower($class['type']) ?>">
+                        <article class="class-card" data-type="<?= strtolower($class['type']) ?>">
                             <div class="class-info">
                                 <h3 class="title"><?= htmlspecialchars($class['title']) ?></h3>
-                                <p class="info"><?= htmlspecialchars($class['time_start']) ?> – <?= htmlspecialchars($class['time_end']) ?> · <?= htmlspecialchars($class['location']) ?> · <?= htmlspecialchars($class['trainer_name']) ?></p>
+                                <p class="info">
+                                    <?= htmlspecialchars($class['time_start']) ?> – <?= htmlspecialchars($class['time_end']) ?> ·
+                                    <?= htmlspecialchars($class['location']) ?> ·
+                                    <?= htmlspecialchars($class['trainer_name']) ?>
+                                </p>
                                 <p class="spots"><?= $class['booked_spots'] ?> / <?= $class['total_spots'] ?> spots</p>
                             </div>
                             <p class="rating">
-                                <span class="stars"><?= str_repeat('★', round($class['rating'])) . str_repeat('☆', 5 - round($class['rating'])) ?></span> 
+                                <span class="stars"><?= str_repeat('★', round($class['rating'])) . str_repeat('☆', 5 - round($class['rating'])) ?></span>
                                 <?= $class['rating'] ?>
                             </p>
                             <div class="class-actions">
                                 <?php if ($is_own_class): ?>
                                     <span class="own-class-badge">Your class</span>
                                 <?php else: ?>
-                                    <form method="POST" action="book_class.php">
+                                    <form method="POST" action="../actions/book_class.php">
                                         <input type="hidden" name="class_id" value="<?= $class['id'] ?>">
                                         <?php if ($is_full): ?>
                                             <button class="action-btn waitlist" disabled>Full</button>
@@ -180,14 +182,13 @@ require_once __DIR__ . '/partials/header.php';
                                     </form>
                                 <?php endif; ?>
                             </div>
-                        </div>
+                        </article>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </div>
-        </div>
+        </section>
     <?php endforeach; ?>
-</div>
-
-<?php
-require_once __DIR__ . '/partials/footer.php';
-?>
+</main>
+ 
+<?php require_once __DIR__ . '/../partials/footer.php'; ?>
+ 
