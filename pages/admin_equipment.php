@@ -1,11 +1,11 @@
 <?php
 session_start();
-require_once __DIR__ . '/config/database.php';
-require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../includes/auth.php';
 require_admin();
 
 $current_page = 'admin';
-$extra_css    = 'admin.css';
+$extra_css    = '../css/admin.css';
 $page_title   = 'Manage Equipment';
 
 $ALLOWED_STATUSES = ['available', 'full', 'maintenance'];
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $equipment = $db->query("SELECT * FROM equipment ORDER BY category, name")->fetchAll(PDO::FETCH_ASSOC);
 
-require_once __DIR__ . '/partials/header.php';
+require_once __DIR__ . '/../partials/header.php';
 ?>
 
 <main>
@@ -207,4 +207,4 @@ require_once __DIR__ . '/partials/header.php';
     </script>
 </main>
 
-<?php require_once __DIR__ . '/partials/footer.php'; ?>
+<?php require_once __DIR__ . '/../partials/footer.php'; ?>

@@ -1,11 +1,11 @@
 <?php
 session_start();
-require_once __DIR__ . '/config/database.php';
-require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../includes/auth.php';
 require_trainer();
 
 $current_page = 'trainer_dashboard';
-$extra_css    = 'admin.css';
+$extra_css    = '../css/admin.css';
 $page_title   = 'Trainer Dashboard';
 
 $trainer_name = $_SESSION['user_name'] ?? '';
@@ -15,7 +15,7 @@ $stmt->execute([$trainer_name]);
 $trainer = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$trainer) {
-    require_once __DIR__ . '/partials/header.php';
+    require_once __DIR__ . '/../partials/header.php';
     ?>
     <main class="trainer-error">
         <h1>Trainer Dashboard</h1>
@@ -26,7 +26,7 @@ if (!$trainer) {
         <a href="dashboard.php" class="back-link">&larr; Back to Dashboard</a>
     </main>
     <?php
-    require_once __DIR__ . '/partials/footer.php';
+    require_once __DIR__ . '/../partials/footer.php';
     exit;
 }
 
@@ -69,7 +69,7 @@ foreach ($classes as $class) {
     $rosters[$class['id']] = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-require_once __DIR__ . '/partials/header.php';
+require_once __DIR__ . '/../partials/header.php';
 ?>
 
 <main class="trainer-page">
@@ -180,4 +180,4 @@ require_once __DIR__ . '/partials/header.php';
     }
 </script>
 
-<?php require_once __DIR__ . '/partials/footer.php'; ?>
+<?php require_once __DIR__ . '/../partials/footer.php'; ?>

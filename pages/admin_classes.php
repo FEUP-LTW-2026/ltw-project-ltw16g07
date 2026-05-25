@@ -1,11 +1,11 @@
 <?php
 session_start();
-require_once __DIR__ . '/config/database.php';
-require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/,,/includes/auth.php';
 require_admin();
 
 $current_page = 'admin';
-$extra_css    = 'admin.css';
+$extra_css    = '../css/admin.css';
 $page_title   = 'Manage Classes';
 
 $trainers     = $db->query("SELECT id, name FROM trainers ORDER BY name")->fetchAll(PDO::FETCH_ASSOC);
@@ -94,7 +94,7 @@ $stmt = $db->query("
 ");
 $classes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-require_once __DIR__ . '/partials/header.php';
+require_once __DIR__ . '/../partials/header.php';
 ?>
 
 <main>
@@ -290,4 +290,4 @@ require_once __DIR__ . '/partials/header.php';
     </script>
 </main>
 
-<?php require_once __DIR__ . '/partials/footer.php'; ?>
+<?php require_once __DIR__ . '/../partials/footer.php'; ?>

@@ -4,7 +4,7 @@ require_once __DIR__ . '/../config/database.php';
 
 $current_page = 'login';
 $page_title = 'Login';
-$extra_css = 'login.css';
+$extra_css = '/../css/login.css';
 
 $error = '';
 

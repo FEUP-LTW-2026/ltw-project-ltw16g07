@@ -1,11 +1,11 @@
 <?php
 session_start();
-require_once __DIR__ . '/config/database.php';
-require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../includes/auth.php';
 require_admin();
 
 $current_page = 'admin';
-$extra_css    = 'admin.css';
+$extra_css    = '../css/admin.css';
 $page_title   = 'Admin Dashboard';
 
 $stats = [];
@@ -16,7 +16,7 @@ $stats['classes']   = $db->query("SELECT COUNT(*) FROM classes")->fetchColumn();
 $stats['equipment'] = $db->query("SELECT COUNT(*) FROM equipment")->fetchColumn();
 $stats['bookings']  = $db->query("SELECT COUNT(*) FROM bookings")->fetchColumn();
 
-require_once __DIR__ . '/partials/header.php';
+require_once __DIR__ . '/../partials/header.php';
 ?>
 
 <main>
@@ -62,4 +62,4 @@ require_once __DIR__ . '/partials/header.php';
     </div>
 </main>
 
-<?php require_once __DIR__ . '/partials/footer.php'; ?>
+<?php require_once __DIR__ . '/../partials/footer.php'; ?>

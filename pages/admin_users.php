@@ -1,11 +1,11 @@
 <?php
 session_start();
-require_once __DIR__ . '/config/database.php';
-require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../includes/auth.php';
 require_admin();
 
 $current_page = 'admin';
-$extra_css    = 'admin.css';
+$extra_css    = '../css/admin.css';
 $page_title   = 'Manage Users';
 
 $ALLOWED_ROLES = ['member', 'trainer', 'admin'];
@@ -61,7 +61,7 @@ $users = $db->query(
     "SELECT id, first_name, last_name, email, role, created_at FROM users ORDER BY created_at DESC"
 )->fetchAll(PDO::FETCH_ASSOC);
 
-require_once __DIR__ . '/partials/header.php';
+require_once __DIR__ . '/../partials/header.php';
 ?>
 
 <main>
@@ -132,4 +132,4 @@ require_once __DIR__ . '/partials/header.php';
     </div>
 </main>
 
-<?php require_once __DIR__ . '/partials/footer.php'; ?>
+<?php require_once __DIR__ . '/../partials/footer.php'; ?>
