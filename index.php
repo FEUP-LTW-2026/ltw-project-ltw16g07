@@ -33,7 +33,6 @@ $stats['avg_rating'] = $stmt->fetch(PDO::FETCH_ASSOC)['avg'];
     <meta charset="UTF-8">
     <title><?= $page_title ?></title>
     <link rel="icon" type="image/png" href="https://i.imgur.com/WT1OtgQ.png">
-    <link rel="stylesheet" href="landing.css">
     <link rel="stylesheet" href="css/landing.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
@@ -178,7 +177,7 @@ $stats['avg_rating'] = $stmt->fetch(PDO::FETCH_ASSOC)['avg'];
                         <li>Free locker</li>
                         <li>Cancel anytime</li>
                     </ul>
-                    <button class="btn-primary" onclick="event.stopPropagation();location.href='register.php'">Get Started</button>
+                    <button class="btn-primary" onclick="event.stopPropagation();location.href='pages/register.php'">Get Started</button>
                 </div>
                 <div class="plan-card plan-featured" onclick="openPlanModal('annual')">
                     <div class="plan-badge">Popular</div>
@@ -191,7 +190,7 @@ $stats['avg_rating'] = $stmt->fetch(PDO::FETCH_ASSOC)['avg'];
                         <li>Free personal training session</li>
                         <li>Priority booking</li>
                     </ul>
-                    <button class="btn-primary" onclick="event.stopPropagation();location.href='register.php'">Get Started</button>
+                    <button class="btn-primary" onclick="event.stopPropagation();location.href='pages/register.php'">Get Started</button>
                 </div>
                 <div class="plan-card" onclick="openPlanModal('weekly')">
                     <h3>Weekly</h3>
@@ -202,7 +201,7 @@ $stats['avg_rating'] = $stmt->fetch(PDO::FETCH_ASSOC)['avg'];
                         <li>No commitment</li>
                         <li>Perfect for visitors</li>
                     </ul>
-                    <button class="btn-primary" onclick="event.stopPropagation();location.href='register.php'">Get Started</button>
+                    <button class="btn-primary" onclick="event.stopPropagation();location.href='pages/register.php'">Get Started</button>
                 </div>
             </div>
 
@@ -214,7 +213,7 @@ $stats['avg_rating'] = $stmt->fetch(PDO::FETCH_ASSOC)['avg'];
                     <p class="plan-note" id="modal-plan-note"></p>
                     <h4>What's included:</h4>
                     <ul id="modal-plan-features"></ul>
-                    <button class="btn-primary" id="modal-plan-cta" onclick="closePlanModal();location.href='register.php'">Get Started</button>
+                    <button class="btn-primary" id="modal-plan-cta" onclick="closePlanModal();location.href='pages/register.php'">Get Started</button>
                 </div>
             </div>
         </div>
