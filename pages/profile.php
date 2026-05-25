@@ -25,11 +25,19 @@ if (!$user) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_booking'])) {
     $booking_id = $_POST['cancel_booking'];
-    $stmt = $db->prepare("DELETE FROM bookings WHERE id = ? AND user_id = ?");
-    $stmt->execute([$booking_id, $user_id]);
 
-    $stmt = $db->prepare("UPDATE classes SET booked_spots = booked_spots - 1 WHERE id = (SELECT class_id FROM bookings WHERE id = ?)");
-    $stmt->execute([$booking_id]);
+    $db->beginTransaction();
+    try {
+        $stmt = $db->prepare("UPDATE classes SET booked_spots = booked_spots - 1 WHERE id = (SELECT class_id FROM bookings WHERE id = ?)");
+        $stmt->execute([$booking_id]);
+
+        $stmt = $db->prepare("DELETE FROM bookings WHERE id = ? AND user_id = ?");
+        $stmt->execute([$booking_id, $user_id]);
+
+        $db->commit();
+    } catch (Exception $e) {
+        $db->rollBack();
+    }
 
     header('Location: profile.php');
     exit;

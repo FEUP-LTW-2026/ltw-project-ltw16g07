@@ -5,7 +5,7 @@
     --bg-card: #1c1c1c;
     --text-gray: #898989;
     --text-dark-gray: #656565;
-    
+
     --neon-green: #ccff00;
     --purple: #a855f7;
     --red: #ef4444;
@@ -17,13 +17,28 @@
     --spots-bg-red: #3d1616;
 }
 
-* {
+html,
+body {
     background-color: var(--bg-dark);
+    min-height: 100vh;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+body > footer {
+    margin-top: auto !important;
+}
+
+* {
     color: white;
     font-family: "Inter";
 }
 
 button {
+    background-color: transparent;
     padding: 1em 2em;
     border-radius: 6em;
     margin: 0.2em;
@@ -31,7 +46,7 @@ button {
     color: var(--text-gray);
     font-weight: bold;
     border-style: solid;
-    cursor:pointer;
+    cursor: pointer;
     transition: opacity 0.2s ease, transform 0.1s ease;
 }
 
@@ -39,17 +54,29 @@ button:active {
     transform: scale(0.95);
 }
 
+select {
+    background-color: var(--bg-card);
+    color: white;
+    border: 1px solid var(--text-dark-gray);
+    outline: none;
+}
+
+select option {
+    background-color: var(--bg-card);
+    color: white;
+}
+
 a {
     text-decoration: none;
 }
 
-body > *:not(header) {
+body>*:not(.landing-nav) {
     margin-left: 1em;
     margin-right: 2em;
 }
 
 a:hover {
-    color: var(--neon-green) ;
+    color: var(--neon-green);
 }
 
 header {
@@ -61,22 +88,22 @@ header {
 }
 
 
-header > ul {
+header>ul {
     display: fleX;
     list-style-type: none;
 }
 
-header > ul > li {
+header>ul>li {
     margin-left: 0.7em;
     margin-right: 0.7em;
 }
 
-header > ul > li > a {
-    color: var(--text-dark-gray) ;
+header>ul>li>a {
+    color: var(--text-dark-gray);
 }
 
 
-header > div {
+header>div {
     display: flex;
 }
 
@@ -87,8 +114,8 @@ header > div {
 }
 
 .active {
-  color: var(--neon-green);
-  font-weight: bold;
+    color: var(--neon-green);
+    font-weight: bold;
 }
 
 .flash {
@@ -113,6 +140,14 @@ header > div {
 }
 
 @keyframes fadeOut {
-    0%, 70% { opacity: 1; }
-    100% { opacity: 0; display: none; }
+
+    0%,
+    70% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        display: none;
+    }
 }

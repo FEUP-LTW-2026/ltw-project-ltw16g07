@@ -1,53 +1,56 @@
-
-
 body {
   padding: 0 2rem;
 }
 
+.landing-nav {
+  margin-left: -2rem;
+  margin-right: -2rem;
+  padding-left: 48px;
+  padding-right: 48px;
+}
 
 
 
 
 #menu {
-  border-top: 1px solid var(--text-dark-gray);
-  padding: 0.5rem 2rem 0 2rem; 
   margin-top: 0.5rem;
-  margin-left: 0;
-  margin-right: 0;
 }
 
-#menu h1{
+#menu h1 {
   margin-bottom: 0;
+  border-left: 4px solid var(--neon-green);
+  padding-left: 0.7rem;
 }
-#menu p{
-    color:var(--text-gray);
-    margin-bottom: 0.10rem;
-    margin-top: 0;
+
+#menu p {
+  color: var(--text-gray);
+  margin-bottom: 0.10rem;
+  margin-top: 0;
 
 }
 
 
 #menu ul {
-    display:flex;
-    flex-wrap:wrap;
-    gap: 0.4rem;
-    list-style: none;
-    padding:0;
-    
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  list-style: none;
+  padding: 0;
+
 
 }
 
 .filter-btn:hover {
   background: var(--neon-green);
   color: black;
-  
+
 }
 
 .filter-btn {
-    border:1px solid var(--text-dark-gray);
-    border-radius: 999px;
-    padding: 0.4rem 1rem;
-    color:var(--text-gray);
+  border: 1px solid var(--text-dark-gray);
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  color: var(--text-gray);
 }
 
 .filter-btn.active {
@@ -55,20 +58,21 @@ body {
   color: black;
 }
 
-.filters select{
-    border:1px solid var(--text-gray);
-    border-radius: 6px;
-    padding:0.4rem 3rem;
-    color:var(--text-gray);
+.filters select {
+  background-color: var(--bg-dark);
+  border: 1px solid var(--text-gray);
+  border-radius: 6px;
+  padding: 0.4rem 3rem;
+  color: var(--text-gray);
 }
 
 .filter-row {
+  margin-top: 1em;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--text-dark-gray);
   padding-bottom: 0.03rem;
-  
+
 }
 
 .day h2 {
@@ -106,17 +110,38 @@ body {
 }
 
 
+[data-type="yoga"] .action-btn.enroll {
+  background: var(--neon-green);
+  color: black;
+}
+
+[data-type="hiit"] .action-btn.enroll {
+  background: var(--purple);
+  color: white;
+}
+
 [data-type="pilates"] .action-btn.enroll {
   background: var(--red);
+  color: white;
+}
+
+[data-type="spinning"] .action-btn.enroll {
+  background: var(--orange);
+  color: black;
+}
+
+[data-type="boxing"] .action-btn.enroll {
+  background: #3b82f6;
+  color: white;
 }
 
 
-.class-actions{
-    background: var(--bg-card);
+.class-actions {
+  background: var(--bg-card);
 }
 
 .class-info {
-  background: var(--bg-card);  
+  background: var(--bg-card);
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
@@ -127,35 +152,35 @@ body {
   font-size: 1rem;
 }
 
-.rating{
-    background: var(--bg-card);
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    color: var(--text-gray);
-    
-    
+.rating {
+  background: var(--bg-card);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--text-gray);
+
+
 }
 
-.title{
-    background: var(--bg-card);
-    margin:0;
+.title {
+  background: var(--bg-card);
+  margin: 0;
 }
 
-.info{
-    color: var(--text-gray);
-    background: var(--bg-card);
-    margin: 0;
+.info {
+  color: var(--text-gray);
+  background: var(--bg-card);
+  margin: 0;
 }
 
-.spots{
-    color: var(--spots-green);
-    background:var(--spots-bg-green);
-    padding-left:5px;
-    padding-right: 5px;
-    margin: 0;
-    border-radius: 500px;
-    width: fit-content;
+.spots {
+  color: var(--spots-green);
+  background: var(--spots-bg-green);
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 0;
+  border-radius: 500px;
+  width: fit-content;
 }
 
 .rating .stars {
@@ -163,7 +188,7 @@ body {
   color: var(--neon-green);
   display: inline-flex;
   align-items: center;
-  letter-spacing: -1px; 
+  letter-spacing: -1px;
   line-height: 1;
 }
 
@@ -191,4 +216,8 @@ body {
 
 [data-type="spinning"] {
   border-left: 4px solid var(--orange);
+}
+
+[data-type="boxing"] {
+  border-left: 4px solid #3b82f6;
 }

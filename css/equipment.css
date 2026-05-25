@@ -1,6 +1,5 @@
 .equipment-header {
-  padding: 1.5rem 2rem 0 2rem;
-  border-top: 1px solid var(--text-dark-gray);
+  padding: 0 2rem 0 2rem;
   margin-top: 0.5rem;
 }
 
@@ -8,8 +7,6 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  font-size: 1.6rem;
-  font-weight: 700;
   margin: 0 0 0.2rem 0;
   border-left: 4px solid var(--neon-green);
   padding-left: 0.7rem;
@@ -27,7 +24,6 @@
   gap: 0.5rem;
   flex-wrap: wrap;
   padding-bottom: 1rem;
-  border-bottom: 1px solid var(--text-dark-gray);
 }
 
 .filter-btn-eq {

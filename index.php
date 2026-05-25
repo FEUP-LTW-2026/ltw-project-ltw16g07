@@ -32,6 +32,8 @@ $stats['avg_rating'] = $stmt->fetch(PDO::FETCH_ASSOC)['avg'];
 <head>
     <meta charset="UTF-8">
     <title><?= $page_title ?></title>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/WT1OtgQ.png">
+    <link rel="stylesheet" href="landing.css">
     <link rel="stylesheet" href="css/landing.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>

@@ -47,6 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $reset) {
 <html>
 <head>
     <title>FitHub - <?= $page_title ?></title>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/WT1OtgQ.png">
+    <link rel="stylesheet" href="login.css">
     <link rel="stylesheet" href="../css/login.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
