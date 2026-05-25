@@ -1,14 +1,14 @@
 <?php
 session_start();
-require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/../config/database.php';
 
 if (!isset($_SESSION['user_id'])) {
-    header('Location: index.php');
+    header('Location: ../pages/index.php');
     exit;
 }
 
 $current_page = 'home';
-$extra_css = 'index.css';
+$extra_css = '../css/index.css';
 
 $stats = [];
 
@@ -44,7 +44,7 @@ $stmt = $db->prepare("
 $stmt->execute();
 $upcoming_classes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-require_once __DIR__ . '/partials/header.php';
+require_once __DIR__ . '/../partials/header.php';
 ?>
 
 <h1>PREMIUM FITNESS</h1>
@@ -92,7 +92,7 @@ require_once __DIR__ . '/partials/header.php';
                 if ($remaining > 0):
                 ?>
                     <p><?= $class['booked_spots'] ?>/<?= $class['total_spots'] ?> spots</p>
-                    <form method="POST" action="book_class.php">
+                    <form method="POST" action="../actions/book_class.php">
                         <input type="hidden" name="class_id" value="<?= $class['id'] ?>">
                         <button type="submit">Enroll</button>
                     </form>

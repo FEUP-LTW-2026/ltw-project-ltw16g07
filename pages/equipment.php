@@ -1,10 +1,10 @@
 <?php
 session_start();
-require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/../config/database.php';
 
 $current_page = 'equipment';
 $page_title = 'Equipment';
-$extra_css = 'equipment.css';
+$extra_css = '../css/equipment.css';
 
 // Mudar status via POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['equipment_id'], $_POST['status'])) {
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['equipment_id'], $_POS
 $equipment = $db->query("SELECT * FROM equipment ORDER BY category, name")->fetchAll(PDO::FETCH_ASSOC);
 $categories = $db->query("SELECT DISTINCT category FROM equipment ORDER BY category")->fetchAll(PDO::FETCH_ASSOC);
 
-require_once __DIR__ . '/partials/header.php';
+require_once __DIR__ . '/../partials/header.php';
 ?>
 
 <div class="equipment-header">
@@ -35,13 +35,13 @@ require_once __DIR__ . '/partials/header.php';
         <?php endforeach; ?>
     </div>
 </div>
-
-<div class="equipment-grid" id="equipment-grid">
-    <?php foreach ($equipment as $item): 
-        $status = $item['status'] ?? 'available';
+ 
+<main class="equipment-grid" id="equipment-grid">
+    <?php foreach ($equipment as $item):
+        $status         = $item['status'] ?? 'available';
         $category_lower = strtolower($item['category']);
     ?>
-        <div class="equipment-card" data-status="<?= $status ?>" data-category="<?= htmlspecialchars($category_lower) ?>">
+        <article class="equipment-card" data-status="<?= $status ?>" data-category="<?= htmlspecialchars($category_lower) ?>">
             <h3><?= htmlspecialchars($item['name']) ?></h3>
             <p class="category"><?= htmlspecialchars($item['category']) ?></p>
             <?php if ($item['description']): ?>
@@ -59,14 +59,14 @@ require_once __DIR__ . '/partials/header.php';
                     <option value="maintenance" <?= $status === 'maintenance' ? 'selected' : '' ?>>Maintenance</option>
                 </select>
             </form>
-        </div>
+        </article>
     <?php endforeach; ?>
-</div>
-
+</main>
+ 
 <script>
-    const btns = document.querySelectorAll('.filter-btn-eq');
+    const btns  = document.querySelectorAll('.filter-btn-eq');
     const cards = document.querySelectorAll('.equipment-card');
-
+ 
     btns.forEach(btn => {
         btn.addEventListener('click', () => {
             btns.forEach(b => b.classList.remove('active'));
@@ -78,5 +78,6 @@ require_once __DIR__ . '/partials/header.php';
         });
     });
 </script>
-
-<?php require_once __DIR__ . '/partials/footer.php'; ?>
+ 
+<?php require_once __DIR__ . '/../partials/footer.php'; ?>
+ 
