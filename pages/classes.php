@@ -177,9 +177,9 @@ require_once __DIR__ . '/../partials/header.php';
                                     <form method="POST" action="../actions/book_class.php">
                                         <input type="hidden" name="class_id" value="<?= $class['id'] ?>">
                                         <?php if ($is_full): ?>
-                                            <button class="action-btn waitlist" disabled>Full</button>
+                                            <button class="action-btn waitlist" type="submit" name="action_type" value="waitlist">Join Waitlist</button>
                                         <?php else: ?>
-                                            <button class="action-btn enroll" type="submit">Enroll →</button>
+                                            <button class="action-btn enroll" type="submit" name="action_type" value="enroll">Enroll →</button>
                                         <?php endif; ?>
                                     </form>
                                 <?php endif; ?>

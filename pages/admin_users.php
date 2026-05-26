@@ -10,6 +10,8 @@ $page_title   = 'Manage Users';
 
 $ALLOWED_ROLES = ['member', 'trainer', 'admin'];
 
+
+
 function toggle_user_active(PDO $db, int $user_id, int $current_user_id): ?string
 {
     if ($user_id === $current_user_id) {
@@ -31,6 +33,36 @@ function toggle_user_active(PDO $db, int $user_id, int $current_user_id): ?strin
         return null;
     }
 }
+
+if (isset($_POST['add_user'])) {
+        $first_name = trim($_POST['first_name'] ?? '');
+        $last_name  = trim($_POST['last_name'] ?? '');
+        $email      = trim($_POST['email'] ?? '');
+        $password   = $_POST['password'] ?? '';
+        $role       = $_POST['role'] ?? 'member';
+
+        if ($first_name && $last_name && $email && $password && in_array($role, $ALLOWED_ROLES)) {
+            // Verificar se o email já existe
+            $check = $db->prepare("SELECT COUNT(*) FROM users WHERE email = ?");
+            $check->execute([$email]);
+            
+            if ($check->fetchColumn() > 0) {
+                $_SESSION['flash_error'] = 'Error: A user with this email already exists.';
+            } else {
+                // Encriptar a password de forma segura
+                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                
+                $stmt = $db->prepare("INSERT INTO users (first_name, last_name, email, password, role) VALUES (?, ?, ?, ?, ?)");
+                $stmt->execute([$first_name, $last_name, $email, $hashed_password, $role]);
+                
+                $_SESSION['flash_success'] = 'User account created successfully!';
+                header('Location: admin_users.php');
+                exit;
+            }
+        } else {
+            $_SESSION['flash_error'] = 'Please fill in all the fields correctly.';
+        }
+    }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['change_role'], $_POST['user_id'], $_POST['new_role'])) {
@@ -69,10 +101,13 @@ require_once __DIR__ . '/../partials/header.php';
         <div class="page-header-title">
             <h1>Manage Users</h1>
         </div>
+
         <div class="page-header-actions">
+            <button class="btn-small btn-success" onclick="showModal('add-modal')">+ Add New User</button>
             <a href="admin.php" class="back-link">&larr; Back to Dashboard</a>
         </div>
     </div>
+    
 
     <div class="admin-section">
         <table class="admin-table">
@@ -134,6 +169,51 @@ require_once __DIR__ . '/../partials/header.php';
             </tbody>
         </table>
     </div>
+
+   <div class="modal-overlay-admin" id="add-modal">
+        <div class="modal-content-admin">
+            <h3>Add New User Account</h3>
+            <form method="POST">
+                <label for="u-first">First Name <span class="required">*</span></label>
+                <input type="text" name="first_name" id="u-first" required placeholder="e.g. John">
+
+                <label for="u-last">Last Name <span class="required">*</span></label>
+                <input type="text" name="last_name" id="u-last" required placeholder="e.g. Doe">
+
+                <label for="u-email">Email Address <span class="required">*</span></label>
+                <input type="email" name="email" id="u-email" required placeholder="e.g. john.doe@example.com">
+
+                <label for="u-pass">Temporary Password <span class="required">*</span></label>
+                <input type="password" name="password" id="u-pass" required placeholder="Minimum 6 characters">
+
+                <label for="u-role">System Role</label>
+                <select name="role" id="u-role">
+                    <option value="member" selected>Member</option>
+                    <option value="trainer">Trainer</option>
+                    <option value="admin">Admin</option>
+                </select>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-small" onclick="hideModal('add-modal')">Cancel</button>
+                    <button type="submit" name="add_user" class="btn-small btn-success">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <script>
+        function showModal(id) { 
+            document.getElementById(id).classList.add('show'); 
+        }
+        
+        function hideModal(id) { 
+            document.getElementById(id).classList.remove('show'); 
+        }
+    </script>
 </main>
+
+</main>
+
 
 <?php require_once __DIR__ . '/../partials/footer.php'; ?>
