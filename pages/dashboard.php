@@ -7,12 +7,33 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
+$user_id = $_SESSION['user_id'];
+$role    = $_SESSION['user_role'] ?? 'member';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_progress'])) {
+    $weight = filter_input(INPUT_POST, 'weight', FILTER_VALIDATE_FLOAT);
+    $body_fat = filter_input(INPUT_POST, 'body_fat', FILTER_VALIDATE_FLOAT);
+    $body_fat = $body_fat > 0 ? $body_fat : null;
+
+    if ($weight && $weight > 0) {
+        try {
+            $stmt = $db->prepare("INSERT INTO member_progress (user_id, weight, body_fat) VALUES (?, ?, ?)");
+            $stmt->execute([$user_id, $weight, $body_fat]);
+            $_SESSION['flash_success'] = 'Progress tracked successfully!';
+        } catch (PDOException $e) {
+            $_SESSION['flash_error'] = 'Failed to record progress: ' . $e->getMessage();
+        }
+    } else {
+        $_SESSION['flash_error'] = 'Please enter a valid weight.';
+    }
+    header('Location: dashboard.php');
+    exit;
+}
+
 $current_page = 'home';
 $extra_css = '../css/dashboard.css';
 $page_title = 'Dashboard';
 
-$role    = $_SESSION['user_role'] ?? 'member';
-$user_id = $_SESSION['user_id'];
 $name    = $_SESSION['user_name'] ?? 'User';
 
 /* ── MEMBER stats ─────────────────────────────────────── */
@@ -44,6 +65,15 @@ if ($role === 'member') {
     ");
     $stmt->execute([$user_id]);
     $my_classes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Fetch progress tracking data
+    $stmt = $db->prepare("SELECT * FROM member_progress WHERE user_id = ? ORDER BY recorded_at DESC LIMIT 1");
+    $stmt->execute([$user_id]);
+    $latest_progress = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $stmt = $db->prepare("SELECT * FROM member_progress WHERE user_id = ? ORDER BY recorded_at DESC LIMIT 3");
+    $stmt->execute([$user_id]);
+    $progress_history = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 /* ── TRAINER stats ────────────────────────────────────── */
@@ -192,38 +222,91 @@ require_once __DIR__ . '/../partials/header.php';
 <!-- ── Main content by role ────────────────────── -->
 <?php if ($role === 'member'): ?>
 
-    <div class="up-classes">
-        <h3>My Upcoming Classes</h3>
-        <a href="classes.php">Browse all &rarr;</a>
+<div class="member-dashboard-grid">
+    <!-- Coluna da Esquerda: Aulas -->
+    <div class="member-column-left">
+        <div class="up-classes" style="padding: 0;">
+            <h3>My Upcoming Classes</h3>
+            <a href="classes.php">Browse all &rarr;</a>
+        </div>
+
+        <?php if (empty($my_classes)): ?>
+            <div class="empty-dashboard" style="padding: 2.5rem 0;">
+                <p>You haven't booked any classes yet.</p>
+                <a href="classes.php"><button class="btn-primary">Find a Class</button></a>
+            </div>
+        <?php else: ?>
+            <ul class="lista-aulas-vertical" style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 16px;">
+                <?php foreach ($my_classes as $class):
+                    $remaining = $class['total_spots'] - $class['booked_spots'];
+                ?>
+                    <li class="cartao-aula" style="border-left: 4px solid var(--neon-green);">
+                        <p class="titulo"><?= htmlspecialchars($class['title']) ?></p>
+                        <p class="info"><?= htmlspecialchars($class['day_of_week']) ?> · <?= htmlspecialchars($class['time_start']) ?> · <?= htmlspecialchars($class['location']) ?></p>
+                        <p class="treinador">Trainer: <?= htmlspecialchars($class['trainer_name']) ?></p>
+                        <div class="rodape">
+                            <span class="vagas <?= $remaining <= 0 ? 'cheio' : '' ?>">
+                                <?= $class['booked_spots'] ?>/<?= $class['total_spots'] ?> spots
+                            </span>
+                            <form method="POST" action="profile.php" onsubmit="return confirm('Cancel this booking?')">
+                                <input type="hidden" name="cancel_booking" value="<?= $class['booking_id'] ?>">
+                                <button type="submit" class="btn-cancel-small">Cancel</button>
+                            </form>
+                        </div>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
     </div>
 
-    <?php if (empty($my_classes)): ?>
-        <div class="empty-dashboard">
-            <p>You haven't booked any classes yet.</p>
-            <a href="classes.php"><button class="btn-primary">Find a Class</button></a>
+    <!-- Coluna da Direita: Progress Tracker -->
+    <div class="member-column-right">
+        <div class="up-classes" style="padding: 0;">
+            <h3>Progress Tracker</h3>
         </div>
-    <?php else: ?>
-        <ul class="lista-aulas">
-            <?php foreach ($my_classes as $class):
-                $remaining = $class['total_spots'] - $class['booked_spots'];
-            ?>
-                <li class="cartao-aula">
-                    <p class="titulo"><?= htmlspecialchars($class['title']) ?></p>
-                    <p class="info"><?= htmlspecialchars($class['day_of_week']) ?> · <?= htmlspecialchars($class['time_start']) ?> · <?= htmlspecialchars($class['location']) ?></p>
-                    <p class="treinador"><?= htmlspecialchars($class['trainer_name']) ?></p>
-                    <div class="rodape">
-                        <span class="vagas <?= $remaining <= 0 ? 'cheio' : '' ?>">
-                            <?= $class['booked_spots'] ?>/<?= $class['total_spots'] ?> spots
-                        </span>
-                        <form method="POST" action="profile.php" onsubmit="return confirm('Cancel this booking?')">
-                            <input type="hidden" name="cancel_booking" value="<?= $class['booking_id'] ?>">
-                            <button type="submit" class="btn-cancel-small">Cancel</button>
-                        </form>
+
+        <div class="progress-card">
+            <?php if ($latest_progress): ?>
+                <div class="progress-stats">
+                    <div class="progress-stat-box">
+                        <span class="progress-stat-val"><?= htmlspecialchars($latest_progress['weight']) ?> <small>kg</small></span>
+                        <span class="progress-stat-lbl">Current Weight</span>
                     </div>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    <?php endif; ?>
+                    <div class="progress-stat-box">
+                        <span class="progress-stat-val">
+                            <?= $latest_progress['body_fat'] ? htmlspecialchars($latest_progress['body_fat']) . ' <small>%</small>' : '–' ?>
+                        </span>
+                        <span class="progress-stat-lbl">Body Fat</span>
+                    </div>
+                </div>
+            <?php else: ?>
+                <div class="empty-progress-state">
+                    <p>No progress data recorded yet. Start tracking your fitness journey!</p>
+                </div>
+            <?php endif; ?>
+
+
+            <?php if (!empty($progress_history)): ?>
+                <div class="progress-history-section">
+                    <h4>Recent Logs</h4>
+                    <ul class="progress-history-list">
+                        <?php foreach ($progress_history as $log): ?>
+                            <li>
+                                <span class="log-date"><?= date('M j, Y', strtotime($log['recorded_at'])) ?></span>
+                                <span class="log-values">
+                                    <strong><?= htmlspecialchars($log['weight']) ?> kg</strong>
+                                    <?php if ($log['body_fat']): ?>
+                                        · <?= htmlspecialchars($log['body_fat']) ?>% BF
+                                    <?php endif; ?>
+                                </span>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
 
 <?php elseif ($role === 'trainer'): ?>
 
