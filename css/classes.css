@@ -1,34 +1,13 @@
-body {
-  padding: 0 2rem;
+
+/* Page content padding — does not affect header/footer */
+main.schedule {
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
-
-.landing-nav {
-  margin-left: -2rem;
-  margin-right: -2rem;
-  padding-left: 48px;
-  padding-right: 48px;
-}
-
-
-
 
 #menu {
-  margin-top: 0.5rem;
+  padding: 0.75rem 2rem 0;
 }
-
-#menu h1 {
-  margin-bottom: 0;
-  border-left: 4px solid var(--neon-green);
-  padding-left: 0.7rem;
-}
-
-#menu p {
-  color: var(--text-gray);
-  margin-bottom: 0.10rem;
-  margin-top: 0;
-
-}
-
 
 #menu ul {
   display: flex;
@@ -72,7 +51,6 @@ body {
   justify-content: space-between;
   align-items: center;
   padding-bottom: 0.03rem;
-
 }
 
 .day h2 {

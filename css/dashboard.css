@@ -1,0 +1,483 @@
+/* ── Stats grid ──────────────────────────────────────── */
+.estatisticas {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin: 2rem 2rem 2.5rem;
+    list-style: none;
+    padding: 0;
+}
+
+.estatisticas li {
+    background: var(--bg-card);
+    border-radius: 14px;
+    padding: 1.5rem;
+    text-align: center;
+    border: 1px solid transparent;
+    transition: border-color 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.estatisticas li:hover {
+    border-color: #313131;
+}
+
+.stat-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+    display: block;
+}
+
+.estatisticas .valor {
+    display: block;
+    font-size: 2.2em;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 2px;
+    line-height: 1;
+}
+
+.estatisticas .legenda {
+    display: block;
+    font-size: 0.82em;
+    color: var(--text-dark-gray);
+}
+
+/* ── Section title row ───────────────────────────────── */
+.up-classes {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding: 0 2rem;
+}
+
+.up-classes h3 {
+    font-size: 1.1em;
+    font-weight: 700;
+    border-left: 3px solid var(--neon-green);
+    padding-left: 0.6rem;
+}
+
+.up-classes a {
+    color: var(--text-dark-gray);
+    font-size: 0.88em;
+    transition: color 0.2s;
+}
+
+.up-classes a:hover {
+    color: white;
+}
+
+/* ── Class cards ─────────────────────────────────────── */
+.lista-aulas {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    list-style: none;
+    padding: 0 2rem;
+    margin: 0 0 2.5rem;
+}
+
+.cartao-aula {
+    background: var(--bg-card);
+    border-radius: 14px;
+    padding: 1.4rem 1.5rem;
+    border-left: 4px solid var(--neon-green);
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    transition: transform 0.15s;
+}
+
+.cartao-aula:hover {
+    transform: translateY(-2px);
+}
+
+.cartao-aula:nth-child(2) { border-left-color: var(--purple); }
+.cartao-aula:nth-child(3) { border-left-color: var(--red); }
+.cartao-aula:nth-child(4) { border-left-color: var(--orange); }
+
+.cartao-aula .titulo {
+    font-size: 1em;
+    font-weight: 700;
+    margin: 0;
+}
+
+.cartao-aula .info {
+    color: var(--text-gray);
+    font-size: 0.82em;
+    margin: 0;
+}
+
+.cartao-aula .treinador {
+    color: var(--text-dark-gray);
+    font-size: 0.8em;
+    margin: 0;
+}
+
+.cartao-aula .rodape {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.8rem;
+}
+
+/* ── Spots badge ─────────────────────────────────────── */
+.vagas {
+    background: var(--spots-bg-green);
+    color: var(--spots-green);
+    font-size: 0.78em;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+}
+
+.vagas.cheio {
+    background: var(--spots-bg-red);
+    color: var(--red);
+}
+
+/* ── Enroll / cancel buttons ─────────────────────────── */
+.reservar {
+    background: var(--neon-green);
+    color: black;
+    border: none;
+    border-radius: 999px;
+    padding: 0.4rem 1.1rem;
+    font-size: 0.82em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    margin: 0;
+}
+
+.reservar:hover { opacity: 0.85; }
+
+.cartao-aula:nth-child(1) .reservar { background: var(--neon-green); color: black; }
+.cartao-aula:nth-child(2) .reservar { background: transparent; border: 1.5px solid var(--purple); color: var(--purple); }
+.cartao-aula:nth-child(3) .reservar { background: var(--red); color: white; }
+.cartao-aula:nth-child(4) .reservar { background: var(--orange); color: black; }
+
+.reservar[disabled] {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.btn-cancel-small {
+    background: transparent;
+    border: 1px solid var(--red);
+    color: var(--red);
+    border-radius: 999px;
+    padding: 0.3rem 0.9rem;
+    font-size: 0.78em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.btn-cancel-small:hover {
+    background: rgba(239, 68, 68, 0.1);
+}
+
+/* ── Empty state ─────────────────────────────────────── */
+.empty-dashboard {
+    padding: 2.5rem 2rem;
+    color: var(--text-gray);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+/* ── Admin shortcuts ─────────────────────────────────── */
+.admin-shortcuts {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    padding: 0 2rem;
+    margin-bottom: 2rem;
+}
+
+.shortcut-card {
+    background: var(--bg-card);
+    border: 1px solid transparent;
+    border-radius: 14px;
+    padding: 1.75rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    text-decoration: none;
+    color: var(--text-white);
+    transition: border-color 0.2s, transform 0.15s;
+}
+
+.shortcut-card:hover {
+    border-color: var(--neon-green);
+    transform: translateY(-3px);
+    color: var(--text-white);
+}
+
+.shortcut-icon {
+    font-size: 2rem;
+    margin-bottom: 0.25rem;
+}
+
+.shortcut-label {
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.shortcut-desc {
+    font-size: 0.8rem;
+    color: var(--text-gray);
+}
+
+/* ── Recent users table ──────────────────────────────── */
+.recent-users-table {
+    margin: 0 2rem 2.5rem;
+    background: var(--bg-card);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.recent-users-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.recent-users-table th {
+    background: #252525;
+    padding: 0.7rem 1rem;
+    text-align: left;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-gray);
+    border-bottom: 1px solid #333;
+}
+
+.recent-users-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #1f1f1f;
+    font-size: 0.9rem;
+}
+
+.recent-users-table tr:last-child td {
+    border-bottom: none;
+}
+
+.recent-users-table .muted {
+    color: var(--text-gray);
+    font-size: 0.82rem;
+}
+
+.badge-role {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge-role.admin   { background: rgba(204,255,0,0.12);  color: var(--neon-green); }
+.badge-role.trainer { background: rgba(0,150,255,0.12);  color: #0096ff; }
+.badge-role.member  { background: rgba(245,158,11,0.12); color: var(--orange); }
+
+/* ── Responsive ──────────────────────────────────────── */
+@media (max-width: 900px) {
+    .estatisticas,
+    .lista-aulas,
+    .admin-shortcuts {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .estatisticas,
+    .lista-aulas,
+    .admin-shortcuts {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── Member Dashboard Grid & Progress Tracker ────────── */
+.member-dashboard-grid {
+    display: grid;
+    grid-template-columns: 1.8fr 1.2fr;
+    gap: 24px;
+    margin: 0 2rem 3rem;
+}
+
+.progress-card {
+    background: var(--bg-card);
+    border-radius: 14px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    border: 1px solid transparent;
+    transition: border-color 0.2s;
+}
+
+.progress-card:hover {
+    border-color: #2b2b2b;
+}
+
+.progress-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.progress-stat-box {
+    background: #1a1a1a;
+    border-radius: 10px;
+    padding: 1rem 0.75rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.progress-stat-val {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: white;
+    line-height: 1.1;
+}
+
+.progress-stat-val small {
+    font-size: 0.9rem;
+    color: var(--neon-green);
+    font-weight: 500;
+}
+
+.progress-stat-lbl {
+    font-size: 0.78rem;
+    color: var(--text-dark-gray);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.empty-progress-state {
+    text-align: center;
+    color: var(--text-gray);
+    font-size: 0.88rem;
+    padding: 1rem 0;
+    line-height: 1.5;
+}
+
+.progress-quick-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: #151515;
+    padding: 1.1rem;
+    border-radius: 10px;
+}
+
+.progress-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.input-group-small {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: transparent;
+}
+
+.input-group-small label {
+    font-size: 0.75rem;
+    color: var(--text-gray);
+    font-weight: 600;
+    background: transparent;
+}
+
+.input-group-small input {
+    background: #222;
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 0.4rem 0.6rem;
+    color: white;
+    font-size: 0.88rem;
+    font-weight: 600;
+    outline: none;
+    transition: border-color 0.15s;
+    text-align: center;
+}
+
+.input-group-small input:focus {
+    border-color: var(--neon-green);
+}
+
+.btn-full {
+    width: 100%;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+}
+
+.progress-history-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.progress-history-section h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-gray);
+    margin: 0;
+}
+
+.progress-history-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.progress-history-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #181818;
+    padding: 0.55rem 0.85rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+}
+
+.progress-history-list li .log-date {
+    color: var(--text-dark-gray);
+    font-size: 0.8rem;
+    background: transparent;
+}
+
+.progress-history-list li .log-values {
+    background: transparent;
+}
+
+.progress-history-list li .log-values strong {
+    color: var(--neon-green);
+    background: transparent;
+}
+
+@media (max-width: 900px) {
+    .member-dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -164,9 +164,12 @@ document.querySelectorAll('.star').forEach(star => {
     require_once __DIR__ . '/../partials/header.php';
 ?>
  
-<main class="trainers-grid-page">
+<div class="page-header">
     <h1>Our Trainers</h1>
-    <p class="trainers-subtitle">Meet our team of certified professionals</p>
+    <p>Meet our team of certified professionals</p>
+</div>
+
+<main class="trainers-grid-page">
  
     <div class="trainers-grid">
         <?php foreach ($all_trainers as $trainer):

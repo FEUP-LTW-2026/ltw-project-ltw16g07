@@ -85,12 +85,12 @@ require_once __DIR__ . '/../partials/header.php';
 ?>
 
 <main class="trainer-page">
-    <div class="trainer-header">
-        <div>
+    <div class="page-header page-header--row">
+        <div class="page-header-title">
             <h1>Trainer Dashboard</h1>
-            <p class="trainer-greeting">Welcome, <?= htmlspecialchars($trainer['name']) ?></p>
+            <p>Welcome, <?= htmlspecialchars($trainer['name']) ?></p>
         </div>
-        <div class="trainer-meta">
+        <div class="page-header-actions">
             <span class="badge-role trainer">Trainer</span>
             <span class="trainer-rating">
                 &#9733; <?= $trainer['rating'] ?>
