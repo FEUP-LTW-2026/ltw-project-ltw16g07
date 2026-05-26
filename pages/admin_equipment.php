@@ -68,9 +68,11 @@ require_once __DIR__ . '/../partials/header.php';
 ?>
 
 <main>
-    <div class="admin-header">
-        <h1>Manage Equipment</h1>
-        <div class="admin-header-actions">
+    <div class="page-header page-header--row">
+        <div class="page-header-title">
+            <h1>Manage Equipment</h1>
+        </div>
+        <div class="page-header-actions">
             <button class="btn-small btn-success" onclick="showModal('add-modal')">+ Add Equipment</button>
             <a href="admin.php" class="back-link">&larr; Back</a>
         </div>
