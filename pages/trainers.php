@@ -8,6 +8,8 @@ $page_title = 'Trainers';
 
 $trainer_id = $_GET['id'] ?? null;
 
+
+
 if ($trainer_id) {
     $stmt = $db->prepare("SELECT * FROM trainers WHERE id = ?");
     $stmt->execute([$trainer_id]);
@@ -60,7 +62,12 @@ if ($trainer_id) {
             <p>from <?= $trainer['reviews_count'] ?> reviews</p>
         </div>
  
-        <button class="reservar">Book Personal Training</button>
+        <div class="pt-booking-redirect-zone">
+            <a href="book_pt.php?trainer_id=<?= $trainer['id'] ?>" class="btn-book-pt">
+                Book 1-on-1 Personal Training
+            </a>
+        </div>
+        
         <a href="trainers.php" class="btn-contorno" style="display:block;text-align:center;margin-top:10px;">&larr; All Trainers</a>
     </aside>
  

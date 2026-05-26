@@ -69,6 +69,18 @@ foreach ($classes as $class) {
     $rosters[$class['id']] = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+// Procurar todas as sessões de Personal Training agendadas com este treinador
+$stmt = $db->prepare("
+    SELECT pt.id, pt.booking_date, pt.time_slot, u.first_name, u.last_name, u.email
+    FROM pt_bookings pt
+    JOIN users u ON pt.user_id = u.id
+    WHERE pt.trainer_id = ?
+    ORDER BY pt.booking_date DESC, pt.time_slot ASC
+");
+$stmt->execute([$trainer_id]);
+$pt_sessions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
 require_once __DIR__ . '/../partials/header.php';
 ?>
 
@@ -116,6 +128,35 @@ require_once __DIR__ . '/../partials/header.php';
             </div>
         </form>
     </section>
+
+    <h2 class="section-title">Your 1-on-1 PT Sessions</h2>
+    
+    <?php if (empty($pt_sessions)): ?>
+        <p class="empty-state">No personal training sessions booked yet.</p>
+    <?php else: ?>
+        <section class="trainer-class-card">
+            <table class="admin-table roster-table">
+                <thead>
+                    <tr>
+                        <th>Client Name</th>
+                        <th>Email</th>
+                        <th>Scheduled Date</th>
+                        <th>Time Slot</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($pt_sessions as $session): ?>
+                        <tr>
+                            <td><strong><?= htmlspecialchars($session['first_name'] . ' ' . $session['last_name']) ?></strong></td>
+                            <td class="cell-muted"><?= htmlspecialchars($session['email']) ?></td>
+                            <td class="cell-muted"><?= date('M j, Y', strtotime($session['booking_date'])) ?></td>
+                            <td><span class="pt-badge-slot"><?= htmlspecialchars($session['time_slot']) ?></span></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </section>
+    <?php endif; ?>
 
     <h2 class="section-title">My Classes</h2>
 

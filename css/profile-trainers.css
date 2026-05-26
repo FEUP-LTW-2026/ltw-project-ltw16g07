@@ -313,3 +313,116 @@ body {
 .star:hover {
   transform: scale(1.2);
 }
+
+
+/* ==========================================================================
+   PERSONAL TRAINING (PT) BOOKING SYSTEM
+   ========================================================================== */
+
+/* Zona do Botão de Redirecionamento (no perfil do Treinador) */
+.pt-booking-redirect-zone {
+  margin-bottom: 30px;
+}
+
+.btn-book-pt {
+  display: inline-block;
+  text-align: center;
+  background: var(--purple);
+  color: var(--text-white);
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.95rem;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(168, 85, 247, 0.25);
+  transition: filter 0.15s ease;
+}
+
+.btn-book-pt:hover {
+  filter: brightness(1.15);
+}
+
+/* Contentor da Página de Agendamento (book_pt.php) */
+.pt-booking-page-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.back-to-profile-link {
+  color: var(--purple);
+  text-decoration: none;
+  font-size: 0.9rem;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.back-to-profile-link:hover {
+  text-decoration: underline;
+}
+
+.pt-booking-container {
+  background: var(--bg-card);
+  padding: 30px;
+  border-radius: 20px;
+  border-left: 4px solid var(--purple);
+}
+
+.pt-booking-container h2 {
+  font-size: 1.4rem;
+  margin-bottom: 6px;
+  color: var(--text-white);
+  background: transparent;
+}
+
+.pt-booking-container p {
+  color: var(--text-gray);
+  font-size: 0.88rem;
+  margin-bottom: 25px;
+  background: transparent;
+}
+
+/* Formulário e Inputs */
+.pt-booking-form {
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.pt-booking-form .form-group {
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pt-booking-form label {
+  background: transparent;
+  font-size: 0.85rem;
+  color: var(--text-gray);
+}
+
+.pt-booking-form input[type="date"],
+.pt-booking-form select {
+  background: var(--bg-dark);
+  color: var(--text-white);
+  border: 1px solid var(--text-dark-gray);
+  border-radius: 8px;
+  padding: 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  width: 100%;
+  cursor: pointer;
+  outline: none;
+}
+
+.pt-booking-form input[type="date"]:focus,
+.pt-booking-form select:focus {
+  border-color: var(--purple) !important;
+}
