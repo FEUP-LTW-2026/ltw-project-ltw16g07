@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $current_page = 'home';
-$extra_css = '../css/index.css';
+$extra_css = '../css/dashboard.css';
 $page_title = 'Dashboard';
 
 $role    = $_SESSION['user_role'] ?? 'member';
