@@ -23,10 +23,10 @@ $categories = $db->query("SELECT DISTINCT category FROM equipment ORDER BY categ
 require_once __DIR__ . '/../partials/header.php';
 ?>
 
-<div class="equipment-header">
+<div class="page-header">
     <h1>Equipment</h1>
     <p>Main training area · Updated now</p>
-    <div class="filter-row-equipment">
+    <div class="filter-row-equipment" style="margin-top: 0.75rem;">
         <button class="filter-btn-eq active" data-filter="all">All</button>
         <?php foreach ($categories as $cat): ?>
             <button class="filter-btn-eq" data-filter="<?= strtolower(htmlspecialchars($cat['category'])) ?>">

@@ -65,9 +65,13 @@ require_once __DIR__ . '/../partials/header.php';
 ?>
 
 <main>
-    <div class="admin-header">
-        <h1>Manage Users</h1>
-        <a href="admin.php" class="back-link">&larr; Back to Dashboard</a>
+    <div class="page-header page-header--row">
+        <div class="page-header-title">
+            <h1>Manage Users</h1>
+        </div>
+        <div class="page-header-actions">
+            <a href="admin.php" class="back-link">&larr; Back to Dashboard</a>
+        </div>
     </div>
 
     <div class="admin-section">

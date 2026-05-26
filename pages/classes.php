@@ -87,10 +87,12 @@ $types = $db->query("SELECT DISTINCT type FROM classes ORDER BY type")->fetchAll
 require_once __DIR__ . '/../partials/header.php';
 ?>
 
-<nav id="menu">
+<div class="page-header">
     <h1>Class Schedule</h1>
     <p><?= count($classes) ?> classes this week</p>
- 
+</div>
+
+<nav id="menu">
     <div class="filter-row">
         <ul>
             <li>

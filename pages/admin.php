@@ -20,8 +20,10 @@ require_once __DIR__ . '/../partials/header.php';
 ?>
 
 <main>
-    <div class="admin-header">
-        <h1>Admin Dashboard</h1>
+    <div class="page-header page-header--row">
+        <div class="page-header-title">
+            <h1>Admin Dashboard</h1>
+        </div>
         <span class="admin-badge">&#9679; Admin</span>
     </div>
 
