@@ -72,3 +72,12 @@ CREATE TABLE IF NOT EXISTS reviews (
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (trainer_id) REFERENCES trainers(id)
 );
+
+CREATE TABLE IF NOT EXISTS member_progress (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    weight REAL NOT NULL,
+    body_fat REAL,
+    recorded_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);

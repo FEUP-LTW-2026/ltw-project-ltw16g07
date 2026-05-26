@@ -23,6 +23,21 @@ if (!$user) {
     exit;
 }
 
+
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_progress'])) {
+    $weight = filter_input(INPUT_POST, 'weight', FILTER_VALIDATE_FLOAT);
+    $body_fat = filter_input(INPUT_POST, 'body_fat', FILTER_VALIDATE_FLOAT) ?: null;
+
+    if ($weight) {
+        $stmt = $db->prepare("INSERT INTO member_progress (user_id, weight, body_fat) VALUES (?, ?, ?)");
+        $stmt->execute([$user_id, $weight, $body_fat]);
+    }
+    header('Location: profile.php');
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_booking'])) {
     $booking_id = $_POST['cancel_booking'];
 
@@ -63,6 +78,20 @@ $stmt = $db->prepare("
 $stmt->execute([$user_id]);
 $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+
+$stmt = $db->prepare("SELECT weight, body_fat, recorded_at FROM member_progress WHERE user_id = ? ORDER BY recorded_at ASC");
+$stmt->execute([$user_id]);
+$progress_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$dates = [];
+$weights = [];
+$fats = [];
+foreach ($progress_data as $row) {
+    $dates[] = date('d M', strtotime($row['recorded_at']));
+    $weights[] = $row['weight'];
+    $fats[] = $row['body_fat'] ?? 0;
+}
+
 require_once __DIR__ . '/../partials/header.php';
 ?>
 
@@ -73,9 +102,35 @@ require_once __DIR__ . '/../partials/header.php';
         <p class="profile-email"><?= htmlspecialchars($user['email']) ?></p>
         <p class="profile-member">Member since <?= date('F Y', strtotime($user['created_at'])) ?></p>
         <p class="profile-bookings-count"><?= count($bookings) ?> class<?= count($bookings) !== 1 ? 'es' : '' ?> booked</p>
+        <hr class="profile-separator">
+        <article class="progress-form-container">
+            <h3>Log Today's Stats</h3>
+            <form method="POST" action="profile.php">
+                <input type="hidden" name="add_progress" value="1">
+                <div class="form-group">
+                    <label for="weight">Weight (kg):</label>
+                    <input type="number" step="0.1" name="weight" id="weight" required placeholder="e.g. 74.5">
+                </div>
+                <div class="form-group">
+                    <label for="body_fat">Body Fat % (optional):</label>
+                    <input type="number" step="0.1" name="body_fat" id="body_fat" placeholder="e.g. 15.2">
+                </div>
+                <button type="submit" class="btn-primary btn-full-width">Save Progress</button>
+            </form>
+        </article>
     </section>
 
     <section class="profile-content">
+        <section class="progress-tracking-section">
+            <h2>Progress Tracking</h2>
+            <article class="chart-container">
+                <?php if (empty($progress_data)): ?>
+                    <p class="empty-chart-text">No progress logged yet. Enter your stats on the left to view your chart!</p>
+                <?php else: ?>
+                    <canvas id="progressChart"></canvas>
+                <?php endif; ?>
+            </article>
+        </section>
         <h2>My Bookings</h2>
         <?php if (empty($bookings)): ?>
             <div class="empty-state">
@@ -108,5 +163,82 @@ require_once __DIR__ . '/../partials/header.php';
         <?php endif; ?>
     </section>
 </main>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+// Só executa o script se existirem dados de progresso na base de dados
+<?php if (!empty($progress_data)): ?>
+    document.addEventListener("DOMContentLoaded", function() {
+        const ctx = document.getElementById('progressChart').getContext('2d');
+        
+        // Passar com segurança os arrays gerados no PHP para o JavaScript
+        const labels = <?= json_encode($dates) ?>;
+        const weightData = <?= json_encode($weights) ?>;
+        const bodyFatData = <?= json_encode($fats) ?>;
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Weight (kg)',
+                        data: weightData,
+                        borderColor: '#ccff00', /* Cor Neon Green do teu projeto */
+                        backgroundColor: 'rgba(204, 255, 0, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.3,
+                        yAxisID: 'y'
+                    },
+                    {
+                        label: 'Body Fat (%)',
+                        data: bodyFatData,
+                        borderColor: '#a855f7', /* Cor Purple do teu projeto */
+                        backgroundColor: 'rgba(168, 85, 247, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        yAxisID: 'y1',
+                        // Se a soma de todas as gorduras for 0 (vazio), esconde esta linha por padrão
+                        hidden: <?= json_encode(array_sum($fats) === 0) ?>
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        grid: { color: '#313131' },
+                        ticks: { color: '#ffffff', font: { family: 'Inter' } }
+                    },
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: { display: true, text: 'Weight (kg)', color: '#ccff00', font: { family: 'Inter', weight: 'bold' } },
+                        grid: { color: '#313131' },
+                        ticks: { color: '#ffffff' }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: { display: true, text: 'Body Fat (%)', color: '#a855f7', font: { family: 'Inter', weight: 'bold' } },
+                        grid: { drawOnChartArea: false }, // evita cruzar linhas de grelha baralhadas
+                        ticks: { color: '#ffffff' }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: { color: '#ffffff', font: { family: 'Inter', size: 12 } }
+                    }
+                }
+            }
+        });
+    });
+<?php endif; ?>
+</script>
 
 <?php require_once __DIR__ . '/partials/footer.php'; ?>

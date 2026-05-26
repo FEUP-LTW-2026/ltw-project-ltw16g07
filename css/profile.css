@@ -144,3 +144,99 @@
     border-color: var(--red);
     color: var(--red);
 }
+
+
+/* --- ESTILOS DO PROGRESS TRACKING (SEMÂNTICO) --- */
+
+/* Alinhamento da página de perfil */
+.profile-page {
+    align-items: flex-start;
+}
+
+/* Linha separadora no cartão do utilizador */
+.profile-separator {
+    border: 0;
+    border-top: 1px solid var(--text-dark-gray);
+    margin: 20px 0;
+}
+
+/* Artigo do formulário de progresso */
+article.progress-form-container {
+    text-align: left;
+}
+
+article.progress-form-container h3 {
+    font-size: 1.1em;
+    margin-bottom: 15px;
+}
+
+/* Grupos de input (peso e gordura) */
+article.progress-form-container .form-group {
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+article.progress-form-container .form-group label {
+    font-size: 0.85em;
+    color: var(--text-gray);
+}
+
+article.progress-form-container .form-group input {
+    background: var(--bg-dark);
+    border: 1px solid var(--text-dark-gray);
+    color: var(--text-white);
+    padding: 10px;
+    border-radius: 10px;
+    outline: none;
+    font-family: "Inter", sans-serif;
+    transition: border-color 0.2s;
+}
+
+article.progress-form-container .form-group input:focus {
+    border-color: var(--neon-green);
+}
+
+/* Botão de submissão do progresso */
+.btn-full-width {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Secção Geral do Gráfico */
+section.progress-tracking-section {
+    background: var(--bg-card);
+    padding: 25px;
+    border-radius: 20px;
+    margin-bottom: 35px;
+}
+
+/* Artigo que segura o Canvas do Chart.js */
+article.chart-container {
+    position: relative;
+    height: 280px;
+    width: 100%;
+    margin-top: 15px;
+}
+
+/* Texto de aviso quando não há dados */
+.empty-chart-text {
+    color: var(--text-gray);
+    text-align: center;
+    line-height: 250px;
+    font-size: 0.95em;
+}
+
+/* Responsividade adaptada à meta tag viewport */
+@media (max-width: 900px) {
+    .profile-page {
+        flex-direction: column;
+        padding: 20px; /* Reduz o espaçamento em ecrãs pequenos */
+        gap: 20px;
+    }
+    .profile-card, 
+    section.progress-tracking-section {
+        width: 100%;
+    }
+}
