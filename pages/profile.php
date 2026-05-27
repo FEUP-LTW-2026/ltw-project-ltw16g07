@@ -23,6 +23,27 @@ if (!$user) {
     exit;
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['change_password'])) {
+    $current_password = $_POST['current_password'] ?? '';
+    $new_password = $_POST['new_password'] ?? '';
+    $confirm_password = $_POST['confirm_password'] ?? '';
+
+    if (!password_verify($current_password, $user['password'])) {
+        $_SESSION['flash_error'] = "A password atual está incorreta.";
+    } elseif (strlen($new_password) < 6) {
+        $_SESSION['flash_error'] = "A nova password deve ter pelo menos 6 caracteres.";
+    } elseif ($new_password !== $confirm_password) {
+        $_SESSION['flash_error'] = "As novas passwords não coincidem.";
+    } else {
+        $hashed = password_hash($new_password, PASSWORD_DEFAULT);
+        $stmt = $db->prepare("UPDATE users SET password = ? WHERE id = ?");
+        $stmt->execute([$hashed, $user_id]);
+        $_SESSION['flash_success'] = "Password atualizada com sucesso!";
+    }
+    header('Location: profile.php');
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['upload_pfp'])) {
     if (isset($_FILES['profile_pic_file']) && $_FILES['profile_pic_file']['error'] === UPLOAD_ERR_OK) {
         $file = $_FILES['profile_pic_file'];
@@ -245,6 +266,28 @@ require_once __DIR__ . '/../partials/header.php';
                 </div>
             <?php endforeach; ?>
         <?php endif; ?>
+
+        <section class="change-password-section" style="margin-top: 40px;">
+            <h2>Change Password</h2>
+            <form method="POST" action="profile.php" class="change-password-form">
+                <input type="hidden" name="change_password" value="1">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="current_password">Current Password:</label>
+                        <input type="password" name="current_password" id="current_password" required placeholder="Enter current password">
+                    </div>
+                    <div class="form-group">
+                        <label for="new_password">New Password:</label>
+                        <input type="password" name="new_password" id="new_password" required placeholder="Min 6 characters">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm_password">Confirm New Password:</label>
+                        <input type="password" name="confirm_password" id="confirm_password" required placeholder="Confirm new password">
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary" style="margin-top: 15px; align-self: flex-start;">Update Password</button>
+            </form>
+        </section>
     </section>
 </main>
 

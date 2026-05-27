@@ -66,7 +66,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p class="footer-text">
             Don't have an account? <a href="register.php">Register</a>
         </p>
-        <a href="forgot_password.php" class="forgot-link">Forgot password?</a>
     </main>
 </body>
 </html>

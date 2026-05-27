@@ -13,7 +13,8 @@
     height: fit-content;
 }
 
-.profile-card h2, .profile-card p {
+.profile-card h2,
+.profile-card p {
     background: var(--bg-card);
 }
 
@@ -93,7 +94,9 @@
     border-left: 4px solid var(--neon-green);
 }
 
-.booking-card div, .booking-card h3, .booking-card p {
+.booking-card div,
+.booking-card h3,
+.booking-card p {
     background: var(--bg-card);
 }
 
@@ -234,10 +237,12 @@ article.chart-container {
 @media (max-width: 900px) {
     .profile-page {
         flex-direction: column;
-        padding: 20px; /* Reduz o espaçamento em ecrãs pequenos */
+        padding: 20px;
+        /* Reduz o espaçamento em ecrãs pequenos */
         gap: 20px;
     }
-    .profile-card, 
+
+    .profile-card,
     section.progress-tracking-section {
         width: 100%;
     }
@@ -295,4 +300,50 @@ article.chart-container {
 .pfp-delete-btn:hover {
     color: var(--red);
     text-decoration: underline;
+}
+
+/* --- CHANGE PASSWORD SECTION --- */
+section.change-password-section {
+    background: var(--bg-card);
+    padding: 25px;
+    border-radius: 20px;
+    margin-bottom: 35px;
+}
+
+.change-password-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.change-password-form .form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.change-password-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.change-password-form .form-group label {
+    font-size: 0.85em;
+    color: var(--text-gray);
+}
+
+.change-password-form .form-group input {
+    background: var(--bg-dark);
+    border: 1px solid var(--text-dark-gray);
+    color: var(--text-white);
+    padding: 10px 12px;
+    border-radius: 10px;
+    outline: none;
+    font-family: "Inter", sans-serif;
+    font-size: 0.9em;
+    transition: border-color 0.2s;
+}
+
+.change-password-form .form-group input:focus {
+    border-color: var(--neon-green);
 }
