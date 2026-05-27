@@ -73,6 +73,8 @@ CREATE TABLE IF NOT EXISTS reviews (
     FOREIGN KEY (trainer_id) REFERENCES trainers(id)
 );
 
+
+-- Tabela de progress tracking
 CREATE TABLE IF NOT EXISTS member_progress (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
@@ -82,6 +84,7 @@ CREATE TABLE IF NOT EXISTS member_progress (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
+-- Tabela de waitlist
 CREATE TABLE IF NOT EXISTS waitlists (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
@@ -90,4 +93,16 @@ CREATE TABLE IF NOT EXISTS waitlists (
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (class_id) REFERENCES classes(id),
     UNIQUE(user_id, class_id)
+);
+
+
+-- Tabela de notifications in-app
+CREATE TABLE IF NOT EXISTS notifications (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    type TEXT NOT NULL,
+    message TEXT NOT NULL,
+    is_read INTEGER DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );

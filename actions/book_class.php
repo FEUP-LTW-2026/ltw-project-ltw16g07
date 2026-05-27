@@ -74,6 +74,10 @@ if ($action_type === 'waitlist') {
     try {
         $stmt = $db->prepare("INSERT INTO waitlists (user_id, class_id) VALUES (?, ?)");
         $stmt->execute([$user_id, $class_id]);
+
+        $db->prepare("INSERT INTO notifications (user_id, type, message) VALUES (?, 'booking', ?)")
+        ->execute([$user_id, "You joined the waitlist for \"{$class['title']}\" on {$class['day_of_week']} at {$class['time_start']}."]);
+
         $_SESSION['flash_success'] = 'You have been successfully added to the waitlist for ' . $class['title'] . '!';
     } catch (Exception $e) {
         $_SESSION['flash_error'] = 'Something went wrong while joining the waitlist.';
@@ -98,6 +102,11 @@ try {
     $stmt->execute([$class_id]);
 
     $db->commit();
+
+    $db->prepare("INSERT INTO notifications (user_id, type, message) VALUES (?, 'booking', ?)")
+   ->execute([$user_id, "You enrolled in \"{$class['title']}\" on {$class['day_of_week']} at {$class['time_start']}."]);
+
+
     $_SESSION['flash_success'] = 'Successfully enrolled in ' . $class['title'] . '!';
 } catch (Exception $e) {
     $db->rollBack();
