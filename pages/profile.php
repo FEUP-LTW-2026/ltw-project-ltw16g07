@@ -23,8 +23,69 @@ if (!$user) {
     exit;
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['upload_pfp'])) {
+    if (isset($_FILES['profile_pic_file']) && $_FILES['profile_pic_file']['error'] === UPLOAD_ERR_OK) {
+        $file = $_FILES['profile_pic_file'];
+        $max_size = 2 * 1024 * 1024; // 2MB
+        $allowed_types = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+        $allowed_exts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
 
+        $file_ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        $file_type = mime_content_type($file['tmp_name']);
 
+        if ($file['size'] > $max_size) {
+            $_SESSION['flash_error'] = "A imagem excede o tamanho máximo de 2MB.";
+        } elseif (!in_array($file_type, $allowed_types) || !in_array($file_ext, $allowed_exts)) {
+            $_SESSION['flash_error'] = "Formato não suportado. Use JPG, PNG, GIF ou WEBP.";
+        } else {
+            $upload_dir = __DIR__ . '/../uploads/';
+            if (!is_dir($upload_dir)) {
+                mkdir($upload_dir, 0755, true);
+            }
+
+            if (!empty($user['profile_pic'])) {
+                $old_file = __DIR__ . '/../' . ltrim($user['profile_pic'], '../');
+                if (file_exists($old_file)) {
+                    unlink($old_file);
+                }
+            }
+
+            $new_filename = 'pfp_' . $user_id . '_' . bin2hex(random_bytes(8)) . '.' . $file_ext;
+            $destination = $upload_dir . $new_filename;
+            $db_path = '../uploads/' . $new_filename;
+
+            if (move_uploaded_file($file['tmp_name'], $destination)) {
+                $stmt = $db->prepare("UPDATE users SET profile_pic = ? WHERE id = ?");
+                $stmt->execute([$db_path, $user_id]);
+
+                $_SESSION['user_pfp'] = $db_path;
+                $_SESSION['flash_success'] = "Foto de perfil atualizada com sucesso!";
+            } else {
+                $_SESSION['flash_error'] = "Erro ao guardar a imagem no servidor.";
+            }
+        }
+    } else {
+        $_SESSION['flash_error'] = "Nenhum ficheiro válido foi carregado.";
+    }
+    header('Location: profile.php');
+    exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_pfp'])) {
+    if (!empty($user['profile_pic'])) {
+        $file_to_delete = __DIR__ . '/../' . ltrim($user['profile_pic'], '../');
+        if (file_exists($file_to_delete)) {
+            unlink($file_to_delete);
+        }
+        $stmt = $db->prepare("UPDATE users SET profile_pic = NULL WHERE id = ?");
+        $stmt->execute([$user_id]);
+
+        $_SESSION['user_pfp'] = null;
+        $_SESSION['flash_success'] = "Foto de perfil removida.";
+    }
+    header('Location: profile.php');
+    exit;
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_progress'])) {
     $weight = filter_input(INPUT_POST, 'weight', FILTER_VALIDATE_FLOAT);
@@ -97,7 +158,30 @@ require_once __DIR__ . '/../partials/header.php';
 
 <main class="profile-page">
     <section class="profile-card">
-        <div class="profile-avatar"><?= htmlspecialchars($_SESSION['user_initials']) ?></div>
+        <div class="profile-avatar-container">
+            <div class="profile-avatar">
+                <?php if (!empty($user['profile_pic'])): ?>
+                    <img src="<?= htmlspecialchars($user['profile_pic']) ?>" alt="Profile Picture">
+                <?php else: ?>
+                    <?= htmlspecialchars($_SESSION['user_initials']) ?>
+                <?php endif; ?>
+            </div>
+            
+            <form method="POST" action="profile.php" enctype="multipart/form-data" class="profile-pic-form">
+                <input type="hidden" name="upload_pfp" value="1">
+                <label for="pfp-input" class="pfp-label">
+                    <span class="pfp-edit-btn">Alterar Foto</span>
+                </label>
+                <input type="file" name="profile_pic_file" id="pfp-input" class="pfp-file-input" onchange="this.form.submit()" accept="image/*">
+            </form>
+            
+            <?php if (!empty($user['profile_pic'])): ?>
+                <form method="POST" action="profile.php" class="profile-pic-delete-form">
+                    <input type="hidden" name="delete_pfp" value="1">
+                    <button type="submit" class="pfp-delete-btn" onclick="return confirm('Remover a foto de perfil?')">Remover Foto</button>
+                </form>
+            <?php endif; ?>
+        </div>
         <h2><?= htmlspecialchars($user['first_name'] . ' ' . $user['last_name']) ?></h2>
         <p class="profile-email"><?= htmlspecialchars($user['email']) ?></p>
         <p class="profile-member">Member since <?= date('F Y', strtotime($user['created_at'])) ?></p>

@@ -29,7 +29,13 @@
         </nav>
         <div class="header-actions">
             <?php if (isset($_SESSION['user_id'])): ?>
-                <a href="../pages/profile.php" class="user-initials"><?= htmlspecialchars($_SESSION['user_initials']) ?></a>
+                <a href="../pages/profile.php" class="user-initials">
+                    <?php if (!empty($_SESSION['user_pfp'])): ?>
+                        <img src="<?= htmlspecialchars($_SESSION['user_pfp']) ?>" alt="Profile Picture" class="header-pfp">
+                    <?php else: ?>
+                        <?= htmlspecialchars($_SESSION['user_initials']) ?>
+                    <?php endif; ?>
+                </a>
                 <a href="../pages/logout.php"><button type="button" class="btn-outline">Logout</button></a>
             <?php else: ?>
                 <a href="../pages/login.php"><button type="button" class="btn-outline">Login</button></a>

@@ -9,7 +9,12 @@ $page_title = 'Trainers';
 $trainer_id = $_GET['id'] ?? null;
 
 if ($trainer_id) {
-    $stmt = $db->prepare("SELECT * FROM trainers WHERE id = ?");
+    $stmt = $db->prepare("
+        SELECT t.*, u.profile_pic 
+        FROM trainers t 
+        LEFT JOIN users u ON (u.first_name || ' ' || u.last_name) = t.name 
+        WHERE t.id = ?
+    ");
     $stmt->execute([$trainer_id]);
     $trainer = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -35,7 +40,12 @@ if ($trainer_id) {
     $stmt->execute([$trainer_id]);
     $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $all_trainers = $db->query("SELECT id, name, photo_initials FROM trainers ORDER BY name")->fetchAll(PDO::FETCH_ASSOC);
+    $all_trainers = $db->query("
+        SELECT t.id, t.name, t.photo_initials, u.profile_pic 
+        FROM trainers t 
+        LEFT JOIN users u ON (u.first_name || ' ' || u.last_name) = t.name 
+        ORDER BY t.name
+    ")->fetchAll(PDO::FETCH_ASSOC);
 
     $specialties = explode(',', $trainer['specialties']);
 
@@ -44,7 +54,13 @@ if ($trainer_id) {
 
     <main class="pagina">
     <aside class="cartao cartao-perfil">
-        <div class="foto"><?= htmlspecialchars($trainer['photo_initials']) ?></div>
+        <div class="foto" style="overflow: hidden; position: relative;">
+            <?php if (!empty($trainer['profile_pic'])): ?>
+                <img src="<?= htmlspecialchars($trainer['profile_pic']) ?>" alt="<?= htmlspecialchars($trainer['name']) ?>" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+            <?php else: ?>
+                <?= htmlspecialchars($trainer['photo_initials']) ?>
+            <?php endif; ?>
+        </div>
         <h2><?= htmlspecialchars($trainer['name']) ?></h2>
         <span class="selo">Certified Trainer</span>
  
@@ -153,7 +169,12 @@ document.querySelectorAll('.star').forEach(star => {
     require_once __DIR__ . '/../partials/footer.php';
  
 } else {
-    $all_trainers = $db->query("SELECT * FROM trainers ORDER BY name")->fetchAll(PDO::FETCH_ASSOC);
+    $all_trainers = $db->query("
+        SELECT t.*, u.profile_pic 
+        FROM trainers t 
+        LEFT JOIN users u ON (u.first_name || ' ' || u.last_name) = t.name 
+        ORDER BY t.name
+    ")->fetchAll(PDO::FETCH_ASSOC);
     require_once __DIR__ . '/../partials/header.php';
 ?>
  
@@ -170,7 +191,13 @@ document.querySelectorAll('.star').forEach(star => {
         ?>
             <a href="trainers.php?id=<?= $trainer['id'] ?>" class="trainer-card-link">
                 <article class="trainer-card-page">
-                    <div class="trainer-avatar-page"><?= htmlspecialchars($trainer['photo_initials']) ?></div>
+                    <div class="trainer-avatar-page" style="overflow: hidden; position: relative;">
+                        <?php if (!empty($trainer['profile_pic'])): ?>
+                            <img src="<?= htmlspecialchars($trainer['profile_pic']) ?>" alt="<?= htmlspecialchars($trainer['name']) ?>" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                        <?php else: ?>
+                            <?= htmlspecialchars($trainer['photo_initials']) ?>
+                        <?php endif; ?>
+                    </div>
                     <h3><?= htmlspecialchars($trainer['name']) ?></h3>
                     <div class="trainer-rating-page">
                         <span class="stars"><?= str_repeat('★', round($trainer['rating'])) . str_repeat('☆', 5 - round($trainer['rating'])) ?></span>
