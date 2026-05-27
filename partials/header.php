@@ -41,6 +41,13 @@ if (isset($_SESSION['user_id'])) {
         </nav>
         <div class="header-actions">
             <?php if (isset($_SESSION['user_id'])): ?>
+                <a href="../pages/profile.php" class="user-initials">
+                    <?php if (!empty($_SESSION['user_pfp'])): ?>
+                        <img src="<?= htmlspecialchars($_SESSION['user_pfp']) ?>" alt="Profile Picture" class="header-pfp">
+                    <?php else: ?>
+                        <?= htmlspecialchars($_SESSION['user_initials']) ?>
+                    <?php endif; ?>
+                </a>
                 <a href="../pages/profile.php" class="user-initials"><?= htmlspecialchars($_SESSION['user_initials']) ?></a>
                 <a href="../pages/notifications.php" class="notif-bell">
     🔔              <?php if ($notif_count > 0): ?>

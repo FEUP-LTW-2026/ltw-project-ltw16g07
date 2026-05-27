@@ -29,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['user_name'] = $user['first_name'] . ' ' . $user['last_name'];
             $_SESSION['user_initials'] = strtoupper(substr($user['first_name'], 0, 1) . substr($user['last_name'], 0, 1));
             $_SESSION['user_role'] = $user['role'] ?? 'member';
+            $_SESSION['user_pfp'] = $user['profile_pic'];
             
             header('Location: ../pages/dashboard.php');
             exit;
@@ -65,7 +66,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p class="footer-text">
             Don't have an account? <a href="register.php">Register</a>
         </p>
-        <a href="forgot_password.php" class="forgot-link">Forgot password?</a>
     </main>
 </body>
 </html>
