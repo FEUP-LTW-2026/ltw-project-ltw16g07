@@ -12,6 +12,8 @@ if (isset($_SESSION['user_id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    validate_csrf();
+    
     $first_name       = trim($_POST['first_name']       ?? '');
     $last_name        = trim($_POST['last_name']        ?? '');
     $email            = trim($_POST['email']            ?? '');
@@ -63,6 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <form action="register.php" method="post">
+            <?php csrf_input(); ?>
             <input type="text"     name="first_name"       placeholder="First Name"                  required>
             <input type="text"     name="last_name"        placeholder="Last Name"                   required>
             <input type="email"    name="email"            placeholder="Email"                       required>

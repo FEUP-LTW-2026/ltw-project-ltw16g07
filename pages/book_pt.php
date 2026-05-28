@@ -37,6 +37,9 @@ $db->exec("CREATE TABLE IF NOT EXISTS pt_bookings (
 
 // Processar a submissão do agendamento
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    validate_csrf();
+
     $user_id = $_SESSION['user_id'];
     $b_date = $_POST['booking_date'];
     $t_slot = $_POST['time_slot'];
@@ -92,6 +95,7 @@ require_once __DIR__ . '/../partials/header.php';
         <p>Choose your preferred date and available hour block.</p>
         
         <form method="POST" class="pt-booking-form">
+            <?php csrf_input(); ?>
             <div class="form-group">
                 <label for="booking_date">1. Select Date:</label>
                 <input type="date" id="booking_date" name="booking_date" required value="<?= date('Y-m-d') ?>" min="<?= date('Y-m-d') ?>">

@@ -11,27 +11,31 @@ $current_page = 'notifications';
 $page_title   = 'Notifications';
 $user_id      = $_SESSION['user_id'];
 
-// Carrega o CSS específico das notificações através do teu header
+
 $extra_css    = '../css/notifications.css';
 
 // Marcar todas como lidas ao abrir a página
 $db->prepare("UPDATE notifications SET is_read = 1 WHERE user_id = ? AND is_read = 0")
    ->execute([$user_id]);
 
-// Apagar notificação individual
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_notification'])) {
-    $db->prepare("DELETE FROM notifications WHERE id = ? AND user_id = ?")
-       ->execute([(int) $_POST['notif_id'], $user_id]);
-    header('Location: notifications.php');
-    exit;
-}
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+    validate_csrf(); 
 
-// Apagar todas
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['clear_all'])) {
-    $db->prepare("DELETE FROM notifications WHERE user_id = ?")
-       ->execute([$user_id]);
-    header('Location: notifications.php');
-    exit;
+    
+    if (isset($_POST['delete_notification'])) {
+        $db->prepare("DELETE FROM notifications WHERE id = ? AND user_id = ?")
+           ->execute([(int) $_POST['notif_id'], $user_id]);
+        header('Location: notifications.php');
+        exit;
+    }
+
+    if (isset($_POST['clear_all'])) {
+        $db->prepare("DELETE FROM notifications WHERE user_id = ?")
+           ->execute([$user_id]);
+        header('Location: notifications.php');
+        exit;
+    }
 }
 
 // Procurar notificações
@@ -85,7 +89,7 @@ require_once __DIR__ . '/../partials/header.php';
                     </div>
 
                     <form method="POST" class="notif-actions">
-                        <input type="hidden" name="notif_id" value="<?= $n['id'] ?>">
+                        <?php csrf_input(); ?> <input type="hidden" name="notif_id" value="<?= $n['id'] ?>">
                         <button type="submit" name="delete_notification" class="btn-danger-small" title="Remove notification" aria-label="Delete">
                             ✕
                         </button>

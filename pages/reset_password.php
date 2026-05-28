@@ -23,6 +23,8 @@ if (!$reset) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $reset) {
+    validate_csrf();
+    
     $password = $_POST['password'] ?? '';
     $confirm = $_POST['confirm_password'] ?? '';
 
@@ -65,6 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $reset) {
             <p class="success-msg"><?= $success ?></p>
         <?php elseif ($reset): ?>
             <form action="reset_password.php?token=<?= urlencode($token) ?>" method="post">
+                <?php csrf_input(); ?>
                 <input type="password" name="password" placeholder="New password (min 6 characters)" required>
                 <input type="password" name="confirm_password" placeholder="Confirm new password" required>
                 <input type="submit" value="Reset Password">

@@ -29,6 +29,9 @@ function gather_class_data(): ?array
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    validate_csrf();
+
     if (isset($_POST['create_class'])) {
         $data = gather_class_data();
         if ($data) {
@@ -135,7 +138,7 @@ require_once __DIR__ . '/../partials/header.php';
                         <td class="cell-actions">
                             <button class="btn-small" onclick="openEditModal(<?= $class['id'] ?>)">Edit</button>
                             <form method="POST" class="inline-form" onsubmit="return confirm('Delete this class? All associated bookings will also be removed.')">
-                                <input type="hidden" name="class_id" value="<?= $class['id'] ?>">
+                                <?php csrf_input(); ?> <input type="hidden" name="class_id" value="<?= $class['id'] ?>">
                                 <button type="submit" name="delete_class" class="btn-small btn-danger">Delete</button>
                             </form>
                         </td>
@@ -163,6 +166,7 @@ require_once __DIR__ . '/../partials/header.php';
         <div class="modal-content-admin">
             <h3>Create New Class</h3>
             <form method="POST">
+                <?php csrf_input(); ?>
                 <label for="c-title">Title</label>
                 <input type="text" name="title" id="c-title" required>
 
@@ -219,6 +223,7 @@ require_once __DIR__ . '/../partials/header.php';
         <div class="modal-content-admin">
             <h3>Edit Class</h3>
             <form method="POST">
+                <?php csrf_input(); ?>
                 <input type="hidden" name="class_id" id="e-id">
 
                 <label for="e-title">Title</label>

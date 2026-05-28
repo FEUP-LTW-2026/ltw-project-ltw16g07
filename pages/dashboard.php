@@ -11,6 +11,9 @@ $user_id = $_SESSION['user_id'];
 $role    = $_SESSION['user_role'] ?? 'member';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_progress'])) {
+
+    validate_csrf();
+
     $weight = filter_input(INPUT_POST, 'weight', FILTER_VALIDATE_FLOAT);
     $body_fat = filter_input(INPUT_POST, 'body_fat', FILTER_VALIDATE_FLOAT);
     $body_fat = $body_fat > 0 ? $body_fat : null;
@@ -249,7 +252,7 @@ require_once __DIR__ . '/../partials/header.php';
                                 <?= $class['booked_spots'] ?>/<?= $class['total_spots'] ?> spots
                             </span>
                             <form method="POST" action="profile.php" onsubmit="return confirm('Cancel this booking?')">
-                                <input type="hidden" name="cancel_booking" value="<?= $class['booking_id'] ?>">
+                                <?php csrf_input(); ?> <input type="hidden" name="cancel_booking" value="<?= $class['booking_id'] ?>">
                                 <button type="submit" class="btn-cancel-small">Cancel</button>
                             </form>
                         </div>

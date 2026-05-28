@@ -23,6 +23,15 @@ if (!$user) {
     exit;
 }
 
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+    validate_csrf(); 
+}
+
+
+
+// 1. Alterar Password
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['change_password'])) {
     $current_password = $_POST['current_password'] ?? '';
     $new_password = $_POST['new_password'] ?? '';
@@ -44,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['change_password'])) {
     exit;
 }
 
+// 2. Upload de Foto de Perfil
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['upload_pfp'])) {
     if (isset($_FILES['profile_pic_file']) && $_FILES['profile_pic_file']['error'] === UPLOAD_ERR_OK) {
         $file = $_FILES['profile_pic_file'];
@@ -80,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['upload_pfp'])) {
                 $stmt->execute([$db_path, $user_id]);
 
                 $_SESSION['user_pfp'] = $db_path;
-                $_SESSION['flash_success'] = "Foto de perfil atualizada com sucesso!";
+                $_SESSION['flash_success'] = "Foto de perfil updated com sucesso!";
             } else {
                 $_SESSION['flash_error'] = "Erro ao guardar a imagem no servidor.";
             }
@@ -92,6 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['upload_pfp'])) {
     exit;
 }
 
+// 3. Apagar Foto de Perfil
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_pfp'])) {
     if (!empty($user['profile_pic'])) {
         $file_to_delete = __DIR__ . '/../' . ltrim($user['profile_pic'], '../');
@@ -108,6 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_pfp'])) {
     exit;
 }
 
+// 4. Adicionar Progresso (Peso / Massa Gorda)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_progress'])) {
     $weight = filter_input(INPUT_POST, 'weight', FILTER_VALIDATE_FLOAT);
     $body_fat = filter_input(INPUT_POST, 'body_fat', FILTER_VALIDATE_FLOAT) ?: null;
@@ -120,6 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_progress'])) {
     exit;
 }
 
+// 5. Cancelar Inscrição na Aula
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_booking'])) {
     $booking_id = $_POST['cancel_booking'];
 
@@ -189,7 +202,7 @@ require_once __DIR__ . '/../partials/header.php';
             </div>
             
             <form method="POST" action="profile.php" enctype="multipart/form-data" class="profile-pic-form">
-                <input type="hidden" name="upload_pfp" value="1">
+                <?php csrf_input(); ?> <input type="hidden" name="upload_pfp" value="1">
                 <label for="pfp-input" class="pfp-label">
                     <span class="pfp-edit-btn">Alterar Foto</span>
                 </label>
@@ -198,7 +211,7 @@ require_once __DIR__ . '/../partials/header.php';
             
             <?php if (!empty($user['profile_pic'])): ?>
                 <form method="POST" action="profile.php" class="profile-pic-delete-form">
-                    <input type="hidden" name="delete_pfp" value="1">
+                    <?php csrf_input(); ?> <input type="hidden" name="delete_pfp" value="1">
                     <button type="submit" class="pfp-delete-btn" onclick="return confirm('Remover a foto de perfil?')">Remover Foto</button>
                 </form>
             <?php endif; ?>
@@ -211,6 +224,7 @@ require_once __DIR__ . '/../partials/header.php';
         <article class="progress-form-container">
             <h3>Log Today's Stats</h3>
             <form method="POST" action="profile.php">
+                <?php csrf_input(); ?>
                 <input type="hidden" name="add_progress" value="1">
                 <div class="form-group">
                     <label for="weight">Weight (kg):</label>
@@ -260,7 +274,7 @@ require_once __DIR__ . '/../partials/header.php';
                         </span>
                     </div>
                     <form method="POST" onsubmit="return confirm('Cancel this booking?')">
-                        <input type="hidden" name="cancel_booking" value="<?= $booking['booking_id'] ?>">
+                        <?php csrf_input(); ?> <input type="hidden" name="cancel_booking" value="<?= $booking['booking_id'] ?>">
                         <button type="submit" class="btn-cancel">Cancel</button>
                     </form>
                 </div>
@@ -270,6 +284,7 @@ require_once __DIR__ . '/../partials/header.php';
         <section class="change-password-section" style="margin-top: 40px;">
             <h2>Change Password</h2>
             <form method="POST" action="profile.php" class="change-password-form">
+                <?php csrf_input(); ?>
                 <input type="hidden" name="change_password" value="1">
                 <div class="form-row">
                     <div class="form-group">

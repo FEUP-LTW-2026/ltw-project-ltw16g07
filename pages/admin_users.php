@@ -65,6 +65,9 @@ if (isset($_POST['add_user'])) {
     }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    validate_csrf();
+
     if (isset($_POST['change_role'], $_POST['user_id'], $_POST['new_role'])) {
         $user_id  = (int) $_POST['user_id'];
         $new_role = $_POST['new_role'];
@@ -143,7 +146,7 @@ require_once __DIR__ . '/../partials/header.php';
                         <td class="cell-actions">
                             <?php if (!$is_deactivated): ?>
                                 <form method="POST" class="inline-form">
-                                    <input type="hidden" name="user_id" value="<?= $user['id'] ?>">
+                                    <?php csrf_input(); ?> <input type="hidden" name="user_id" value="<?= $user['id'] ?>">
                                     <select name="new_role" class="role-select" onchange="this.form.submit()">
                                         <option value="member"  <?= $user['role'] === 'member'  ? 'selected' : '' ?>>Member</option>
                                         <option value="trainer" <?= $user['role'] === 'trainer' ? 'selected' : '' ?>>Trainer</option>
@@ -153,13 +156,13 @@ require_once __DIR__ . '/../partials/header.php';
                                 </form>
                                 <?php if ($user['id'] !== $_SESSION['user_id']): ?>
                                     <form method="POST" class="inline-form">
-                                        <input type="hidden" name="user_id" value="<?= $user['id'] ?>">
+                                        <?php csrf_input(); ?> <input type="hidden" name="user_id" value="<?= $user['id'] ?>">
                                         <button type="submit" name="toggle_active" class="btn-small btn-danger">Deactivate</button>
                                     </form>
                                 <?php endif; ?>
                             <?php else: ?>
                                 <form method="POST" class="inline-form">
-                                    <input type="hidden" name="user_id" value="<?= $user['id'] ?>">
+                                    <?php csrf_input(); ?> <input type="hidden" name="user_id" value="<?= $user['id'] ?>">
                                     <button type="submit" name="toggle_active" class="btn-small btn-success">Reactivate</button>
                                 </form>
                             <?php endif; ?>
@@ -174,7 +177,7 @@ require_once __DIR__ . '/../partials/header.php';
         <div class="modal-content-admin">
             <h3>Add New User Account</h3>
             <form method="POST">
-                <label for="u-first">First Name <span class="required">*</span></label>
+                <?php csrf_input(); ?> <label for="u-first">First Name <span class="required">*</span></label>
                 <input type="text" name="first_name" id="u-first" required placeholder="e.g. John">
 
                 <label for="u-last">Last Name <span class="required">*</span></label>

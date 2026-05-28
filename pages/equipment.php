@@ -8,6 +8,9 @@ $extra_css = '../css/equipment.css';
 
 // Mudar status via POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['equipment_id'], $_POST['status'])) {
+
+    validate_csrf();
+
     $allowed = ['available', 'full', 'maintenance'];
     if (in_array($_POST['status'], $allowed)) {
         $stmt = $db->prepare("UPDATE equipment SET status = ? WHERE id = ?");
@@ -52,7 +55,7 @@ require_once __DIR__ . '/../partials/header.php';
                 <span class="usage"><?= $item['quantity'] ?> units</span>
             </div>
             <form method="POST" class="status-form">
-                <input type="hidden" name="equipment_id" value="<?= $item['id'] ?>">
+                <?php csrf_input(); ?> <input type="hidden" name="equipment_id" value="<?= $item['id'] ?>">
                 <select name="status" onchange="this.form.submit()">
                     <option value="available"  <?= $status === 'available'   ? 'selected' : '' ?>>Available</option>
                     <option value="full"        <?= $status === 'full'        ? 'selected' : '' ?>>Full</option>
