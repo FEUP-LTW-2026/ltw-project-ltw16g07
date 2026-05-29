@@ -14,6 +14,8 @@ if (isset($_SESSION['user_id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    validate_csrf();
+    
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
 
@@ -29,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['user_name'] = $user['first_name'] . ' ' . $user['last_name'];
             $_SESSION['user_initials'] = strtoupper(substr($user['first_name'], 0, 1) . substr($user['last_name'], 0, 1));
             $_SESSION['user_role'] = $user['role'] ?? 'member';
+            $_SESSION['user_pfp'] = $user['profile_pic'];
             
             header('Location: ../pages/dashboard.php');
             exit;
@@ -37,6 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,10 +59,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p class="subtitle">Welcome back</p>
  
         <?php if ($error !== ''): ?>
-            <p class="error-msg"><?= htmlspecialchars($error) ?></p>
+            <p class="error-msg"><?= h($error) ?></p>
         <?php endif; ?>
  
         <form action="login.php" method="post">
+            <?php csrf_input(); ?>
             <input type="email" name="email" placeholder="Email" required>
             <input type="password" name="password" placeholder="Password" required>
             <input type="submit" value="Login">
@@ -65,7 +71,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p class="footer-text">
             Don't have an account? <a href="register.php">Register</a>
         </p>
-        <a href="forgot_password.php" class="forgot-link">Forgot password?</a>
     </main>
 </body>
 </html>

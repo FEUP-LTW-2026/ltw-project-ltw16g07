@@ -2,6 +2,20 @@
 session_start();
 require_once __DIR__ . '/../config/database.php';
 
+
+
+$db->exec("CREATE TABLE IF NOT EXISTS waitlists (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    class_id INTEGER NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (class_id) REFERENCES classes(id),
+    UNIQUE(user_id, class_id)
+);");
+
+
+
 if (!isset($_SESSION['user_id'])) {
     $_SESSION['flash_error'] = 'Please login to book a class.';
     header('Location: /../pages/login.php');
@@ -15,6 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['class_id'])) {
 
 $user_id = $_SESSION['user_id'];
 $class_id = (int) $_POST['class_id'];
+
+$action_type = $_POST['action_type'] ?? 'enroll';
 
 $stmt = $db->prepare("SELECT * FROM classes WHERE id = ?");
 $stmt->execute([$class_id]);
@@ -34,6 +50,14 @@ if ($stmt->fetch()) {
     exit;
 }
 
+$stmt = $db->prepare("SELECT id FROM waitlists WHERE user_id = ? AND class_id = ?");
+$stmt->execute([$user_id, $class_id]);
+if ($stmt->fetch()) {
+    $_SESSION['flash_error'] = 'You are already on the waitlist for this class.';
+    header('Location: /../pages/classes.php');
+    exit;
+}
+
 // Prevent trainers from enrolling in their own classes
 if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'trainer') {
     $stmt = $db->prepare("SELECT id FROM trainers WHERE name = ?");
@@ -44,6 +68,22 @@ if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'trainer') {
         header('Location: classes.php');
         exit;
     }
+}
+
+if ($action_type === 'waitlist') {
+    try {
+        $stmt = $db->prepare("INSERT INTO waitlists (user_id, class_id) VALUES (?, ?)");
+        $stmt->execute([$user_id, $class_id]);
+
+        $db->prepare("INSERT INTO notifications (user_id, type, message) VALUES (?, 'booking', ?)")
+        ->execute([$user_id, "You joined the waitlist for \"{$class['title']}\" on {$class['day_of_week']} at {$class['time_start']}."]);
+
+        $_SESSION['flash_success'] = 'You have been successfully added to the waitlist for ' . $class['title'] . '!';
+    } catch (Exception $e) {
+        $_SESSION['flash_error'] = 'Something went wrong while joining the waitlist.';
+    }
+    header('Location: /../pages/classes.php');
+    exit;
 }
 
 $remaining = $class['total_spots'] - $class['booked_spots'];
@@ -62,6 +102,11 @@ try {
     $stmt->execute([$class_id]);
 
     $db->commit();
+
+    $db->prepare("INSERT INTO notifications (user_id, type, message) VALUES (?, 'booking', ?)")
+   ->execute([$user_id, "You enrolled in \"{$class['title']}\" on {$class['day_of_week']} at {$class['time_start']}."]);
+
+
     $_SESSION['flash_success'] = 'Successfully enrolled in ' . $class['title'] . '!';
 } catch (Exception $e) {
     $db->rollBack();

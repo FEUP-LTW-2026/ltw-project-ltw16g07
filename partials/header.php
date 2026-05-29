@@ -1,3 +1,15 @@
+<?php
+$notif_count = 0;
+if (isset($_SESSION['user_id'])) {
+    $stmt = $db->prepare("SELECT COUNT(*) FROM notifications WHERE user_id = ? AND is_read = 0");
+    $stmt->execute([$_SESSION['user_id']]);
+    $notif_count = (int) $stmt->fetchColumn();
+}
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,7 +41,18 @@
         </nav>
         <div class="header-actions">
             <?php if (isset($_SESSION['user_id'])): ?>
-                <a href="../pages/profile.php" class="user-initials"><?= htmlspecialchars($_SESSION['user_initials']) ?></a>
+                <a href="../pages/profile.php" class="user-initials">
+                  <?php if (!empty($_SESSION['user_pfp'])): ?>
+                   <img src="<?= h($_SESSION['user_pfp']) ?>" alt="Profile Picture" class="header-pfp">
+                  <?php else: ?>
+                  <?= h($_SESSION['user_initials']) ?>
+                  <?php endif; ?>
+                </a>
+                <a href="../pages/notifications.php" class="notif-bell">
+    🔔              <?php if ($notif_count > 0): ?>
+                     <span class="notif-badge"><?= $notif_count ?></span>
+                   <?php endif; ?>
+                </a>
                 <a href="../pages/logout.php"><button type="button" class="btn-outline">Logout</button></a>
             <?php else: ?>
                 <a href="../pages/login.php"><button type="button" class="btn-outline">Login</button></a>
@@ -39,10 +62,10 @@
     </header>
 
     <?php if (isset($_SESSION['flash_success'])): ?>
-        <div class="flash flash-success"><?= htmlspecialchars($_SESSION['flash_success']) ?></div>
+        <div class="flash flash-success"><?= h($_SESSION['flash_success']) ?></div>
         <?php unset($_SESSION['flash_success']); ?>
     <?php endif; ?>
     <?php if (isset($_SESSION['flash_error'])): ?>
-        <div class="flash flash-error"><?= htmlspecialchars($_SESSION['flash_error']) ?></div>
+        <div class="flash flash-error"><?= h($_SESSION['flash_error']) ?></div>
         <?php unset($_SESSION['flash_error']); ?>
     <?php endif; ?>

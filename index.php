@@ -145,7 +145,7 @@ $stats['avg_rating'] = $stmt->fetch(PDO::FETCH_ASSOC)['avg'];
                         </div>
                         <div class="trainer-tags">
                             <?php foreach ($specs as $spec): ?>
-                                <span><?= htmlspecialchars(trim($spec)) ?></span>
+                                <span><?= h(trim($spec)) ?></span>
                             <?php endforeach; ?>
                         </div>
                     </div>

@@ -11,6 +11,9 @@ $user_id = $_SESSION['user_id'];
 $role    = $_SESSION['user_role'] ?? 'member';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_progress'])) {
+
+    validate_csrf();
+
     $weight = filter_input(INPUT_POST, 'weight', FILTER_VALIDATE_FLOAT);
     $body_fat = filter_input(INPUT_POST, 'body_fat', FILTER_VALIDATE_FLOAT);
     $body_fat = $body_fat > 0 ? $body_fat : null;
@@ -136,7 +139,7 @@ require_once __DIR__ . '/../partials/header.php';
 <div class="page-header page-header--row">
     <div class="page-header-title">
         <h1>Dashboard</h1>
-        <p>Welcome back, <?= htmlspecialchars($name) ?></p>
+        <p>Welcome back, <?= h($name) ?></p>
     </div>
     <div class="page-header-actions">
         <?php if ($role === 'member'): ?>
@@ -241,15 +244,15 @@ require_once __DIR__ . '/../partials/header.php';
                     $remaining = $class['total_spots'] - $class['booked_spots'];
                 ?>
                     <li class="cartao-aula" style="border-left: 4px solid var(--neon-green);">
-                        <p class="titulo"><?= htmlspecialchars($class['title']) ?></p>
-                        <p class="info"><?= htmlspecialchars($class['day_of_week']) ?> · <?= htmlspecialchars($class['time_start']) ?> · <?= htmlspecialchars($class['location']) ?></p>
-                        <p class="treinador">Trainer: <?= htmlspecialchars($class['trainer_name']) ?></p>
+                        <p class="titulo"><?= h($class['title']) ?></p>
+                        <p class="info"><?= h($class['day_of_week']) ?> · <?= h($class['time_start']) ?> · <?= h($class['location']) ?></p>
+                        <p class="treinador">Trainer: <?= h($class['trainer_name']) ?></p>
                         <div class="rodape">
                             <span class="vagas <?= $remaining <= 0 ? 'cheio' : '' ?>">
                                 <?= $class['booked_spots'] ?>/<?= $class['total_spots'] ?> spots
                             </span>
                             <form method="POST" action="profile.php" onsubmit="return confirm('Cancel this booking?')">
-                                <input type="hidden" name="cancel_booking" value="<?= $class['booking_id'] ?>">
+                                <?php csrf_input(); ?> <input type="hidden" name="cancel_booking" value="<?= $class['booking_id'] ?>">
                                 <button type="submit" class="btn-cancel-small">Cancel</button>
                             </form>
                         </div>
@@ -269,12 +272,12 @@ require_once __DIR__ . '/../partials/header.php';
             <?php if ($latest_progress): ?>
                 <div class="progress-stats">
                     <div class="progress-stat-box">
-                        <span class="progress-stat-val"><?= htmlspecialchars($latest_progress['weight']) ?> <small>kg</small></span>
+                        <span class="progress-stat-val"><?= h($latest_progress['weight']) ?> <small>kg</small></span>
                         <span class="progress-stat-lbl">Current Weight</span>
                     </div>
                     <div class="progress-stat-box">
                         <span class="progress-stat-val">
-                            <?= $latest_progress['body_fat'] ? htmlspecialchars($latest_progress['body_fat']) . ' <small>%</small>' : '–' ?>
+                            <?= $latest_progress['body_fat'] ? h($latest_progress['body_fat']) . ' <small>%</small>' : '–' ?>
                         </span>
                         <span class="progress-stat-lbl">Body Fat</span>
                     </div>
@@ -294,9 +297,9 @@ require_once __DIR__ . '/../partials/header.php';
                             <li>
                                 <span class="log-date"><?= date('M j, Y', strtotime($log['recorded_at'])) ?></span>
                                 <span class="log-values">
-                                    <strong><?= htmlspecialchars($log['weight']) ?> kg</strong>
+                                    <strong><?= h($log['weight']) ?> kg</strong>
                                     <?php if ($log['body_fat']): ?>
-                                        · <?= htmlspecialchars($log['body_fat']) ?>% BF
+                                        · <?= h($log['body_fat']) ?>% BF
                                     <?php endif; ?>
                                 </span>
                             </li>
@@ -325,9 +328,9 @@ require_once __DIR__ . '/../partials/header.php';
                 $remaining = $class['total_spots'] - $class['booked_spots'];
             ?>
                 <li class="cartao-aula">
-                    <p class="titulo"><?= htmlspecialchars($class['title']) ?></p>
-                    <p class="info"><?= htmlspecialchars($class['day_of_week']) ?> · <?= htmlspecialchars($class['time_start']) ?> – <?= htmlspecialchars($class['time_end']) ?></p>
-                    <p class="treinador"><?= htmlspecialchars($class['location']) ?></p>
+                    <p class="titulo"><?= h($class['title']) ?></p>
+                    <p class="info"><?= h($class['day_of_week']) ?> · <?= h($class['time_start']) ?> – <?= h($class['time_end']) ?></p>
+                    <p class="treinador"><?= h($class['location']) ?></p>
                     <div class="rodape">
                         <span class="vagas <?= $remaining <= 0 ? 'cheio' : '' ?>">
                             <?= $class['booked_spots'] ?>/<?= $class['total_spots'] ?> enrolled
@@ -380,8 +383,8 @@ require_once __DIR__ . '/../partials/header.php';
             <tbody>
                 <?php foreach ($recent_users as $u): ?>
                     <tr>
-                        <td><?= htmlspecialchars($u['first_name'] . ' ' . $u['last_name']) ?></td>
-                        <td><span class="badge-role <?= $u['role'] ?>"><?= htmlspecialchars($u['role']) ?></span></td>
+                        <td><?= h($u['first_name'] . ' ' . $u['last_name']) ?></td>
+                        <td><span class="badge-role <?= $u['role'] ?>"><?= h($u['role']) ?></span></td>
                         <td class="muted"><?= date('M j, Y', strtotime($u['created_at'])) ?></td>
                     </tr>
                 <?php endforeach; ?>

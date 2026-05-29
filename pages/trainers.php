@@ -8,8 +8,15 @@ $page_title = 'Trainers';
 
 $trainer_id = $_GET['id'] ?? null;
 
+
+
 if ($trainer_id) {
-    $stmt = $db->prepare("SELECT * FROM trainers WHERE id = ?");
+    $stmt = $db->prepare("
+        SELECT t.*, u.profile_pic 
+        FROM trainers t 
+        LEFT JOIN users u ON (u.first_name || ' ' || u.last_name) = t.name 
+        WHERE t.id = ?
+    ");
     $stmt->execute([$trainer_id]);
     $trainer = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -35,7 +42,12 @@ if ($trainer_id) {
     $stmt->execute([$trainer_id]);
     $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $all_trainers = $db->query("SELECT id, name, photo_initials FROM trainers ORDER BY name")->fetchAll(PDO::FETCH_ASSOC);
+    $all_trainers = $db->query("
+        SELECT t.id, t.name, t.photo_initials, u.profile_pic 
+        FROM trainers t 
+        LEFT JOIN users u ON (u.first_name || ' ' || u.last_name) = t.name 
+        ORDER BY t.name
+    ")->fetchAll(PDO::FETCH_ASSOC);
 
     $specialties = explode(',', $trainer['specialties']);
 
@@ -44,13 +56,19 @@ if ($trainer_id) {
 
     <main class="pagina">
     <aside class="cartao cartao-perfil">
-        <div class="foto"><?= htmlspecialchars($trainer['photo_initials']) ?></div>
-        <h2><?= htmlspecialchars($trainer['name']) ?></h2>
+        <div class="foto" style="overflow: hidden; position: relative;">
+            <?php if (!empty($trainer['profile_pic'])): ?>
+                <img src="<?= h($trainer['profile_pic']) ?>" alt="<?= h($trainer['name']) ?>" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+            <?php else: ?>
+                <?= h($trainer['photo_initials']) ?>
+            <?php endif; ?>
+        </div>
+        <h2><?= h($trainer['name']) ?></h2>
         <span class="selo">Certified Trainer</span>
  
         <ul class="etiquetas">
             <?php foreach ($specialties as $spec): ?>
-                <li><span><?= htmlspecialchars(trim($spec)) ?></span></li>
+                <li><span><?= h(trim($spec)) ?></span></li>
             <?php endforeach; ?>
         </ul>
  
@@ -60,14 +78,19 @@ if ($trainer_id) {
             <p>from <?= $trainer['reviews_count'] ?> reviews</p>
         </div>
  
-        <button class="reservar">Book Personal Training</button>
+        <div class="pt-booking-redirect-zone">
+            <a href="book_pt.php?trainer_id=<?= $trainer['id'] ?>" class="btn-book-pt">
+                Book 1-on-1 Personal Training
+            </a>
+        </div>
+        
         <a href="trainers.php" class="btn-contorno" style="display:block;text-align:center;margin-top:10px;">&larr; All Trainers</a>
     </aside>
  
     <section class="conteudo">
         <div class="sobre">
             <h2>About</h2>
-            <p><?= htmlspecialchars($trainer['bio']) ?></p>
+            <p><?= h($trainer['bio']) ?></p>
         </div>
  
         <div class="aulas">
@@ -80,8 +103,8 @@ if ($trainer_id) {
                 ?>
                     <article class="item-aula">
                         <div>
-                            <h3><?= htmlspecialchars($class['title']) ?></h3>
-                            <p><?= htmlspecialchars($class['day_of_week']) ?> · <?= htmlspecialchars($class['time_start']) ?> – <?= htmlspecialchars($class['time_end']) ?> · <?= htmlspecialchars($class['location']) ?></p>
+                            <h3><?= h($class['title']) ?></h3>
+                            <p><?= h($class['day_of_week']) ?> · <?= h($class['time_start']) ?> – <?= h($class['time_end']) ?> · <?= h($class['location']) ?></p>
                             <span class="vagas <?= $is_full ? 'vermelho' : 'verde' ?>"><?= $class['booked_spots'] ?> / <?= $class['total_spots'] ?> spots</span>
                         </div>
                         <form method="POST" action="../actions/book_class.php">
@@ -108,7 +131,7 @@ if ($trainer_id) {
                         <article class="avaliacao">
                             <h3>Member</h3>
                             <p class="estrelas"><?= str_repeat('★', $review['rating']) . str_repeat('☆', 5 - $review['rating']) ?></p>
-                            <p><?= htmlspecialchars($review['comment']) ?></p>
+                            <p><?= h($review['comment']) ?></p>
                         </article>
                     <?php endforeach; ?>
                 </div>
@@ -153,7 +176,12 @@ document.querySelectorAll('.star').forEach(star => {
     require_once __DIR__ . '/../partials/footer.php';
  
 } else {
-    $all_trainers = $db->query("SELECT * FROM trainers ORDER BY name")->fetchAll(PDO::FETCH_ASSOC);
+    $all_trainers = $db->query("
+        SELECT t.*, u.profile_pic 
+        FROM trainers t 
+        LEFT JOIN users u ON (u.first_name || ' ' || u.last_name) = t.name 
+        ORDER BY t.name
+    ")->fetchAll(PDO::FETCH_ASSOC);
     require_once __DIR__ . '/../partials/header.php';
 ?>
  
@@ -170,18 +198,24 @@ document.querySelectorAll('.star').forEach(star => {
         ?>
             <a href="trainers.php?id=<?= $trainer['id'] ?>" class="trainer-card-link">
                 <article class="trainer-card-page">
-                    <div class="trainer-avatar-page"><?= htmlspecialchars($trainer['photo_initials']) ?></div>
-                    <h3><?= htmlspecialchars($trainer['name']) ?></h3>
+                    <div class="trainer-avatar-page" style="overflow: hidden; position: relative;">
+                        <?php if (!empty($trainer['profile_pic'])): ?>
+                            <img src="<?= h($trainer['profile_pic']) ?>" alt="<?= h($trainer['name']) ?>" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                        <?php else: ?>
+                            <?= h($trainer['photo_initials']) ?>
+                        <?php endif; ?>
+                    </div>
+                    <h3><?= h($trainer['name']) ?></h3>
                     <div class="trainer-rating-page">
                         <span class="stars"><?= str_repeat('★', round($trainer['rating'])) . str_repeat('☆', 5 - round($trainer['rating'])) ?></span>
                         <span><?= $trainer['rating'] ?></span>
                     </div>
                     <ul class="trainer-tags-page">
                         <?php foreach ($specs as $spec): ?>
-                            <li><span><?= htmlspecialchars(trim($spec)) ?></span></li>
+                            <li><span><?= h(trim($spec)) ?></span></li>
                         <?php endforeach; ?>
                     </ul>
-                    <p class="trainer-bio-page"><?= htmlspecialchars(substr($trainer['bio'], 0, 80)) ?>...</p>
+                    <p class="trainer-bio-page"><?= h(substr($trainer['bio'], 0, 80)) ?>...</p>
                 </article>
             </a>
         <?php endforeach; ?>

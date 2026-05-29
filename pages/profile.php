@@ -24,8 +24,102 @@ if (!$user) {
 }
 
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+    validate_csrf(); 
+}
 
 
+
+// 1. Alterar Password
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['change_password'])) {
+    $current_password = $_POST['current_password'] ?? '';
+    $new_password = $_POST['new_password'] ?? '';
+    $confirm_password = $_POST['confirm_password'] ?? '';
+
+    if (!password_verify($current_password, $user['password'])) {
+        $_SESSION['flash_error'] = "A password atual está incorreta.";
+    } elseif (strlen($new_password) < 6) {
+        $_SESSION['flash_error'] = "A nova password deve ter pelo menos 6 caracteres.";
+    } elseif ($new_password !== $confirm_password) {
+        $_SESSION['flash_error'] = "As novas passwords não coincidem.";
+    } else {
+        $hashed = password_hash($new_password, PASSWORD_DEFAULT);
+        $stmt = $db->prepare("UPDATE users SET password = ? WHERE id = ?");
+        $stmt->execute([$hashed, $user_id]);
+        $_SESSION['flash_success'] = "Password atualizada com sucesso!";
+    }
+    header('Location: profile.php');
+    exit;
+}
+
+// 2. Upload de Foto de Perfil
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['upload_pfp'])) {
+    if (isset($_FILES['profile_pic_file']) && $_FILES['profile_pic_file']['error'] === UPLOAD_ERR_OK) {
+        $file = $_FILES['profile_pic_file'];
+        $max_size = 2 * 1024 * 1024; // 2MB
+        $allowed_types = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+        $allowed_exts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+        $file_ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        $file_type = mime_content_type($file['tmp_name']);
+
+        if ($file['size'] > $max_size) {
+            $_SESSION['flash_error'] = "A imagem excede o tamanho máximo de 2MB.";
+        } elseif (!in_array($file_type, $allowed_types) || !in_array($file_ext, $allowed_exts)) {
+            $_SESSION['flash_error'] = "Formato não suportado. Use JPG, PNG, GIF ou WEBP.";
+        } else {
+            $upload_dir = __DIR__ . '/../uploads/';
+            if (!is_dir($upload_dir)) {
+                mkdir($upload_dir, 0755, true);
+            }
+
+            if (!empty($user['profile_pic'])) {
+                $old_file = __DIR__ . '/../' . ltrim($user['profile_pic'], '../');
+                if (file_exists($old_file)) {
+                    unlink($old_file);
+                }
+            }
+
+            $new_filename = 'pfp_' . $user_id . '_' . bin2hex(random_bytes(8)) . '.' . $file_ext;
+            $destination = $upload_dir . $new_filename;
+            $db_path = '../uploads/' . $new_filename;
+
+            if (move_uploaded_file($file['tmp_name'], $destination)) {
+                $stmt = $db->prepare("UPDATE users SET profile_pic = ? WHERE id = ?");
+                $stmt->execute([$db_path, $user_id]);
+
+                $_SESSION['user_pfp'] = $db_path;
+                $_SESSION['flash_success'] = "Foto de perfil updated com sucesso!";
+            } else {
+                $_SESSION['flash_error'] = "Erro ao guardar a imagem no servidor.";
+            }
+        }
+    } else {
+        $_SESSION['flash_error'] = "Nenhum ficheiro válido foi carregado.";
+    }
+    header('Location: profile.php');
+    exit;
+}
+
+// 3. Apagar Foto de Perfil
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_pfp'])) {
+    if (!empty($user['profile_pic'])) {
+        $file_to_delete = __DIR__ . '/../' . ltrim($user['profile_pic'], '../');
+        if (file_exists($file_to_delete)) {
+            unlink($file_to_delete);
+        }
+        $stmt = $db->prepare("UPDATE users SET profile_pic = NULL WHERE id = ?");
+        $stmt->execute([$user_id]);
+
+        $_SESSION['user_pfp'] = null;
+        $_SESSION['flash_success'] = "Foto de perfil removida.";
+    }
+    header('Location: profile.php');
+    exit;
+}
+
+// 4. Adicionar Progresso (Peso / Massa Gorda)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_progress'])) {
     $weight = filter_input(INPUT_POST, 'weight', FILTER_VALIDATE_FLOAT);
     $body_fat = filter_input(INPUT_POST, 'body_fat', FILTER_VALIDATE_FLOAT) ?: null;
@@ -38,6 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_progress'])) {
     exit;
 }
 
+// 5. Cancelar Inscrição na Aula
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_booking'])) {
     $booking_id = $_POST['cancel_booking'];
 
@@ -97,15 +192,39 @@ require_once __DIR__ . '/../partials/header.php';
 
 <main class="profile-page">
     <section class="profile-card">
-        <div class="profile-avatar"><?= htmlspecialchars($_SESSION['user_initials']) ?></div>
-        <h2><?= htmlspecialchars($user['first_name'] . ' ' . $user['last_name']) ?></h2>
-        <p class="profile-email"><?= htmlspecialchars($user['email']) ?></p>
+        <div class="profile-avatar-container">
+            <div class="profile-avatar">
+                <?php if (!empty($user['profile_pic'])): ?>
+                    <img src="<?= h($user['profile_pic']) ?>" alt="Profile Picture">
+                <?php else: ?>
+                    <?= h($_SESSION['user_initials']) ?>
+                <?php endif; ?>
+            </div>
+            
+            <form method="POST" action="profile.php" enctype="multipart/form-data" class="profile-pic-form">
+                <?php csrf_input(); ?> <input type="hidden" name="upload_pfp" value="1">
+                <label for="pfp-input" class="pfp-label">
+                    <span class="pfp-edit-btn">Alterar Foto</span>
+                </label>
+                <input type="file" name="profile_pic_file" id="pfp-input" class="pfp-file-input" onchange="this.form.submit()" accept="image/*">
+            </form>
+            
+            <?php if (!empty($user['profile_pic'])): ?>
+                <form method="POST" action="profile.php" class="profile-pic-delete-form">
+                    <?php csrf_input(); ?> <input type="hidden" name="delete_pfp" value="1">
+                    <button type="submit" class="pfp-delete-btn" onclick="return confirm('Remover a foto de perfil?')">Remover Foto</button>
+                </form>
+            <?php endif; ?>
+        </div>
+        <h2><?= h($user['first_name'] . ' ' . $user['last_name']) ?></h2>
+        <p class="profile-email"><?= h($user['email']) ?></p>
         <p class="profile-member">Member since <?= date('F Y', strtotime($user['created_at'])) ?></p>
         <p class="profile-bookings-count"><?= count($bookings) ?> class<?= count($bookings) !== 1 ? 'es' : '' ?> booked</p>
         <hr class="profile-separator">
         <article class="progress-form-container">
             <h3>Log Today's Stats</h3>
             <form method="POST" action="profile.php">
+                <?php csrf_input(); ?>
                 <input type="hidden" name="add_progress" value="1">
                 <div class="form-group">
                     <label for="weight">Weight (kg):</label>
@@ -143,24 +262,47 @@ require_once __DIR__ . '/../partials/header.php';
             ?>
                 <div class="booking-card">
                     <div class="booking-info">
-                        <h3><?= htmlspecialchars($booking['title']) ?></h3>
+                        <h3><?= h($booking['title']) ?></h3>
                         <p class="booking-details">
-                            <?= htmlspecialchars($booking['day_of_week']) ?> ·
-                            <?= htmlspecialchars($booking['time_start']) ?> – <?= htmlspecialchars($booking['time_end']) ?> ·
-                            <?= htmlspecialchars($booking['location']) ?>
+                            <?= h($booking['day_of_week']) ?> ·
+                            <?= h($booking['time_start']) ?> – <?= h($booking['time_end']) ?> ·
+                            <?= h($booking['location']) ?>
                         </p>
-                        <p class="booking-trainer">with <?= htmlspecialchars($booking['trainer_name']) ?></p>
+                        <p class="booking-trainer">with <?= h($booking['trainer_name']) ?></p>
                         <span class="spots-badge <?= $remaining > 0 ? 'green' : 'red' ?>">
                             <?= $booking['booked_spots'] ?> / <?= $booking['total_spots'] ?> spots
                         </span>
                     </div>
                     <form method="POST" onsubmit="return confirm('Cancel this booking?')">
-                        <input type="hidden" name="cancel_booking" value="<?= $booking['booking_id'] ?>">
+                        <?php csrf_input(); ?> <input type="hidden" name="cancel_booking" value="<?= $booking['booking_id'] ?>">
                         <button type="submit" class="btn-cancel">Cancel</button>
                     </form>
                 </div>
             <?php endforeach; ?>
         <?php endif; ?>
+
+        <section class="change-password-section" style="margin-top: 40px;">
+            <h2>Change Password</h2>
+            <form method="POST" action="profile.php" class="change-password-form">
+                <?php csrf_input(); ?>
+                <input type="hidden" name="change_password" value="1">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="current_password">Current Password:</label>
+                        <input type="password" name="current_password" id="current_password" required placeholder="Enter current password">
+                    </div>
+                    <div class="form-group">
+                        <label for="new_password">New Password:</label>
+                        <input type="password" name="new_password" id="new_password" required placeholder="Min 6 characters">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm_password">Confirm New Password:</label>
+                        <input type="password" name="confirm_password" id="confirm_password" required placeholder="Confirm new password">
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary" style="margin-top: 15px; align-self: flex-start;">Update Password</button>
+            </form>
+        </section>
     </section>
 </main>
 

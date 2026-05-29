@@ -12,6 +12,8 @@ if (isset($_SESSION['user_id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    validate_csrf();
+    
     $first_name       = trim($_POST['first_name']       ?? '');
     $last_name        = trim($_POST['last_name']        ?? '');
     $email            = trim($_POST['email']            ?? '');
@@ -56,13 +58,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p class="subtitle">Create your account</p>
 
         <?php if ($error !== ''): ?>
-            <p class="error-msg"><?= htmlspecialchars($error) ?></p>
+            <p class="error-msg"><?= h($error) ?></p>
         <?php endif; ?>
         <?php if ($success !== ''): ?>
-            <p class="success-msg"><?= htmlspecialchars($success) ?></p>
+            <p class="success-msg"><?= h($success) ?></p>
         <?php endif; ?>
 
         <form action="register.php" method="post">
+            <?php csrf_input(); ?>
             <input type="text"     name="first_name"       placeholder="First Name"                  required>
             <input type="text"     name="last_name"        placeholder="Last Name"                   required>
             <input type="email"    name="email"            placeholder="Email"                       required>

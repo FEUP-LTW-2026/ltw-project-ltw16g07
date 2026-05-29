@@ -262,6 +262,29 @@ footer p:last-child {
     font-size: 0.8rem;
     margin-top: 0.25rem;
 }
+
+
+
+.notif-bell {
+    position: relative;
+    font-size: 1.2rem;
+}
+
+.notif-badge {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    background: var(--red);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
  
 @media (max-width: 768px) {
     header {

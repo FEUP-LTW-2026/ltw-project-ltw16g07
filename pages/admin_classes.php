@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/,,/includes/auth.php';
+require_once __DIR__ . '/../includes/auth.php';
 require_admin();
 
 $current_page = 'admin';
@@ -29,6 +29,9 @@ function gather_class_data(): ?array
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    validate_csrf();
+
     if (isset($_POST['create_class'])) {
         $data = gather_class_data();
         if ($data) {
@@ -125,17 +128,17 @@ require_once __DIR__ . '/../partials/header.php';
             <tbody>
                 <?php foreach ($classes as $class): ?>
                     <tr>
-                        <td><?= htmlspecialchars($class['title']) ?></td>
-                        <td><span class="badge-type"><?= htmlspecialchars($class['type']) ?></span></td>
-                        <td><?= htmlspecialchars($class['day_of_week']) ?></td>
-                        <td><?= htmlspecialchars($class['time_start']) ?> &ndash; <?= htmlspecialchars($class['time_end']) ?></td>
-                        <td><?= htmlspecialchars($class['location']) ?></td>
-                        <td><?= htmlspecialchars($class['trainer_name']) ?></td>
+                        <td><?= h($class['title']) ?></td>
+                        <td><span class="badge-type"><?= h($class['type']) ?></span></td>
+                        <td><?= h($class['day_of_week']) ?></td>
+                        <td><?= h($class['time_start']) ?> &ndash; <?= h($class['time_end']) ?></td>
+                        <td><?= h($class['location']) ?></td>
+                        <td><?= h($class['trainer_name']) ?></td>
                         <td><?= $class['booked_spots'] ?> / <?= $class['total_spots'] ?></td>
                         <td class="cell-actions">
                             <button class="btn-small" onclick="openEditModal(<?= $class['id'] ?>)">Edit</button>
                             <form method="POST" class="inline-form" onsubmit="return confirm('Delete this class? All associated bookings will also be removed.')">
-                                <input type="hidden" name="class_id" value="<?= $class['id'] ?>">
+                                <?php csrf_input(); ?> <input type="hidden" name="class_id" value="<?= $class['id'] ?>">
                                 <button type="submit" name="delete_class" class="btn-small btn-danger">Delete</button>
                             </form>
                         </td>
@@ -163,6 +166,7 @@ require_once __DIR__ . '/../partials/header.php';
         <div class="modal-content-admin">
             <h3>Create New Class</h3>
             <form method="POST">
+                <?php csrf_input(); ?>
                 <label for="c-title">Title</label>
                 <input type="text" name="title" id="c-title" required>
 
@@ -199,7 +203,7 @@ require_once __DIR__ . '/../partials/header.php';
                 <select name="trainer_id" id="c-trainer" required>
                     <option value="">Select trainer</option>
                     <?php foreach ($trainers as $t): ?>
-                        <option value="<?= $t['id'] ?>"><?= htmlspecialchars($t['name']) ?></option>
+                        <option value="<?= $t['id'] ?>"><?= h($t['name']) ?></option>
                     <?php endforeach; ?>
                 </select>
 
@@ -219,6 +223,7 @@ require_once __DIR__ . '/../partials/header.php';
         <div class="modal-content-admin">
             <h3>Edit Class</h3>
             <form method="POST">
+                <?php csrf_input(); ?>
                 <input type="hidden" name="class_id" id="e-id">
 
                 <label for="e-title">Title</label>
@@ -256,7 +261,7 @@ require_once __DIR__ . '/../partials/header.php';
                 <select name="trainer_id" id="e-trainer" required>
                     <option value="">Select trainer</option>
                     <?php foreach ($trainers as $t): ?>
-                        <option value="<?= $t['id'] ?>"><?= htmlspecialchars($t['name']) ?></option>
+                        <option value="<?= $t['id'] ?>"><?= h($t['name']) ?></option>
                     <?php endforeach; ?>
                 </select>
 

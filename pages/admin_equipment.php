@@ -17,6 +17,8 @@ function normalize_status(string $status): string
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    validate_csrf();
+
     if (isset($_POST['add_equipment'])) {
         $name        = trim($_POST['name'] ?? '');
         $category    = trim($_POST['category'] ?? '');
@@ -93,19 +95,19 @@ require_once __DIR__ . '/../partials/header.php';
             <tbody>
                 <?php foreach ($equipment as $item): ?>
                     <tr>
-                        <td><?= htmlspecialchars($item['name']) ?></td>
-                        <td><span class="badge-category"><?= htmlspecialchars($item['category']) ?></span></td>
+                        <td><?= h($item['name']) ?></td>
+                        <td><span class="badge-category"><?= h($item['category']) ?></span></td>
                         <td><?= (int) $item['quantity'] ?></td>
                         <td>
                             <span class="badge-status <?= $item['status'] === 'available' ? 'active' : 'inactive' ?>">
-                                <?= htmlspecialchars(ucfirst($item['status'] ?? 'Available')) ?>
+                                <?= h(ucfirst($item['status'] ?? 'Available')) ?>
                             </span>
                         </td>
-                        <td class="cell-muted cell-desc"><?= htmlspecialchars($item['description'] ?? '') ?></td>
+                        <td class="cell-muted cell-desc"><?= h($item['description'] ?? '') ?></td>
                         <td class="cell-actions">
                             <button class="btn-small" onclick="openEditEq(<?= $item['id'] ?>)">Edit</button>
                             <form method="POST" class="inline-form" onsubmit="return confirm('Delete this equipment item?')">
-                                <input type="hidden" name="equipment_id" value="<?= $item['id'] ?>">
+                                <?php csrf_input(); ?> <input type="hidden" name="equipment_id" value="<?= $item['id'] ?>">
                                 <button type="submit" name="delete_equipment" class="btn-small btn-danger">Delete</button>
                             </form>
                         </td>
@@ -130,7 +132,7 @@ require_once __DIR__ . '/../partials/header.php';
         <div class="modal-content-admin">
             <h3>Add Equipment</h3>
             <form method="POST">
-                <label for="eq-name">Name <span class="required">*</span></label>
+                <?php csrf_input(); ?> <label for="eq-name">Name <span class="required">*</span></label>
                 <input type="text" name="name" id="eq-name" required>
 
                 <label for="eq-category">Category <span class="required">*</span></label>
@@ -146,7 +148,7 @@ require_once __DIR__ . '/../partials/header.php';
                     <option value="maintenance">Maintenance</option>
                 </select>
 
-                <label for="eq-desc">Description</label>
+                <?php csrf_input(); ?> <label for="eq-desc">Description</label>
                 <textarea name="description" id="eq-desc" placeholder="Optional description"></textarea>
 
                 <div class="modal-actions">
@@ -162,15 +164,15 @@ require_once __DIR__ . '/../partials/header.php';
         <div class="modal-content-admin">
             <h3>Edit Equipment</h3>
             <form method="POST">
-                <input type="hidden" name="equipment_id" id="ee-id">
+                <?php csrf_input(); ?> <input type="hidden" name="equipment_id" id="ee-id">
 
                 <label for="ee-name">Name <span class="required">*</span></label>
                 <input type="text" name="name" id="ee-name" required>
 
-                <label for="ee-category">Category <span class="required">*</span></label>
+                <<label for="ee-category">Category <span class="required">*</span></label>
                 <input type="text" name="category" id="ee-category" required>
 
-                <label for="ee-quantity">Quantity</label>
+                <<label for="ee-quantity">Quantity</label>
                 <input type="number" name="quantity" id="ee-quantity" min="1">
 
                 <label for="ee-status">Status</label>
