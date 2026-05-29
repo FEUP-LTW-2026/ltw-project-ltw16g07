@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $reset) {
         <p class="subtitle">New password</p>
 
         <?php if ($error !== ''): ?>
-            <p class="error-msg"><?= htmlspecialchars($error) ?></p>
+            <p class="error-msg"><?= h($error) ?></p>
         <?php endif; ?>
 
         <?php if ($success !== ''): ?>

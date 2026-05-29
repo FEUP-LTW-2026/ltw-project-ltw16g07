@@ -58,10 +58,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p class="subtitle">Create your account</p>
 
         <?php if ($error !== ''): ?>
-            <p class="error-msg"><?= htmlspecialchars($error) ?></p>
+            <p class="error-msg"><?= h($error) ?></p>
         <?php endif; ?>
         <?php if ($success !== ''): ?>
-            <p class="success-msg"><?= htmlspecialchars($success) ?></p>
+            <p class="success-msg"><?= h($success) ?></p>
         <?php endif; ?>
 
         <form action="register.php" method="post">
