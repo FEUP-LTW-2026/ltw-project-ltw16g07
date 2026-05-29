@@ -102,7 +102,7 @@ require_once __DIR__ . '/../partials/header.php';
                 <li>
                     <a href="classes.php?type=<?= urlencode($t['type']) ?><?= $filter_trainer ? '&trainer=' . $filter_trainer : '' ?><?= $filter_day ? '&day=' . $filter_day : '' ?><?= $filter_time ? '&time=' . $filter_time : '' ?>"
                        class="filter-btn <?= $filter_type === $t['type'] ? 'active' : '' ?>">
-                        <?= htmlspecialchars($t['type']) ?>
+                        <?= h($t['type']) ?>
                     </a>
                 </li>
             <?php endforeach; ?>
@@ -111,14 +111,14 @@ require_once __DIR__ . '/../partials/header.php';
         <div class="filters">
             <form action="classes.php" method="GET">
                 <?php if ($filter_type !== 'All'): ?>
-                    <input type="hidden" name="type" value="<?= htmlspecialchars($filter_type) ?>">
+                    <input type="hidden" name="type" value="<?= h($filter_type) ?>">
                 <?php endif; ?>
  
                 <select name="trainer" onchange="this.form.submit()">
                     <option value="">Trainer</option>
                     <?php foreach ($trainers as $t): ?>
                         <option value="<?= $t['id'] ?>" <?= $filter_trainer == $t['id'] ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($t['name']) ?>
+                            <?= h($t['name']) ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
@@ -158,11 +158,11 @@ require_once __DIR__ . '/../partials/header.php';
                     ?>
                         <article class="class-card" data-type="<?= strtolower($class['type']) ?>">
                             <div class="class-info">
-                                <h3 class="title"><?= htmlspecialchars($class['title']) ?></h3>
+                                <h3 class="title"><?= h($class['title']) ?></h3>
                                 <p class="info">
-                                    <?= htmlspecialchars($class['time_start']) ?> – <?= htmlspecialchars($class['time_end']) ?> ·
-                                    <?= htmlspecialchars($class['location']) ?> ·
-                                    <?= htmlspecialchars($class['trainer_name']) ?>
+                                    <?= h($class['time_start']) ?> – <?= h($class['time_end']) ?> ·
+                                    <?= h($class['location']) ?> ·
+                                    <?= h($class['trainer_name']) ?>
                                 </p>
                                 <p class="spots"><?= $class['booked_spots'] ?> / <?= $class['total_spots'] ?> spots</p>
                             </div>

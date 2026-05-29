@@ -43,9 +43,9 @@ if (isset($_SESSION['user_id'])) {
             <?php if (isset($_SESSION['user_id'])): ?>
                 <a href="../pages/profile.php" class="user-initials">
                   <?php if (!empty($_SESSION['user_pfp'])): ?>
-                   <img src="<?= htmlspecialchars($_SESSION['user_pfp']) ?>" alt="Profile Picture" class="header-pfp">
+                   <img src="<?= h($_SESSION['user_pfp']) ?>" alt="Profile Picture" class="header-pfp">
                   <?php else: ?>
-                  <?= htmlspecialchars($_SESSION['user_initials']) ?>
+                  <?= h($_SESSION['user_initials']) ?>
                   <?php endif; ?>
                 </a>
                 <a href="../pages/notifications.php" class="notif-bell">
@@ -62,10 +62,10 @@ if (isset($_SESSION['user_id'])) {
     </header>
 
     <?php if (isset($_SESSION['flash_success'])): ?>
-        <div class="flash flash-success"><?= htmlspecialchars($_SESSION['flash_success']) ?></div>
+        <div class="flash flash-success"><?= h($_SESSION['flash_success']) ?></div>
         <?php unset($_SESSION['flash_success']); ?>
     <?php endif; ?>
     <?php if (isset($_SESSION['flash_error'])): ?>
-        <div class="flash flash-error"><?= htmlspecialchars($_SESSION['flash_error']) ?></div>
+        <div class="flash flash-error"><?= h($_SESSION['flash_error']) ?></div>
         <?php unset($_SESSION['flash_error']); ?>
     <?php endif; ?>

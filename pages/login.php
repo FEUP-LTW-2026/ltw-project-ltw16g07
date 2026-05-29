@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p class="subtitle">Welcome back</p>
  
         <?php if ($error !== ''): ?>
-            <p class="error-msg"><?= htmlspecialchars($error) ?></p>
+            <p class="error-msg"><?= h($error) ?></p>
         <?php endif; ?>
  
         <form action="login.php" method="post">

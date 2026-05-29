@@ -76,13 +76,13 @@ require_once __DIR__ . '/../partials/header.php';
     <?php else: ?>
         <section class="notif-list">
             <?php foreach ($notifications as $n): ?>
-                <article class="notif-item <?= $n['is_read'] ? '' : 'notif-unread' ?>" data-type="<?= htmlspecialchars($n['type'] ?? 'general') ?>">
+                <article class="notif-item <?= $n['is_read'] ? '' : 'notif-unread' ?>" data-type="<?= h($n['type'] ?? 'general') ?>">
                     <span class="notif-icon" aria-hidden="true">
                         <?= $icons[$n['type']] ?? '🔔' ?>
                     </span>
                     
                     <div class="notif-body">
-                        <p class="notif-message"><?= htmlspecialchars($n['message']) ?></p>
+                        <p class="notif-message"><?= h($n['message']) ?></p>
                         <time class="notif-time" datetime="<?= $n['created_at'] ?>">
                             <?= date('M j, Y · H:i', strtotime($n['created_at'])) ?>
                         </time>
