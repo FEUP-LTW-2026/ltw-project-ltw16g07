@@ -24,8 +24,8 @@ function drawHomePage(array $featured_trainers, array $class_types, array $stats
             <li><a href="#plans">Plans</a></li>
         </ul>
         <div class="nav-auth">
-            <a href="login.php" class="btn-login">Login</a>
-            <a href="register.php" class="btn-signup">Sign Up</a>
+            <a href="/../pages/login.php" class="btn-login">Login</a>
+            <a href="/../pages/register.php" class="btn-signup">Sign Up</a>
         </div>
     </nav>
 
@@ -34,7 +34,7 @@ function drawHomePage(array $featured_trainers, array $class_types, array $stats
             <h1>Welcome to FitHub</h1>
             <p class="hero-subtitle" id="typing-subtitle" data-text="Your journey to a healthier, stronger you starts here. Track your workouts, join dynamic classes, and reach your goals with elite trainers."></p>
             <div class="hero-buttons">
-                <a href="register.php" class="btn-signup">Get Started</a>
+                <a href="/../pages/register.php" class="btn-signup">Get Started</a>
                 <a href="#plans" class="btn-login">View Plans</a>
             </div>
             <div class="hero-stats">
@@ -61,7 +61,7 @@ function drawHomePage(array $featured_trainers, array $class_types, array $stats
                 <div class="class-card">
                     <h3><?= h($type['type']) ?></h3>
                     <p>Experience our specialized high-energy training routines tailored for your ultimate fitness goals.</p>
-                    <a href="login.php" class="class-link">Book Class →</a>
+                    <a href="/../pages/login.php" class="class-link">Book Class →</a>
                 </div>
             <?php endforeach; ?>
         </div>
@@ -127,7 +127,7 @@ function drawHomePage(array $featured_trainers, array $class_types, array $stats
             <div class="modal-price" id="modal-plan-price">€00/month</div>
             <p class="modal-note" id="modal-plan-note"></p>
             <ul class="modal-features-list" id="modal-plan-features"></ul>
-            <a href="register.php" class="btn-modal-action">Select Plan</a>
+            <a href="/../pages/register.php" class="btn-modal-action">Select Plan</a>
         </div>
     </div>
 
