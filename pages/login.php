@@ -1,10 +1,11 @@
 <?php
 session_start();
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../templates/login.tpl.php';
 
 $current_page = 'login';
 $page_title = 'Login';
-$extra_css = '/../css/login.css';
+$extra_css = '../css/login.css';
 
 $error = '';
 
@@ -41,38 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>FitHub - <?= $page_title ?></title>
-    <link rel="icon" type="image/png" href="https://i.imgur.com/WT1OtgQ.png">
-    <link rel="stylesheet" href="login.css">
-    <link rel="stylesheet" href="../css/login.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-</head>
-<body>
-    <main class="login-box">
-        <a href="../index.php"><h2>FitHub</h2></a>
-        <p class="subtitle">Welcome back</p>
- 
-        <?php if ($error !== ''): ?>
-            <p class="error-msg"><?= h($error) ?></p>
-        <?php endif; ?>
- 
-        <form action="login.php" method="post">
-            <?php csrf_input(); ?>
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <input type="submit" value="Login">
-        </form>
-        <p class="footer-text">
-            Don't have an account? <a href="register.php">Register</a>
-        </p>
-    </main>
-</body>
-</html>
- 
-
+// Como o login não usa o header.php comum (pois não tem o menu de navegação),
+// chamamos a função do template que vai abrir o HTML e desenhar a página toda.
+drawLoginPage($error, $page_title, $extra_css);

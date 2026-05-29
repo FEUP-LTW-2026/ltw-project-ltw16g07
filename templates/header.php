@@ -53,7 +53,7 @@ if (isset($_SESSION['user_id'])) {
                      <span class="notif-badge"><?= $notif_count ?></span>
                    <?php endif; ?>
                 </a>
-                <a href="../pages/logout.php"><button type="button" class="btn-outline">Logout</button></a>
+                <a href="../actions/logout.php"><button type="button" class="btn-outline">Logout</button></a>
             <?php else: ?>
                 <a href="../pages/login.php"><button type="button" class="btn-outline">Login</button></a>
                 <a href="../pages/register.php"><button type="button" class="btn-primary">Join Free</button></a>

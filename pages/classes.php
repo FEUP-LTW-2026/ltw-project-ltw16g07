@@ -1,13 +1,14 @@
 <?php
 session_start();
 require_once __DIR__ . '/../config/database.php';
+// Importação do novo template visual das aulas
+require_once __DIR__ . '/../templates/classes.tpl.php';
 
 $current_page = 'classes';
 $extra_css = '../css/classes.css';
-
 $page_title = 'Classes';
 
-// If current user is a trainer, get their trainer ID to check own classes
+// Se o utilizador atual for um treinador, recolhe o ID para validação própria
 $logged_trainer_id = null;
 if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'trainer') {
     $stmt = $db->prepare("SELECT id FROM trainers WHERE name = ?");
@@ -16,11 +17,13 @@ if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'trainer') {
     $logged_trainer_id = $t ? (int) $t['id'] : null;
 }
 
-$filter_type = $_GET['type'] ?? 'All';
+// Filtros passados via parâmetros URL (GET)
+$filter_type    = $_GET['type'] ?? 'All';
 $filter_trainer = $_GET['trainer'] ?? '';
-$filter_day = $_GET['day'] ?? '';
-$filter_time = $_GET['time'] ?? '';
+$filter_day     = $_GET['day'] ?? '';
+$filter_time    = $_GET['time'] ?? '';
 
+// Construção dinâmica da query SQL baseado nos filtros ativos
 $sql = "
     SELECT c.*, t.name as trainer_name 
     FROM classes c 
@@ -74,123 +77,32 @@ $stmt = $db->prepare($sql);
 $stmt->execute($params);
 $classes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// Agrupamento estruturado das aulas organizadas por cada dia da semana
 $days_order = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 $classes_by_day = [];
 foreach ($classes as $class) {
     $classes_by_day[$class['day_of_week']][] = $class;
 }
 
+// Alimentação das listas de seleção dinâmica nos filtros
 $trainers = $db->query("SELECT id, name FROM trainers ORDER BY name")->fetchAll(PDO::FETCH_ASSOC);
+$types    = $db->query("SELECT DISTINCT type FROM classes ORDER BY type")->fetchAll(PDO::FETCH_ASSOC);
 
-$types = $db->query("SELECT DISTINCT type FROM classes ORDER BY type")->fetchAll(PDO::FETCH_ASSOC);
-
+// Início do output gráfico sequencial
 require_once __DIR__ . '/../templates/header.php';
+
+drawClassesPage(
+    $classes, 
+    $classes_by_day, 
+    $days_order, 
+    $trainers, 
+    $types, 
+    $filter_type, 
+    $filter_trainer, 
+    $filter_day, 
+    $filter_time, 
+    $logged_trainer_id
+);
+
+require_once __DIR__ . '/../templates/footer.php';
 ?>
-
-<div class="page-header">
-    <h1>Class Schedule</h1>
-    <p><?= count($classes) ?> classes this week</p>
-</div>
-
-<nav id="menu">
-    <div class="filter-row">
-        <ul>
-            <li>
-                <a href="classes.php?type=All" class="filter-btn <?= $filter_type === 'All' ? 'active' : '' ?>">All</a>
-            </li>
-            <?php foreach ($types as $t): ?>
-                <li>
-                    <a href="classes.php?type=<?= urlencode($t['type']) ?><?= $filter_trainer ? '&trainer=' . $filter_trainer : '' ?><?= $filter_day ? '&day=' . $filter_day : '' ?><?= $filter_time ? '&time=' . $filter_time : '' ?>"
-                       class="filter-btn <?= $filter_type === $t['type'] ? 'active' : '' ?>">
-                        <?= h($t['type']) ?>
-                    </a>
-                </li>
-            <?php endforeach; ?>
-        </ul>
- 
-        <div class="filters">
-            <form action="classes.php" method="GET">
-                <?php if ($filter_type !== 'All'): ?>
-                    <input type="hidden" name="type" value="<?= h($filter_type) ?>">
-                <?php endif; ?>
- 
-                <select name="trainer" onchange="this.form.submit()">
-                    <option value="">Trainer</option>
-                    <?php foreach ($trainers as $t): ?>
-                        <option value="<?= $t['id'] ?>" <?= $filter_trainer == $t['id'] ? 'selected' : '' ?>>
-                            <?= h($t['name']) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
- 
-                <select name="day" onchange="this.form.submit()">
-                    <option value="">Day</option>
-                    <?php foreach ($days_order as $day): ?>
-                        <option value="<?= $day ?>" <?= $filter_day === $day ? 'selected' : '' ?>><?= $day ?></option>
-                    <?php endforeach; ?>
-                </select>
- 
-                <select name="time" onchange="this.form.submit()">
-                    <option value="">Time</option>
-                    <option value="morning"   <?= $filter_time === 'morning'   ? 'selected' : '' ?>>Morning</option>
-                    <option value="afternoon" <?= $filter_time === 'afternoon' ? 'selected' : '' ?>>Afternoon</option>
-                    <option value="evening"   <?= $filter_time === 'evening'   ? 'selected' : '' ?>>Evening</option>
-                </select>
-            </form>
-        </div>
-    </div>
-</nav>
- 
-<main class="schedule">
-    <?php foreach ($days_order as $day):
-        $day_classes = $classes_by_day[$day] ?? [];
-    ?>
-        <section class="day" data-day="<?= strtolower($day) ?>">
-            <h2><?= $day ?></h2>
-            <div class="classes-container">
-                <?php if (empty($day_classes)): ?>
-                    <p style="color: var(--text-gray); padding: 1em;">No classes scheduled for this day.</p>
-                <?php else: ?>
-                    <?php foreach ($day_classes as $class): 
-                        $remaining = $class['total_spots'] - $class['booked_spots'];
-                        $is_full = $remaining <= 0;
-                        $is_own_class = $logged_trainer_id && (int) $class['trainer_id'] === $logged_trainer_id;
-                    ?>
-                        <article class="class-card" data-type="<?= strtolower($class['type']) ?>">
-                            <div class="class-info">
-                                <h3 class="title"><?= h($class['title']) ?></h3>
-                                <p class="info">
-                                    <?= h($class['time_start']) ?> – <?= h($class['time_end']) ?> ·
-                                    <?= h($class['location']) ?> ·
-                                    <?= h($class['trainer_name']) ?>
-                                </p>
-                                <p class="spots"><?= $class['booked_spots'] ?> / <?= $class['total_spots'] ?> spots</p>
-                            </div>
-                            <p class="rating">
-                                <span class="stars"><?= str_repeat('★', round($class['rating'])) . str_repeat('☆', 5 - round($class['rating'])) ?></span>
-                                <?= $class['rating'] ?>
-                            </p>
-                            <div class="class-actions">
-                                <?php if ($is_own_class): ?>
-                                    <span class="own-class-badge">Your class</span>
-                                <?php else: ?>
-                                    <form method="POST" action="../actions/book_class.php">
-                                        <input type="hidden" name="class_id" value="<?= $class['id'] ?>">
-                                        <?php if ($is_full): ?>
-                                            <button class="action-btn waitlist" type="submit" name="action_type" value="waitlist">Join Waitlist</button>
-                                        <?php else: ?>
-                                            <button class="action-btn enroll" type="submit" name="action_type" value="enroll">Enroll →</button>
-                                        <?php endif; ?>
-                                    </form>
-                                <?php endif; ?>
-                            </div>
-                        </article>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </div>
-        </section>
-    <?php endforeach; ?>
-</main>
- 
-<?php require_once __DIR__ . '/../templates/footer.php'; ?>
- 

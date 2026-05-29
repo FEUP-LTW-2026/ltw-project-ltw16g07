@@ -2,6 +2,8 @@
 session_start();
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../templates/admin_equipment.tpl.php';
+
 require_admin();
 
 $current_page = 'admin';
@@ -67,148 +69,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $equipment = $db->query("SELECT * FROM equipment ORDER BY category, name")->fetchAll(PDO::FETCH_ASSOC);
 
 require_once __DIR__ . '/../templates/header.php';
+
+// Renderiza a página recorrendo ao template purificado
+drawAdminEquipmentPage($equipment);
+
+require_once __DIR__ . '/../templates/footer.php';
 ?>
 
-<main>
-    <div class="page-header page-header--row">
-        <div class="page-header-title">
-            <h1>Manage Equipment</h1>
-        </div>
-        <div class="page-header-actions">
-            <button class="btn-small btn-success" onclick="showModal('add-modal')">+ Add Equipment</button>
-            <a href="admin.php" class="back-link">&larr; Back</a>
-        </div>
-    </div>
+<script>
+    // Injeção de dados estruturada a partir do PHP loop
+    <?php foreach ($equipment as $item): ?>
+        window['eqData_<?= $item['id'] ?>'] = {
+            id         : <?= $item['id'] ?>,
+            name       : <?= json_encode($item['name']) ?>,
+            category   : <?= json_encode($item['category']) ?>,
+            quantity   : <?= (int) $item['quantity'] ?>,
+            description: <?= json_encode($item['description'] ?? '') ?>,
+            status     : <?= json_encode($item['status'] ?? 'available') ?>
+        };
+    <?php endforeach; ?>
 
-    <div class="admin-section">
-        <table class="admin-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Category</th>
-                    <th>Quantity</th>
-                    <th>Status</th>
-                    <th>Description</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($equipment as $item): ?>
-                    <tr>
-                        <td><?= h($item['name']) ?></td>
-                        <td><span class="badge-category"><?= h($item['category']) ?></span></td>
-                        <td><?= (int) $item['quantity'] ?></td>
-                        <td>
-                            <span class="badge-status <?= $item['status'] === 'available' ? 'active' : 'inactive' ?>">
-                                <?= h(ucfirst($item['status'] ?? 'Available')) ?>
-                            </span>
-                        </td>
-                        <td class="cell-muted cell-desc"><?= h($item['description'] ?? '') ?></td>
-                        <td class="cell-actions">
-                            <button class="btn-small" onclick="openEditEq(<?= $item['id'] ?>)">Edit</button>
-                            <form method="POST" class="inline-form" onsubmit="return confirm('Delete this equipment item?')">
-                                <?php csrf_input(); ?> <input type="hidden" name="equipment_id" value="<?= $item['id'] ?>">
-                                <button type="submit" name="delete_equipment" class="btn-small btn-danger">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    <script>
-                        window['eqData_<?= $item['id'] ?>'] = {
-                            id         : <?= $item['id'] ?>,
-                            name       : <?= json_encode($item['name']) ?>,
-                            category   : <?= json_encode($item['category']) ?>,
-                            quantity   : <?= (int) $item['quantity'] ?>,
-                            description: <?= json_encode($item['description'] ?? '') ?>,
-                            status     : <?= json_encode($item['status'] ?? 'available') ?>
-                        };
-                    </script>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
+    function showModal(id) { document.getElementById(id).classList.add('show'); }
+    function hideModal(id) { document.getElementById(id).classList.remove('show'); }
 
-    <!-- Add Modal -->
-    <div class="modal-overlay-admin" id="add-modal">
-        <div class="modal-content-admin">
-            <h3>Add Equipment</h3>
-            <form method="POST">
-                <?php csrf_input(); ?> <label for="eq-name">Name <span class="required">*</span></label>
-                <input type="text" name="name" id="eq-name" required>
-
-                <label for="eq-category">Category <span class="required">*</span></label>
-                <input type="text" name="category" id="eq-category" placeholder="e.g. Cardio, Strength, Flexibility" required>
-
-                <label for="eq-quantity">Quantity</label>
-                <input type="number" name="quantity" id="eq-quantity" min="1" value="1">
-
-                <label for="eq-status">Status</label>
-                <select name="status" id="eq-status">
-                    <option value="available">Available</option>
-                    <option value="full">Full</option>
-                    <option value="maintenance">Maintenance</option>
-                </select>
-
-                <?php csrf_input(); ?> <label for="eq-desc">Description</label>
-                <textarea name="description" id="eq-desc" placeholder="Optional description"></textarea>
-
-                <div class="modal-actions">
-                    <button type="button" class="btn-small" onclick="hideModal('add-modal')">Cancel</button>
-                    <button type="submit" name="add_equipment" class="btn-small btn-success">Add</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Edit Modal -->
-    <div class="modal-overlay-admin" id="edit-modal">
-        <div class="modal-content-admin">
-            <h3>Edit Equipment</h3>
-            <form method="POST">
-                <?php csrf_input(); ?> <input type="hidden" name="equipment_id" id="ee-id">
-
-                <label for="ee-name">Name <span class="required">*</span></label>
-                <input type="text" name="name" id="ee-name" required>
-
-                <<label for="ee-category">Category <span class="required">*</span></label>
-                <input type="text" name="category" id="ee-category" required>
-
-                <<label for="ee-quantity">Quantity</label>
-                <input type="number" name="quantity" id="ee-quantity" min="1">
-
-                <label for="ee-status">Status</label>
-                <select name="status" id="ee-status">
-                    <option value="available">Available</option>
-                    <option value="full">Full</option>
-                    <option value="maintenance">Maintenance</option>
-                </select>
-
-                <label for="ee-desc">Description</label>
-                <textarea name="description" id="ee-desc" placeholder="Optional description"></textarea>
-
-                <div class="modal-actions">
-                    <button type="button" class="btn-small" onclick="hideModal('edit-modal')">Cancel</button>
-                    <button type="submit" name="edit_equipment" class="btn-small btn-success">Save</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        function showModal(id) { document.getElementById(id).classList.add('show'); }
-        function hideModal(id) { document.getElementById(id).classList.remove('show'); }
-
-        function openEditEq(id) {
-            const d = window['eqData_' + id];
-            if (!d) return;
-            document.getElementById('ee-id').value       = d.id;
-            document.getElementById('ee-name').value     = d.name;
-            document.getElementById('ee-category').value = d.category;
-            document.getElementById('ee-quantity').value = d.quantity;
-            document.getElementById('ee-desc').value     = d.description;
-            document.getElementById('ee-status').value   = d.status;
-            showModal('edit-modal');
-        }
-    </script>
-</main>
-
-<?php require_once __DIR__ . '/../templates/footer.php'; ?>
+    function openEditEq(id) {
+        const d = window['eqData_' + id];
+        if (!d) return;
+        document.getElementById('ee-id').value       = d.id;
+        document.getElementById('ee-name').value     = d.name;
+        document.getElementById('ee-category').value = d.category;
+        document.getElementById('ee-quantity').value = d.quantity;
+        document.getElementById('ee-desc').value     = d.description;
+        document.getElementById('ee-status').value   = d.status;
+        showModal('edit-modal');
+    }
+</script>
