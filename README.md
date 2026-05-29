@@ -1,4 +1,4 @@
-# Fithub — ltw12g06
+# Fithub — ltw16g07
 
 ## Projeto LTW 2025/26 · FEUP
 
