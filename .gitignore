@@ -1,0 +1,13 @@
+# Local DB files
+/database/*.db
+*.db
+*.sqlite
+*.sqlite3
+
+# SQLite journal/wal/shm
+*.db-journal
+*.sqlite-journal
+*.db-wal
+*.db-shm
+*.sqlite-wal
+*.sqlite-shm
