@@ -58,17 +58,17 @@ if ($trainer_id) {
     <aside class="cartao cartao-perfil">
         <div class="foto" style="overflow: hidden; position: relative;">
             <?php if (!empty($trainer['profile_pic'])): ?>
-                <img src="<?= htmlspecialchars($trainer['profile_pic']) ?>" alt="<?= htmlspecialchars($trainer['name']) ?>" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                <img src="<?= h($trainer['profile_pic']) ?>" alt="<?= h($trainer['name']) ?>" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
             <?php else: ?>
-                <?= htmlspecialchars($trainer['photo_initials']) ?>
+                <?= h($trainer['photo_initials']) ?>
             <?php endif; ?>
         </div>
-        <h2><?= htmlspecialchars($trainer['name']) ?></h2>
+        <h2><?= h($trainer['name']) ?></h2>
         <span class="selo">Certified Trainer</span>
  
         <ul class="etiquetas">
             <?php foreach ($specialties as $spec): ?>
-                <li><span><?= htmlspecialchars(trim($spec)) ?></span></li>
+                <li><span><?= h(trim($spec)) ?></span></li>
             <?php endforeach; ?>
         </ul>
  
@@ -90,7 +90,7 @@ if ($trainer_id) {
     <section class="conteudo">
         <div class="sobre">
             <h2>About</h2>
-            <p><?= htmlspecialchars($trainer['bio']) ?></p>
+            <p><?= h($trainer['bio']) ?></p>
         </div>
  
         <div class="aulas">
@@ -103,8 +103,8 @@ if ($trainer_id) {
                 ?>
                     <article class="item-aula">
                         <div>
-                            <h3><?= htmlspecialchars($class['title']) ?></h3>
-                            <p><?= htmlspecialchars($class['day_of_week']) ?> · <?= htmlspecialchars($class['time_start']) ?> – <?= htmlspecialchars($class['time_end']) ?> · <?= htmlspecialchars($class['location']) ?></p>
+                            <h3><?= h($class['title']) ?></h3>
+                            <p><?= h($class['day_of_week']) ?> · <?= h($class['time_start']) ?> – <?= h($class['time_end']) ?> · <?= h($class['location']) ?></p>
                             <span class="vagas <?= $is_full ? 'vermelho' : 'verde' ?>"><?= $class['booked_spots'] ?> / <?= $class['total_spots'] ?> spots</span>
                         </div>
                         <form method="POST" action="../actions/book_class.php">
@@ -131,7 +131,7 @@ if ($trainer_id) {
                         <article class="avaliacao">
                             <h3>Member</h3>
                             <p class="estrelas"><?= str_repeat('★', $review['rating']) . str_repeat('☆', 5 - $review['rating']) ?></p>
-                            <p><?= htmlspecialchars($review['comment']) ?></p>
+                            <p><?= h($review['comment']) ?></p>
                         </article>
                     <?php endforeach; ?>
                 </div>
@@ -200,22 +200,22 @@ document.querySelectorAll('.star').forEach(star => {
                 <article class="trainer-card-page">
                     <div class="trainer-avatar-page" style="overflow: hidden; position: relative;">
                         <?php if (!empty($trainer['profile_pic'])): ?>
-                            <img src="<?= htmlspecialchars($trainer['profile_pic']) ?>" alt="<?= htmlspecialchars($trainer['name']) ?>" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                            <img src="<?= h($trainer['profile_pic']) ?>" alt="<?= h($trainer['name']) ?>" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
                         <?php else: ?>
-                            <?= htmlspecialchars($trainer['photo_initials']) ?>
+                            <?= h($trainer['photo_initials']) ?>
                         <?php endif; ?>
                     </div>
-                    <h3><?= htmlspecialchars($trainer['name']) ?></h3>
+                    <h3><?= h($trainer['name']) ?></h3>
                     <div class="trainer-rating-page">
                         <span class="stars"><?= str_repeat('★', round($trainer['rating'])) . str_repeat('☆', 5 - round($trainer['rating'])) ?></span>
                         <span><?= $trainer['rating'] ?></span>
                     </div>
                     <ul class="trainer-tags-page">
                         <?php foreach ($specs as $spec): ?>
-                            <li><span><?= htmlspecialchars(trim($spec)) ?></span></li>
+                            <li><span><?= h(trim($spec)) ?></span></li>
                         <?php endforeach; ?>
                     </ul>
-                    <p class="trainer-bio-page"><?= htmlspecialchars(substr($trainer['bio'], 0, 80)) ?>...</p>
+                    <p class="trainer-bio-page"><?= h(substr($trainer['bio'], 0, 80)) ?>...</p>
                 </article>
             </a>
         <?php endforeach; ?>

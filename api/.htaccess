@@ -1,0 +1,9 @@
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^schedule/?$ schedule.php [L,QSA]
+RewriteRule ^trainers/?$ trainers.php [L,QSA]
+RewriteRule ^equipment/?$ equipment.php [L,QSA]
+RewriteRule ^/?$ index.php [L,QSA]

@@ -104,15 +104,15 @@ $stats['avg_rating'] = $stmt->fetch(PDO::FETCH_ASSOC)['avg'];
                     $specs = explode(',', $trainer['specialties']);
                 ?>
                     <div class="trainer-card">
-                        <div class="trainer-avatar"><?= htmlspecialchars($trainer['photo_initials']) ?></div>
-                        <h3><?= htmlspecialchars($trainer['name']) ?></h3>
+                        <div class="trainer-avatar"><?= h($trainer['photo_initials']) ?></div>
+                        <h3><?= h($trainer['name']) ?></h3>
                         <div class="trainer-rating">
                             <span class="stars"><?= str_repeat('★', round($trainer['rating'])) . str_repeat('☆', 5 - round($trainer['rating'])) ?></span>
                             <span><?= $trainer['rating'] ?></span>
                         </div>
                         <div class="trainer-tags">
                             <?php foreach ($specs as $spec): ?>
-                                <span><?= htmlspecialchars(trim($spec)) ?></span>
+                                <span><?= h(trim($spec)) ?></span>
                             <?php endforeach; ?>
                         </div>
                     </div>

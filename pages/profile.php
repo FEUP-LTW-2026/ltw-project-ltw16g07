@@ -195,9 +195,9 @@ require_once __DIR__ . '/../partials/header.php';
         <div class="profile-avatar-container">
             <div class="profile-avatar">
                 <?php if (!empty($user['profile_pic'])): ?>
-                    <img src="<?= htmlspecialchars($user['profile_pic']) ?>" alt="Profile Picture">
+                    <img src="<?= h($user['profile_pic']) ?>" alt="Profile Picture">
                 <?php else: ?>
-                    <?= htmlspecialchars($_SESSION['user_initials']) ?>
+                    <?= h($_SESSION['user_initials']) ?>
                 <?php endif; ?>
             </div>
             
@@ -216,8 +216,8 @@ require_once __DIR__ . '/../partials/header.php';
                 </form>
             <?php endif; ?>
         </div>
-        <h2><?= htmlspecialchars($user['first_name'] . ' ' . $user['last_name']) ?></h2>
-        <p class="profile-email"><?= htmlspecialchars($user['email']) ?></p>
+        <h2><?= h($user['first_name'] . ' ' . $user['last_name']) ?></h2>
+        <p class="profile-email"><?= h($user['email']) ?></p>
         <p class="profile-member">Member since <?= date('F Y', strtotime($user['created_at'])) ?></p>
         <p class="profile-bookings-count"><?= count($bookings) ?> class<?= count($bookings) !== 1 ? 'es' : '' ?> booked</p>
         <hr class="profile-separator">
@@ -262,13 +262,13 @@ require_once __DIR__ . '/../partials/header.php';
             ?>
                 <div class="booking-card">
                     <div class="booking-info">
-                        <h3><?= htmlspecialchars($booking['title']) ?></h3>
+                        <h3><?= h($booking['title']) ?></h3>
                         <p class="booking-details">
-                            <?= htmlspecialchars($booking['day_of_week']) ?> ·
-                            <?= htmlspecialchars($booking['time_start']) ?> – <?= htmlspecialchars($booking['time_end']) ?> ·
-                            <?= htmlspecialchars($booking['location']) ?>
+                            <?= h($booking['day_of_week']) ?> ·
+                            <?= h($booking['time_start']) ?> – <?= h($booking['time_end']) ?> ·
+                            <?= h($booking['location']) ?>
                         </p>
-                        <p class="booking-trainer">with <?= htmlspecialchars($booking['trainer_name']) ?></p>
+                        <p class="booking-trainer">with <?= h($booking['trainer_name']) ?></p>
                         <span class="spots-badge <?= $remaining > 0 ? 'green' : 'red' ?>">
                             <?= $booking['booked_spots'] ?> / <?= $booking['total_spots'] ?> spots
                         </span>

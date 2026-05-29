@@ -91,7 +91,7 @@ require_once __DIR__ . '/../partials/header.php';
     <a href="trainers.php?id=<?= $trainer['id'] ?>" class="back-to-profile-link">&larr; Back to Profile</a>
 
     <section class="pt-booking-container">
-        <h2>Schedule with <?= htmlspecialchars($trainer['name']) ?></h2>
+        <h2>Schedule with <?= h($trainer['name']) ?></h2>
         <p>Choose your preferred date and available hour block.</p>
         
         <form method="POST" class="pt-booking-form">

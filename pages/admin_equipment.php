@@ -95,15 +95,15 @@ require_once __DIR__ . '/../partials/header.php';
             <tbody>
                 <?php foreach ($equipment as $item): ?>
                     <tr>
-                        <td><?= htmlspecialchars($item['name']) ?></td>
-                        <td><span class="badge-category"><?= htmlspecialchars($item['category']) ?></span></td>
+                        <td><?= h($item['name']) ?></td>
+                        <td><span class="badge-category"><?= h($item['category']) ?></span></td>
                         <td><?= (int) $item['quantity'] ?></td>
                         <td>
                             <span class="badge-status <?= $item['status'] === 'available' ? 'active' : 'inactive' ?>">
-                                <?= htmlspecialchars(ucfirst($item['status'] ?? 'Available')) ?>
+                                <?= h(ucfirst($item['status'] ?? 'Available')) ?>
                             </span>
                         </td>
-                        <td class="cell-muted cell-desc"><?= htmlspecialchars($item['description'] ?? '') ?></td>
+                        <td class="cell-muted cell-desc"><?= h($item['description'] ?? '') ?></td>
                         <td class="cell-actions">
                             <button class="btn-small" onclick="openEditEq(<?= $item['id'] ?>)">Edit</button>
                             <form method="POST" class="inline-form" onsubmit="return confirm('Delete this equipment item?')">

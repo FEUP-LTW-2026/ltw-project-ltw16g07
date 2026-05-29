@@ -131,11 +131,11 @@ require_once __DIR__ . '/../partials/header.php';
                         : $user['email'];
                 ?>
                     <tr>
-                        <td><?= htmlspecialchars($user['first_name'] . ' ' . $user['last_name']) ?></td>
-                        <td class="cell-muted"><?= htmlspecialchars($display_email) ?></td>
+                        <td><?= h($user['first_name'] . ' ' . $user['last_name']) ?></td>
+                        <td class="cell-muted"><?= h($display_email) ?></td>
                         <td>
                             <span class="badge-role <?= $user['role'] ?>">
-                                <?= htmlspecialchars($user['role']) ?>
+                                <?= h($user['role']) ?>
                             </span>
                         </td>
                         <td>
