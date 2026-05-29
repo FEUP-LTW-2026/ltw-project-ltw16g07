@@ -104,7 +104,7 @@ HTML5 semântico · CSS3 (mobile-first, sem frameworks) · PHP 8 (PDO/SQLite)
 
 - Ariana —
 - Madalena Rodrigues — up202404211
-- Ricardo — 
+- Ricardo Estevéns — up202405321
 
 
 
