@@ -69,27 +69,94 @@ $stats['avg_rating'] = $stmt->fetch(PDO::FETCH_ASSOC)['avg'];
 
     <section id="about" class="section">
         <div class="section-content">
-            <h2>Why FitHub?</h2>
+            <h2 class="reveal">Why FitHub?</h2>
+            <p class="section-sub reveal">A modern space designed for your fitness journey</p>
+
+            <div class="about-hero reveal">
+                <img src="uploads/gym/gym-with-indoor-cycling-equipment.jpg" alt="FitHub Gym Space" loading="lazy" id="parallax-img">
+                <div class="about-hero-overlay">
+                    <h3>State-of-the-Art Facilities</h3>
+                    <p>1,200 sqm of premium training space with top equipment</p>
+                </div>
+            </div>
+
             <div class="features">
-                <div class="feature-card">
+                <div class="feature-card reveal" style="transition-delay: 0.1s">
                     <div class="feature-icon">&#9650;</div>
                     <h3>Expert Trainers</h3>
                     <p>Certified professionals dedicated to helping you reach your goals.</p>
                 </div>
-                <div class="feature-card">
+                <div class="feature-card reveal" style="transition-delay: 0.2s">
                     <div class="feature-icon">&#9733;</div>
                     <h3>Diverse Classes</h3>
                     <p>From yoga to boxing, HIIT to pilates — something for everyone.</p>
                 </div>
-                <div class="feature-card">
+                <div class="feature-card reveal" style="transition-delay: 0.3s">
                     <div class="feature-icon">&#9881;</div>
                     <h3>Modern Equipment</h3>
                     <p>Top-of-the-line gear for cardio, strength, and functional training.</p>
                 </div>
-                <div class="feature-card">
+                <div class="feature-card reveal" style="transition-delay: 0.4s">
                     <div class="feature-icon">&#9998;</div>
                     <h3>Easy Booking</h3>
                     <p>Book classes online, track your schedule, and manage your fitness journey.</p>
+                </div>
+            </div>
+
+            <div class="about-gallery">
+                <div class="gallery-item reveal from-left" style="transition-delay: 0.1s"
+                     data-title="Strength Zone"
+                     data-desc="Olympic platforms, squat racks, and free weights from 2kg to 50kg. Deadlift platforms and cable machines for all your lifts."
+                     data-stats="12 platforms · 8 racks · 2-50kg">
+                    <div class="flip-inner">
+                        <div class="flip-front">
+                            <img src="uploads/gym/low-angle-view-unrecognizable-muscular-build-man-preparing-lifting-barbell-health-club.jpg" alt="Strength Zone" loading="lazy">
+                            <span>Strength Zone</span>
+                        </div>
+                        <div class="flip-back">
+                            <div class="flip-back-content">
+                                <h3>Strength Zone</h3>
+                                <p></p>
+                                <div class="flip-stats"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item reveal" style="transition-delay: 0.2s"
+                     data-title="Cardio Floor"
+                     data-desc="Treadmills, stationary bikes, ellipticals, and rowing machines with personal screens and performance tracking."
+                     data-stats="15 treadmills · 12 bikes · 8 ellipticals">
+                    <div class="flip-inner">
+                        <div class="flip-front">
+                            <img src="uploads/gym/selective-focus-hand-young-sexy-woman-wearing-sportswear-smartwatch-standing-treadmill-workout-modern-gym-copy-space.jpg" alt="Cardio Floor" loading="lazy">
+                            <span>Cardio Floor</span>
+                        </div>
+                        <div class="flip-back">
+                            <div class="flip-back-content">
+                                <h3>Cardio Floor</h3>
+                                <p></p>
+                                <div class="flip-stats"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item reveal from-right" style="transition-delay: 0.3s"
+                     data-title="Class Studios"
+                     data-desc="Two spacious studios with sprung flooring, full-length mirrors, and professional sound systems."
+                     data-stats="2 studios · 200m² · capacity: 40">
+                    <div class="flip-inner">
+                        <div class="flip-front">
+                            <img src="uploads/gym/AshGerlCreative_ClassStudiosWVUpdate-101.jpg" alt="Class Studios" loading="lazy">
+                            <span>Class Studios</span>
+                        </div>
+                        <div class="flip-back">
+                            <div class="flip-back-content">
+                                <h3>Class Studios</h3>
+                                <p></p>
+                                <div class="flip-stats"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -276,6 +343,106 @@ $stats['avg_rating'] = $stmt->fetch(PDO::FETCH_ASSOC)['avg'];
 
     function closePlanModal() {
         document.getElementById('plan-modal').classList.remove('show');
+    }
+
+    // ===========================
+    // About Section — Dynamic Effects
+    // ===========================
+
+    const aboutSection = document.getElementById('about');
+
+    if (aboutSection) {
+        // Scroll Reveal
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+        document.querySelectorAll('#about .reveal').forEach(el => revealObserver.observe(el));
+
+        // Parallax Hero
+        const parallaxImg = document.getElementById('parallax-img');
+        if (parallaxImg) {
+            window.addEventListener('scroll', () => {
+                const rect = aboutSection.getBoundingClientRect();
+                const offset = rect.top * 0.3;
+                parallaxImg.style.transform = `translate3d(0, ${Math.max(-60, Math.min(60, offset))}px, 0)`;
+            }, { passive: true });
+        }
+
+        // ===========================
+        // Flip Cards
+        // ===========================
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            const back = item.querySelector('.flip-back');
+            if (back) {
+                const title = item.dataset.title || '';
+                const desc = item.dataset.desc || '';
+                const stats = item.dataset.stats || '';
+                back.querySelector('h3').textContent = title;
+                back.querySelector('p').textContent = desc;
+                back.querySelector('.flip-stats').textContent = stats;
+            }
+
+            item.addEventListener('click', () => {
+                item.classList.toggle('flipped');
+            });
+        });
+
+        // ===========================
+        // Typewriter Subtitle
+        // ===========================
+        const subtitle = aboutSection.querySelector('.section-sub');
+        if (subtitle) {
+            const finalText = subtitle.textContent.replace('|', '').trim();
+            subtitle.textContent = '';
+            let charIndex = 0;
+            function typeChar() {
+                if (charIndex < finalText.length) {
+                    subtitle.textContent += finalText[charIndex];
+                    charIndex++;
+                    setTimeout(typeChar, 35 + Math.random() * 25);
+                }
+            }
+            const typeObserver = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    typeChar();
+                    typeObserver.disconnect();
+                }
+            }, { threshold: 0.5 });
+            typeObserver.observe(subtitle);
+        }
+    }
+
+    // ===========================
+    // Animated Counters (Hero)
+    // ===========================
+    const heroStats = document.querySelectorAll('.hero-stats div span');
+    if (heroStats.length) {
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = parseInt(el.textContent);
+                    if (isNaN(target)) return;
+                    let current = 0;
+                    const step = Math.max(1, Math.floor(target / 40));
+                    const interval = setInterval(() => {
+                        current += step;
+                        if (current >= target) {
+                            el.textContent = target;
+                            clearInterval(interval);
+                        } else {
+                            el.textContent = current;
+                        }
+                    }, 30);
+                    counterObserver.unobserve(el);
+                }
+            });
+        }, { threshold: 0.5 });
+        heroStats.forEach(el => counterObserver.observe(el));
     }
     </script>
 </body>
