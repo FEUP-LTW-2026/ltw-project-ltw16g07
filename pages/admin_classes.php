@@ -8,6 +8,7 @@ require_admin();
 
 $current_page = 'admin';
 $extra_css    = '../css/admin.css';
+$extra_js     = '../javascript/admin_classes.js';
 $page_title   = 'Manage Classes';
 
 $trainers     = $db->query("SELECT id, name FROM trainers ORDER BY name")->fetchAll(PDO::FETCH_ASSOC);
@@ -104,38 +105,3 @@ drawAdminClassesPage($classes, $trainers, $DAYS_OF_WEEK, $CLASS_TYPES);
 
 require_once __DIR__ . '/../templates/footer.php';
 ?>
-
-<script>
-    // Injeção limpa de dados vindos do PHP para o objeto global do JavaScript
-    <?php foreach ($classes as $class): ?>
-        window['classData_<?= $class['id'] ?>'] = {
-            id         : <?= $class['id'] ?>,
-            title      : <?= json_encode($class['title']) ?>,
-            day_of_week: <?= json_encode($class['day_of_week']) ?>,
-            time_start : <?= json_encode($class['time_start']) ?>,
-            time_end   : <?= json_encode($class['time_end']) ?>,
-            location   : <?= json_encode($class['location']) ?>,
-            trainer_id : <?= $class['trainer_id'] ?>,
-            total_spots: <?= $class['total_spots'] ?>,
-            type       : <?= json_encode($class['type']) ?>
-        };
-    <?php endforeach; ?>
-
-    function showModal(id) { document.getElementById(id).classList.add('show'); }
-    function hideModal(id) { document.getElementById(id).classList.remove('show'); }
-
-    function openEditModal(id) {
-        const d = window['classData_' + id];
-        if (!d) return;
-        document.getElementById('e-id').value       = d.id;
-        document.getElementById('e-title').value    = d.title;
-        document.getElementById('e-type').value     = d.type;
-        document.getElementById('e-day').value      = d.day_of_week;
-        document.getElementById('e-start').value    = d.time_start;
-        document.getElementById('e-end').value      = d.time_end;
-        document.getElementById('e-location').value = d.location;
-        document.getElementById('e-trainer').value  = d.trainer_id;
-        document.getElementById('e-spots').value    = d.total_spots;
-        showModal('edit-modal');
-    }
-</script>

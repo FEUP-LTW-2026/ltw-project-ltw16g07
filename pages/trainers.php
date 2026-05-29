@@ -5,6 +5,7 @@ require_once __DIR__ . '/../templates/trainers.tpl.php';
 
 $current_page = 'trainers';
 $extra_css = '../css/profile-trainers.css';
+$extra_js = '../javascript/trainers.js';
 $page_title = 'Trainers';
 
 $trainer_id = $_GET['id'] ?? null;

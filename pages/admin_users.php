@@ -8,6 +8,7 @@ require_admin();
 
 $current_page = 'admin';
 $extra_css    = '../css/admin.css';
+$extra_js     = '../javascript/admin_users.js';
 $page_title   = 'Manage Users';
 
 $ALLOWED_ROLES = ['member', 'trainer', 'admin'];
@@ -89,16 +90,5 @@ require_once __DIR__ . '/../templates/header.php';
 
 // Invocação da renderização isolada do template
 drawAdminUsersPage($users, $ALLOWED_ROLES);
-
 require_once __DIR__ . '/../templates/footer.php';
 ?>
-
-<script>
-    function showModal(id) { 
-        document.getElementById(id).classList.add('show'); 
-    }
-    
-    function hideModal(id) { 
-        document.getElementById(id).classList.remove('show'); 
-    }
-</script>

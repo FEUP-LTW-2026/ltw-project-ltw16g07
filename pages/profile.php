@@ -13,6 +13,7 @@ if (!isset($_SESSION['user_id'])) {
 // 2. CONFIGURAÇÕES VISUAIS DO CABEÇALHO
 $current_page = 'profile';
 $extra_css = '../css/profile.css';
+$extra_js = ['https://cdn.jsdelivr.net/npm/chart.js', '../javascript/profile.js'];
 $page_title = 'My Profile';
 $user_id = $_SESSION['user_id'];
 
@@ -132,62 +133,5 @@ $classes_bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 require_once __DIR__ . '/../templates/header.php';
 
 drawUserProfile($user, $metrics, $pt_bookings, $classes_bookings);
-?>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-function switchTab(evt, tabId) {
-    const tabContents = document.getElementsByClassName("tab-content");
-    for (let i = 0; i < tabContents.length; i++) { tabContents[i].classList.remove("active"); }
-    const tabBtns = document.getElementsByClassName("tab-btn");
-    for (let i = 0; i < tabBtns.length; i++) { tabBtns[i].classList.remove("active"); }
-    document.getElementById(tabId).classList.add("active");
-    evt.currentTarget.classList.add("active");
-}
-
-<?php if (!empty($metrics)): ?>
-    document.addEventListener("DOMContentLoaded", function() {
-        const ctx = document.getElementById('progressChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: <?= $labels_json ?>,
-                datasets: [
-                    {
-                        label: 'Weight (kg)',
-                        data: <?= $weight_json ?>,
-                        borderColor: '#ccff00',
-                        backgroundColor: 'rgba(204, 255, 0, 0.1)',
-                        borderWidth: 2,
-                        tension: 0.3,
-                        yAxisID: 'y'
-                    },
-                    {
-                        label: 'Body Fat (%)',
-                        data: <?= $fat_json ?>,
-                        borderColor: '#a855f7',
-                        backgroundColor: 'rgba(168, 85, 247, 0.1)',
-                        borderWidth: 2,
-                        tension: 0.3,
-                        yAxisID: 'y1'
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: { grid: { color: '#313131' }, ticks: { color: '#ffffff', font: { family: 'Inter' } } },
-                    y: { type: 'linear', display: true, position: 'left', title: { display: true, text: 'Weight (kg)', color: '#ccff00', font: { family: 'Inter', weight: 'bold' } }, grid: { color: '#313131' }, ticks: { color: '#ffffff' } },
-                    y1: { type: 'linear', display: true, position: 'right', title: { display: true, text: 'Body Fat (%)', color: '#a855f7', font: { family: 'Inter', weight: 'bold' } }, grid: { drawOnChartArea: false }, ticks: { color: '#ffffff' } }
-                },
-                plugins: { legend: { labels: { color: '#ffffff', font: { family: 'Inter', size: 12 } } } }
-            }
-        });
-    });
-<?php endif; ?>
-</script>
-
-<?php 
-require_once __DIR__ . '/../templates/footer.php'; 
+require_once __DIR__ . '/../templates/footer.php';
 ?>

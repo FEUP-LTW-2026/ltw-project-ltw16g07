@@ -39,7 +39,14 @@ declare(strict_types = 1);
                         </td>
                         <td class="cell-muted cell-desc"><?= h($item['description'] ?? '') ?></td>
                         <td class="cell-actions">
-                            <button class="btn-small" onclick="openEditEq(<?= $item['id'] ?>)">Edit</button>
+                            <button class="btn-small btn-edit-eq" 
+                                    data-id="<?= $item['id'] ?>"
+                                    data-name="<?= h($item['name']) ?>"
+                                    data-category="<?= h($item['category']) ?>"
+                                    data-quantity="<?= (int) $item['quantity'] ?>"
+                                    data-description="<?= h($item['description'] ?? '') ?>"
+                                    data-status="<?= h($item['status'] ?? 'available') ?>"
+                                    onclick="openEditEq(<?= $item['id'] ?>)">Edit</button>
                             <form method="POST" class="inline-form" onsubmit="return confirm('Delete this equipment item?')">
                                 <?php csrf_input(); ?> 
                                 <input type="hidden" name="equipment_id" value="<?= $item['id'] ?>">

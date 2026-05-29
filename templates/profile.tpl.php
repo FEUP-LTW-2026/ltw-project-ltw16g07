@@ -78,8 +78,20 @@
             <?php if (empty($metrics)): ?>
                 <p class="empty-msg">No metrics recorded yet. Start tracking your weight and body fat percentage!</p>
             <?php else: ?>
+                <?php
+                $chart_data = array_reverse($metrics);
+                $labels = []; $weights = []; $fats = [];
+                foreach ($chart_data as $m) {
+                    $labels[]  = date('M j', strtotime($m['recorded_at']));
+                    $weights[] = $m['weight'];
+                    $fats[]    = $m['body_fat'];
+                }
+                $labels_json = json_encode($labels);
+                $weight_json = json_encode($weights);
+                $fat_json    = json_encode($fats);
+                ?>
                 <div class="chart-container" style="position: relative; height:250px; width:100%">
-                    <canvas id="progressChart"></canvas>
+                    <canvas id="progressChart" data-labels="<?= h($labels_json) ?>" data-weight="<?= h($weight_json) ?>" data-fat="<?= h($fat_json) ?>"></canvas>
                 </div>
 
                 <div class="table-wrapper">

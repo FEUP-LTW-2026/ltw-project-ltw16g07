@@ -8,6 +8,7 @@ require_trainer();
 
 $current_page = 'trainer_dashboard';
 $extra_css    = '../css/admin.css';
+$extra_js     = '../javascript/trainer_dashboard.js';
 $page_title   = 'Trainer Dashboard';
 
 $trainer_name = $_SESSION['user_name'] ?? '';

@@ -44,7 +44,17 @@ declare(strict_types = 1);
                         <td><?= h($class['trainer_name']) ?></td>
                         <td><?= $class['booked_spots'] ?> / <?= $class['total_spots'] ?></td>
                         <td class="cell-actions">
-                            <button class="btn-small" onclick="openEditModal(<?= $class['id'] ?>)">Edit</button>
+                            <button class="btn-small btn-edit-class" 
+                                    data-id="<?= $class['id'] ?>"
+                                    data-title="<?= h($class['title']) ?>"
+                                    data-type="<?= h($class['type']) ?>"
+                                    data-day="<?= h($class['day_of_week']) ?>"
+                                    data-start="<?= h($class['time_start']) ?>"
+                                    data-end="<?= h($class['time_end']) ?>"
+                                    data-location="<?= h($class['location']) ?>"
+                                    data-trainer="<?= $class['trainer_id'] ?>"
+                                    data-spots="<?= $class['total_spots'] ?>"
+                                    onclick="openEditModal(<?= $class['id'] ?>)">Edit</button>
                             <form method="POST" class="inline-form" onsubmit="return confirm('Delete this class? All associated bookings will also be removed.')">
                                 <?php csrf_input(); ?> 
                                 <input type="hidden" name="class_id" value="<?= $class['id'] ?>">

@@ -109,22 +109,6 @@
         </div>
     </section>
 </main>
- 
-<script>
-function toggleReviewForm() {
-    const form = document.getElementById('review-form');
-    form.style.display = form.style.display === 'block' ? 'none' : 'block';
-}
-document.querySelectorAll('.star').forEach(star => {
-    star.addEventListener('click', function() {
-        const value = this.dataset.value;
-        document.getElementById('rating-value').value = value;
-        document.querySelectorAll('.star').forEach((s, i) => {
-            s.textContent = i < value ? '★' : '☆';
-        });
-    });
-});
-</script>
 <?php } ?>
 
 <?php // VISTA 2: Listagem Geral (A Grelha com Todos os Treinadores) ?>
