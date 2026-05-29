@@ -9,7 +9,30 @@ if (isset($_SESSION['user_id'])) {
 
 $page_title = 'FitHub';
 
-$stmt = $db->query("SELECT id, name, specialties, rating, photo_initials FROM trainers WHERE id <= 4 ORDER BY rating DESC");
+$has_profile_pic = false;
+try {
+    $db->query("SELECT profile_pic FROM users LIMIT 1");
+    $has_profile_pic = true;
+} catch (PDOException $e) {
+    $has_profile_pic = false;
+}
+
+if ($has_profile_pic) {
+    $stmt = $db->query("
+        SELECT t.id, t.name, t.specialties, t.rating, t.photo_initials, u.profile_pic 
+        FROM trainers t 
+        LEFT JOIN users u ON (u.first_name || ' ' || u.last_name) = t.name 
+        WHERE t.id <= 4 
+        ORDER BY t.rating DESC
+    ");
+} else {
+    $stmt = $db->query("
+        SELECT id, name, specialties, rating, photo_initials, NULL as profile_pic 
+        FROM trainers 
+        WHERE id <= 4 
+        ORDER BY rating DESC
+    ");
+}
 $featured_trainers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $stmt = $db->query("SELECT DISTINCT type FROM classes ORDER BY type");
@@ -102,9 +125,19 @@ $stats['avg_rating'] = $stmt->fetch(PDO::FETCH_ASSOC)['avg'];
             <div class="trainer-grid">
                 <?php foreach ($featured_trainers as $trainer):
                     $specs = explode(',', $trainer['specialties']);
+                    $pfp = $trainer['profile_pic'];
+                    if ($pfp && strpos($pfp, '../') === 0) {
+                        $pfp = substr($pfp, 3);
+                    }
                 ?>
                     <div class="trainer-card">
-                        <div class="trainer-avatar"><?= htmlspecialchars($trainer['photo_initials']) ?></div>
+                        <div class="trainer-avatar" style="overflow: hidden; position: relative;">
+                            <?php if (!empty($pfp)): ?>
+                                <img src="<?= htmlspecialchars($pfp) ?>" alt="<?= htmlspecialchars($trainer['name']) ?>" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                            <?php else: ?>
+                                <?= htmlspecialchars($trainer['photo_initials']) ?>
+                            <?php endif; ?>
+                        </div>
                         <h3><?= htmlspecialchars($trainer['name']) ?></h3>
                         <div class="trainer-rating">
                             <span class="stars"><?= str_repeat('★', round($trainer['rating'])) . str_repeat('☆', 5 - round($trainer['rating'])) ?></span>
