@@ -21,7 +21,7 @@
 
 .admin-card:hover {
     transform: translateY(-3px);
-    border-color: var(--accent, #39ff14);
+    border-color: var(--neon-green);
 }
 
 .admin-card .icon,
@@ -43,7 +43,7 @@
 }
 
 .admin-badge {
-    color: var(--accent, #39ff14);
+    color: var(--neon-green);
     font-size: 0.9rem;
 }
 
@@ -138,10 +138,6 @@
     transition: border-color 0.2s;
 }
 
-.btn-small:hover {
-    border-color: var(--accent, #39ff14);
-}
-
 .modal-overlay-admin {
     display: none;
     position: fixed;
@@ -231,7 +227,7 @@
 }
 
 .back-link {
-    color: var(--accent, #39ff14);
+    color: var(--neon-green);
     text-decoration: none;
     font-size: 0.9rem;
 }
@@ -272,7 +268,7 @@
 }
 
 .role-select:hover {
-    border-color: var(--accent, #39ff14);
+    border-color: var (--neon-green);
 }
 
 .row-fields {
@@ -297,8 +293,8 @@
 
 .btn-small.success,
 .btn-success {
-    border-color: #39ff14;
-    color: #39ff14;
+    border-color: var(--neon-green);
+    color: var(--neon-green);
 }
 
 .btn-small.success:hover,
