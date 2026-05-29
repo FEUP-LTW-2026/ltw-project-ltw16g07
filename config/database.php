@@ -1,5 +1,6 @@
 <?php
 
+// __DIR__ já aponta para a pasta config/, por isso basta acrescentar o nome do ficheiro!
 $db_path = __DIR__ . '/../database/fithub.db';
 
 try {
@@ -9,7 +10,6 @@ try {
 } catch (PDOException $e) {
     die("Erro na conexão à base de dados: " . $e->getMessage());
 }
-
 
 
 //BLINDAGEM 1: PROTEÇÃO CONTRA XSS 
