@@ -16,7 +16,7 @@ $stats['classes']   = $db->query("SELECT COUNT(*) FROM classes")->fetchColumn();
 $stats['equipment'] = $db->query("SELECT COUNT(*) FROM equipment")->fetchColumn();
 $stats['bookings']  = $db->query("SELECT COUNT(*) FROM bookings")->fetchColumn();
 
-require_once __DIR__ . '/../partials/header.php';
+require_once __DIR__ . '/../templates/header.php';
 ?>
 
 <main>
@@ -64,4 +64,4 @@ require_once __DIR__ . '/../partials/header.php';
     </div>
 </main>
 
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
+<?php require_once __DIR__ . '/../templates/footer.php'; ?>

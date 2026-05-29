@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['equipment_id'], $_POS
 $equipment = $db->query("SELECT * FROM equipment ORDER BY category, name")->fetchAll(PDO::FETCH_ASSOC);
 $categories = $db->query("SELECT DISTINCT category FROM equipment ORDER BY category")->fetchAll(PDO::FETCH_ASSOC);
 
-require_once __DIR__ . '/../partials/header.php';
+require_once __DIR__ . '/../templates/header.php';
 ?>
 
 <div class="page-header">
@@ -82,5 +82,5 @@ require_once __DIR__ . '/../partials/header.php';
     });
 </script>
  
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
+<?php require_once __DIR__ . '/../templates/footer.php'; ?>
  

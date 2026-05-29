@@ -79,7 +79,7 @@ sqlite3 database/database.db < database/database.sql
 ├── css/ # Folha de estilos única (mobile-first, design tokens)
 ├── database/ # Schema SQL, ficheiro SQLite e classes PHP (PDO)
 ├── javascript/ # Scripts client-side (vanilla, sem frameworks)
-├── partials/ # Páginas (controllers + partials)
+├── templates/ # Páginas (controllers + partials)
 ├── templates/ # Funções drawX() para renderizar HTML
 ├── uploads/ # Fotografias de perfil carregadas pelos utilizadores
 └── utils/ # Helpers (Session, CSRF)    

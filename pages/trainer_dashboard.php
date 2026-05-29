@@ -15,7 +15,7 @@ $stmt->execute([$trainer_name]);
 $trainer = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$trainer) {
-    require_once __DIR__ . '/../partials/header.php';
+    require_once __DIR__ . '/../templates/header.php';
     ?>
     <main class="trainer-error">
         <h1>Trainer Dashboard</h1>
@@ -26,7 +26,7 @@ if (!$trainer) {
         <a href="dashboard.php" class="back-link">&larr; Back to Dashboard</a>
     </main>
     <?php
-    require_once __DIR__ . '/../partials/footer.php';
+    require_once __DIR__ . '/../templates/footer.php';
     exit;
 }
 
@@ -81,7 +81,7 @@ $stmt->execute([$trainer_id]);
 $pt_sessions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
-require_once __DIR__ . '/../partials/header.php';
+require_once __DIR__ . '/../templates/header.php';
 ?>
 
 <main class="trainer-page">
@@ -221,4 +221,4 @@ require_once __DIR__ . '/../partials/header.php';
     }
 </script>
 
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
+<?php require_once __DIR__ . '/../templates/footer.php'; ?>

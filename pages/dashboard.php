@@ -132,7 +132,7 @@ if ($role === 'admin') {
     ")->fetchAll(PDO::FETCH_ASSOC);
 }
 
-require_once __DIR__ . '/../partials/header.php';
+require_once __DIR__ . '/../templates/header.php';
 ?>
 
 <!-- ── Page Header ─────────────────────────────── -->
@@ -394,4 +394,4 @@ require_once __DIR__ . '/../partials/header.php';
 
 <?php endif; ?>
 
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
+<?php require_once __DIR__ . '/../templates/footer.php'; ?>

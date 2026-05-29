@@ -51,7 +51,7 @@ if ($trainer_id) {
 
     $specialties = explode(',', $trainer['specialties']);
 
-    require_once __DIR__ . '/../partials/header.php';
+    require_once __DIR__ . '/../templates/header.php';
     ?>
 
     <main class="pagina">
@@ -173,7 +173,7 @@ document.querySelectorAll('.star').forEach(star => {
 </script>
  
 <?php
-    require_once __DIR__ . '/../partials/footer.php';
+    require_once __DIR__ . '/../templates/footer.php';
  
 } else {
     $all_trainers = $db->query("
@@ -182,7 +182,7 @@ document.querySelectorAll('.star').forEach(star => {
         LEFT JOIN users u ON (u.first_name || ' ' || u.last_name) = t.name 
         ORDER BY t.name
     ")->fetchAll(PDO::FETCH_ASSOC);
-    require_once __DIR__ . '/../partials/header.php';
+    require_once __DIR__ . '/../templates/header.php';
 ?>
  
 <div class="page-header">
@@ -223,6 +223,6 @@ document.querySelectorAll('.star').forEach(star => {
 </main>
  
 <?php
-    require_once __DIR__ . '/../partials/footer.php';
+    require_once __DIR__ . '/../templates/footer.php';
 }
 ?>

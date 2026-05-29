@@ -97,7 +97,7 @@ $stmt = $db->query("
 ");
 $classes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-require_once __DIR__ . '/../partials/header.php';
+require_once __DIR__ . '/../templates/header.php';
 ?>
 
 <main>
@@ -297,4 +297,4 @@ require_once __DIR__ . '/../partials/header.php';
     </script>
 </main>
 
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
+<?php require_once __DIR__ . '/../templates/footer.php'; ?>

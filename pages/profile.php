@@ -187,7 +187,7 @@ foreach ($progress_data as $row) {
     $fats[] = $row['body_fat'] ?? 0;
 }
 
-require_once __DIR__ . '/../partials/header.php';
+require_once __DIR__ . '/../templates/header.php';
 ?>
 
 <main class="profile-page">
@@ -383,4 +383,4 @@ require_once __DIR__ . '/../partials/header.php';
 <?php endif; ?>
 </script>
 
-<?php require_once __DIR__ . '/partials/footer.php'; ?>
+<?php require_once __DIR__ . '/templates/footer.php'; ?>

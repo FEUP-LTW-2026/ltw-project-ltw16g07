@@ -50,7 +50,7 @@ $icons = [
     'general' => '🔔',
 ];
 
-require_once __DIR__ . '/../partials/header.php';
+require_once __DIR__ . '/../templates/header.php';
 ?>
 
 <main class="notifications-page">
@@ -100,4 +100,4 @@ require_once __DIR__ . '/../partials/header.php';
     <?php endif; ?>
 </main>
 
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
+<?php require_once __DIR__ . '/../templates/footer.php'; ?>

@@ -84,7 +84,7 @@ $trainers = $db->query("SELECT id, name FROM trainers ORDER BY name")->fetchAll(
 
 $types = $db->query("SELECT DISTINCT type FROM classes ORDER BY type")->fetchAll(PDO::FETCH_ASSOC);
 
-require_once __DIR__ . '/../partials/header.php';
+require_once __DIR__ . '/../templates/header.php';
 ?>
 
 <div class="page-header">
@@ -192,5 +192,5 @@ require_once __DIR__ . '/../partials/header.php';
     <?php endforeach; ?>
 </main>
  
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
+<?php require_once __DIR__ . '/../templates/footer.php'; ?>
  
