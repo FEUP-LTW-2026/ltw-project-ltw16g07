@@ -27,15 +27,6 @@ if (!$trainer) {
 $trainer_id      = $trainer['id'];
 $specialties_arr = explode(',', $trainer['specialties']);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
-    $bio         = trim($_POST['bio'] ?? '');
-    $specialties = trim($_POST['specialties'] ?? '');
-    $db->prepare("UPDATE trainers SET bio = ?, specialties = ? WHERE id = ?")->execute([$bio, $specialties, $trainer_id]);
-    $_SESSION['flash_success'] = 'Profile updated successfully.';
-    header('Location: trainer_dashboard.php');
-    exit;
-}
-
 $stmt = $db->prepare("
     SELECT c.* FROM classes c
     WHERE c.trainer_id = ?

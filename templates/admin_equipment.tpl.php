@@ -47,7 +47,7 @@ declare(strict_types = 1);
                                     data-description="<?= h($item['description'] ?? '') ?>"
                                     data-status="<?= h($item['status'] ?? 'available') ?>"
                                     onclick="openEditEq(<?= $item['id'] ?>)">Edit</button>
-                            <form method="POST" class="inline-form" onsubmit="return confirm('Delete this equipment item?')">
+                            <form method="POST" action="../actions/admin_equipment.php" class="inline-form" onsubmit="return confirm('Delete this equipment item?')">
                                 <?php csrf_input(); ?> 
                                 <input type="hidden" name="equipment_id" value="<?= $item['id'] ?>">
                                 <button type="submit" name="delete_equipment" class="btn-small btn-danger">Delete</button>
@@ -62,7 +62,7 @@ declare(strict_types = 1);
     <div class="modal-overlay-admin" id="add-modal">
         <div class="modal-content-admin">
             <h3>Add Equipment</h3>
-            <form method="POST">
+            <form method="POST" action="../actions/admin_equipment.php">
                 <?php csrf_input(); ?> 
                 <label for="eq-name">Name <span class="required">*</span></label>
                 <input type="text" name="name" id="eq-name" required>
@@ -94,7 +94,7 @@ declare(strict_types = 1);
     <div class="modal-overlay-admin" id="edit-modal">
         <div class="modal-content-admin">
             <h3>Edit Equipment</h3>
-            <form method="POST">
+            <form method="POST" action="../actions/admin_equipment.php">
                 <?php csrf_input(); ?> 
                 <input type="hidden" name="equipment_id" id="ee-id">
 

@@ -46,7 +46,7 @@
             <p class="trainer-bio"><?= h($trainer['bio']) ?></p>
         </div>
 
-        <form method="POST" id="profile-edit-form" style="display: none;">
+        <form method="POST" action="../actions/trainer_dashboard.php" id="profile-edit-form" style="display: none;">
             <label class="form-label" for="spec-input">Specialties (comma-separated)</label>
             <input type="text" name="specialties" id="spec-input" class="form-input"
                    value="<?= h($trainer['specialties']) ?>">

@@ -24,7 +24,7 @@ declare(strict_types = 1);
             <p class="error-msg"><?= h($error) ?></p>
         <?php endif; ?>
 
-        <form action="login.php" method="post">
+        <form action="../actions/login.php" method="post">
             <?php csrf_input(); ?>
             <div class="form-group">
                 <input type="email" name="email" placeholder="Email" required autocomplete="email">

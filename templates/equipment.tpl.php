@@ -30,7 +30,7 @@ declare(strict_types = 1);
                 <span class="status-badge <?= $status ?>"><?= ucfirst($status) ?></span>
                 <span class="usage"><?= $item['quantity'] ?> units</span>
             </div>
-            <form method="POST" class="status-form">
+            <form method="POST" action="../actions/equipment.php" class="status-form">
                 <?php csrf_input(); ?> 
                 <input type="hidden" name="equipment_id" value="<?= $item['id'] ?>">
                 <select name="status" onchange="this.form.submit()">

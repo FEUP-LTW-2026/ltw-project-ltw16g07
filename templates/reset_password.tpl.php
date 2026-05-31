@@ -24,7 +24,8 @@
         <?php if ($success !== ''): ?>
             <p class="success-msg"><?= $success ?></p>
         <?php elseif ($reset): ?>
-            <form action="reset_password.php?token=<?= urlencode($token) ?>" method="post">
+            <form action="../actions/reset_password.php?token=<?= urlencode($token) ?>" method="post">
+                <input type="hidden" name="token" value="<?= h($token) ?>">
                 <?php csrf_input(); ?>
                 <input type="password" name="password" placeholder="New password (min 6 characters)" required>
                 <input type="password" name="confirm_password" placeholder="Confirm new password" required>

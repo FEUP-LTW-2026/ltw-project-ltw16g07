@@ -114,7 +114,7 @@ declare(strict_types = 1);
                             <span class="vagas <?= $remaining <= 0 ? 'cheio' : '' ?>">
                                 <?= $class['booked_spots'] ?>/<?= $class['total_spots'] ?> spots
                             </span>
-                            <form method="POST" action="profile.php" onsubmit="return confirm('Cancel this booking?')">
+                            <form method="POST" action="../actions/profile.php" onsubmit="return confirm('Cancel this booking?')">
                                 <?php csrf_input(); ?> 
                                 <input type="hidden" name="cancel_booking" value="<?= $class['booking_id'] ?>">
                                 <button type="submit" class="btn-cancel-small">Cancel</button>
