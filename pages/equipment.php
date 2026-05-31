@@ -4,6 +4,11 @@ require_once __DIR__ . '/../config/database.php';
 // Importa o template limpo
 require_once __DIR__ . '/../templates/equipment.tpl.php';
 
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ../pages/login.php');
+    exit;
+}
+
 $current_page = 'equipment';
 $page_title = 'Equipment';
 $extra_css = '../css/equipment.css';

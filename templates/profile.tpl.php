@@ -47,6 +47,11 @@
                             <li>
                                 <strong><?= h($cb['title']) ?></strong>
                                 <span><?= h($cb['day_of_week']) ?> @ <?= h($cb['time_start']) ?></span>
+                                <form method="POST" action="../actions/book_class.php" style="display:inline;">
+                                    <?php csrf_input(); ?>
+                                    <input type="hidden" name="class_id" value="<?= $cb['class_id'] ?>">
+                                    <button type="submit" name="action_type" value="cancel" class="btn-delete-icon" onclick="return confirm('Cancel this booking?')">✕</button>
+                                </form>
                             </li>
                         <?php endforeach; ?>
                     </ul>

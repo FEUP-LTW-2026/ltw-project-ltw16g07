@@ -3,6 +3,11 @@ session_start();
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../templates/trainers.tpl.php';
 
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ../pages/login.php');
+    exit;
+}
+
 $current_page = 'trainers';
 $extra_css = '../css/profile-trainers.css';
 $extra_js = '../javascript/trainers.js';

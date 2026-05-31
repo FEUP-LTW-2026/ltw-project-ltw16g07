@@ -4,17 +4,28 @@ require_once __DIR__ . '/../config/database.php';
 // Importação do novo template visual das aulas
 require_once __DIR__ . '/../templates/classes.tpl.php';
 
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ../pages/login.php');
+    exit;
+}
+
 $current_page = 'classes';
 $extra_css = '../css/classes.css';
 $page_title = 'Classes';
 
 // Se o utilizador atual for um treinador, recolhe o ID para validação própria
 $logged_trainer_id = null;
-if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'trainer') {
-    $stmt = $db->prepare("SELECT id FROM trainers WHERE name = ?");
-    $stmt->execute([$_SESSION['user_name']]);
-    $t = $stmt->fetch(PDO::FETCH_ASSOC);
-    $logged_trainer_id = $t ? (int) $t['id'] : null;
+if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'trainer' && isset($_SESSION['user_id'])) {
+    $stmt = $db->prepare("SELECT first_name, last_name FROM users WHERE id = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $user_data = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($user_data) {
+        $full_name = $user_data['first_name'] . ' ' . $user_data['last_name'];
+        $stmt = $db->prepare("SELECT id FROM trainers WHERE name = ?");
+        $stmt->execute([$full_name]);
+        $t = $stmt->fetch(PDO::FETCH_ASSOC);
+        $logged_trainer_id = $t ? (int) $t['id'] : null;
+    }
 }
 
 // Filtros passados via parâmetros URL (GET)
@@ -88,6 +99,14 @@ foreach ($classes as $class) {
 $trainers = $db->query("SELECT id, name FROM trainers ORDER BY name")->fetchAll(PDO::FETCH_ASSOC);
 $types    = $db->query("SELECT DISTINCT type FROM classes ORDER BY type")->fetchAll(PDO::FETCH_ASSOC);
 
+// IDs das aulas em que o utilizador atual já está inscrito
+$enrolled_class_ids = [];
+if (isset($_SESSION['user_id'])) {
+    $stmt = $db->prepare("SELECT class_id FROM bookings WHERE user_id = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $enrolled_class_ids = $stmt->fetchAll(PDO::FETCH_COLUMN);
+}
+
 // Início do output gráfico sequencial
 require_once __DIR__ . '/../templates/header.php';
 
@@ -101,7 +120,8 @@ drawClassesPage(
     $filter_trainer, 
     $filter_day, 
     $filter_time, 
-    $logged_trainer_id
+    $logged_trainer_id,
+    $enrolled_class_ids
 );
 
 require_once __DIR__ . '/../templates/footer.php';
