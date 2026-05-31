@@ -35,12 +35,11 @@ Nota: Para o member é só fazer registo
 
 ### Inicializar / repor a base de dados
 
-O ficheiro SQLite `database/fithub.db` já vem populado com dados de
-demonstração. Para repor o estado inicial:
+Se já tiver o ficheiro SQLite `database/fithub.db` criado, para repor o seu estado inicial:
 
 ```bash
 rm database/database.db
-sqlite3 database/database.db < database/database.sql
+php setup.php
 ```
 
 > Em macOS/Linux o `sqlite3` está disponível por omissão; em Windows usar
@@ -88,7 +87,6 @@ sqlite3 database/database.db < database/database.sql
 ├── includes/        # Helpers (auth.php)
 ├── config/          # Configuração (database.php)
 └── uploads/         # Imagens enviadas (trainers, gym)
-
 ```
 
 ### Segurança
