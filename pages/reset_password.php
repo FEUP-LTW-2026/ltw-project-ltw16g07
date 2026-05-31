@@ -22,29 +22,11 @@ if (!$reset) {
     $error = 'Invalid or expired reset link.';
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $reset) {
-    validate_csrf();
-    
-    $password = $_POST['password'] ?? '';
-    $confirm = $_POST['confirm_password'] ?? '';
+$flash_error = $_SESSION['flash_error'] ?? '';
+$flash_success = $_SESSION['flash_success'] ?? '';
+unset($_SESSION['flash_error'], $_SESSION['flash_success']);
+if ($flash_error) $error = $flash_error;
+if ($flash_success) $success = $flash_success;
 
-    if (strlen($password) < 6) {
-        $error = 'Password must be at least 6 characters.';
-    } elseif ($password !== $confirm) {
-        $error = 'Passwords do not match.';
-    } else {
-        $hashed = password_hash($password, PASSWORD_DEFAULT);
-
-        $stmt = $db->prepare("UPDATE users SET password = ? WHERE email = ?");
-        $stmt->execute([$hashed, $reset['email']]);
-
-        $stmt = $db->prepare("DELETE FROM password_resets WHERE email = ?");
-        $stmt->execute([$reset['email']]);
-
-        $success = 'Password reset successfully! <a href="../pages/login.php" class="success-link">Login</a>';
-    }
-}
-
-// Renderização limpa através da função do template
 drawResetPasswordPage($page_title, $error, $success, $reset, $token);
 ?>

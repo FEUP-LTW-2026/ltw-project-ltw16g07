@@ -10,7 +10,7 @@ declare(strict_types = 1);
             <p class="notif-subtitle">Stay updated with your fitness journey</p>
         </div>
         <?php if (!empty($notifications)): ?>
-            <form method="POST">
+            <form method="POST" action="../actions/notifications.php">
                 <?php csrf_input(); ?>
                 <button type="submit" name="clear_all" class="btn-outline">Clear all</button>
             </form>
@@ -39,7 +39,7 @@ declare(strict_types = 1);
                         </time>
                     </div>
 
-                    <form method="POST" class="notif-actions">
+                    <form method="POST" action="../actions/notifications.php" class="notif-actions">
                         <?php csrf_input(); ?> 
                         <input type="hidden" name="notif_id" value="<?= $n['id'] ?>">
                         <button type="submit" name="delete_notification" class="btn-danger-small" title="Remove notification" aria-label="Delete">

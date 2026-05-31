@@ -55,7 +55,7 @@ declare(strict_types = 1);
                                     data-trainer="<?= $class['trainer_id'] ?>"
                                     data-spots="<?= $class['total_spots'] ?>"
                                     onclick="openEditModal(<?= $class['id'] ?>)">Edit</button>
-                            <form method="POST" class="inline-form" onsubmit="return confirm('Delete this class? All associated bookings will also be removed.')">
+                            <form method="POST" action="../actions/admin_classes.php" class="inline-form" onsubmit="return confirm('Delete this class? All associated bookings will also be removed.')">
                                 <?php csrf_input(); ?> 
                                 <input type="hidden" name="class_id" value="<?= $class['id'] ?>">
                                 <button type="submit" name="delete_class" class="btn-small btn-danger">Delete</button>
@@ -70,7 +70,7 @@ declare(strict_types = 1);
     <div class="modal-overlay-admin" id="create-modal">
         <div class="modal-content-admin">
             <h3>Create New Class</h3>
-            <form method="POST">
+            <form method="POST" action="../actions/admin_classes.php">
                 <?php csrf_input(); ?>
                 <label for="c-title">Title</label>
                 <input type="text" name="title" id="c-title" required>
@@ -126,7 +126,7 @@ declare(strict_types = 1);
     <div class="modal-overlay-admin" id="edit-modal">
         <div class="modal-content-admin">
             <h3>Edit Class</h3>
-            <form method="POST">
+            <form method="POST" action="../actions/admin_classes.php">
                 <?php csrf_input(); ?>
                 <input type="hidden" name="class_id" id="e-id">
 

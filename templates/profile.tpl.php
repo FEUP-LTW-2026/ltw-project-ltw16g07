@@ -111,7 +111,7 @@
                                     <td><?= h((string)$m['weight']) ?> kg</td>
                                     <td><?= !empty($m['body_fat']) ? h((string)$m['body_fat']) . '%' : '-' ?></td>
                                     <td>
-                                        <form method="POST" style="display:inline;">
+                                        <form method="POST" action="../actions/profile.php" style="display:inline;">
                                             <?php csrf_input(); ?>
                                             <input type="hidden" name="metric_id" value="<?= $m['id'] ?>">
                                             <button type="submit" name="delete_metric" class="btn-delete-icon" onclick="return confirm('Delete this record?')">✕</button>
@@ -130,7 +130,7 @@
 <div id="password-modal" class="modal-overlay">
     <div class="modal-box">
         <h3>Change Password</h3>
-        <form method="POST">
+        <form method="POST" action="../actions/profile.php">
             <?php csrf_input(); ?>
             <input type="password" name="current_password" placeholder="Current Password" required>
             <input type="password" name="new_password" placeholder="New Password (min 6 chars)" required>
@@ -146,7 +146,7 @@
 <div id="pfp-modal" class="modal-overlay">
     <div class="modal-box">
         <h3>Update Profile Picture</h3>
-        <form method="POST" enctype="multipart/form-data">
+        <form method="POST" action="../actions/profile.php" enctype="multipart/form-data">
             <?php csrf_input(); ?>
             <input type="file" name="profile_pic" accept="image/*" required>
             <div class="modal-actions">
@@ -155,7 +155,7 @@
             </div>
         </form>
         <?php if (!empty($user['profile_pic'])): ?>
-            <form method="POST" style="margin-top: 15px;">
+            <form method="POST" action="../actions/profile.php" style="margin-top: 15px;">
                 <?php csrf_input(); ?>
                 <button type="submit" name="remove_pfp" class="btn-danger-link" style="color: #ff3333; background:none; border:none; cursor:pointer; width:100%; text-align:center;">Remove Current Photo</button>
             </form>
@@ -166,7 +166,7 @@
 <div id="metrics-modal" class="modal-overlay">
     <div class="modal-box">
         <h3>Log Body Metrics</h3>
-        <form method="POST">
+        <form method="POST" action="../actions/profile.php">
             <?php csrf_input(); ?>
             <label style="display:block; margin-bottom:5px; color:#aaa;">Weight (kg)*</label>
             <input type="number" step="0.1" name="weight" placeholder="e.g. 74.5" required>

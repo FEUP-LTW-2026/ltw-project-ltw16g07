@@ -12,28 +12,6 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 $role    = $_SESSION['user_role'] ?? 'member';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_progress'])) {
-    validate_csrf();
-
-    $weight = filter_input(INPUT_POST, 'weight', FILTER_VALIDATE_FLOAT);
-    $body_fat = filter_input(INPUT_POST, 'body_fat', FILTER_VALIDATE_FLOAT);
-    $body_fat = $body_fat > 0 ? $body_fat : null;
-
-    if ($weight && $weight > 0) {
-        try {
-            $stmt = $db->prepare("INSERT INTO member_progress (user_id, weight, body_fat) VALUES (?, ?, ?)");
-            $stmt->execute([$user_id, $weight, $body_fat]);
-            $_SESSION['flash_success'] = 'Progress tracked successfully!';
-        } catch (PDOException $e) {
-            $_SESSION['flash_error'] = 'Failed to record progress: ' . $e->getMessage();
-        }
-    } else {
-        $_SESSION['flash_error'] = 'Please enter a valid weight.';
-    }
-    header('Location: dashboard.php');
-    exit;
-}
-
 $current_page = 'home';
 $extra_css = '../css/dashboard.css';
 $page_title = 'Dashboard';

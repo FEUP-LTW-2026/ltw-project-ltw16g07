@@ -9,19 +9,6 @@ $page_title = 'Equipment';
 $extra_css = '../css/equipment.css';
 $extra_js = '../javascript/equipment.js';
 
-// Mudar status via POST
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['equipment_id'], $_POST['status'])) {
-    validate_csrf();
-
-    $allowed = ['available', 'full', 'maintenance'];
-    if (in_array($_POST['status'], $allowed)) {
-        $stmt = $db->prepare("UPDATE equipment SET status = ? WHERE id = ?");
-        $stmt->execute([$_POST['status'], $_POST['equipment_id']]);
-    }
-    header('Location: equipment.php');
-    exit;
-}
-
 // Lógica de recolha de dados
 $equipment = $db->query("SELECT * FROM equipment ORDER BY category, name")->fetchAll(PDO::FETCH_ASSOC);
 $categories = $db->query("SELECT DISTINCT category FROM equipment ORDER BY category")->fetchAll(PDO::FETCH_ASSOC);
