@@ -42,6 +42,34 @@ if (!$class) {
     exit;
 }
 
+// Cancel enrollment (must come before "already enrolled" check)
+if ($action_type === 'cancel') {
+    $stmt = $db->prepare("SELECT id FROM bookings WHERE user_id = ? AND class_id = ?");
+    $stmt->execute([$user_id, $class_id]);
+    $booking = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($booking) {
+        $db->beginTransaction();
+        try {
+            $db->prepare("DELETE FROM bookings WHERE id = ?")->execute([$booking['id']]);
+            $db->prepare("UPDATE classes SET booked_spots = booked_spots - 1 WHERE id = ?")->execute([$class_id]);
+            $db->commit();
+
+            $db->prepare("INSERT INTO notifications (user_id, type, message) VALUES (?, 'cancel', ?)")
+               ->execute([$user_id, "You cancelled enrollment in \"{$class['title']}\" on {$class['day_of_week']} at {$class['time_start']}."]);
+
+            $_SESSION['flash_success'] = 'Enrollment cancelled successfully.';
+        } catch (Exception $e) {
+            $db->rollBack();
+            $_SESSION['flash_error'] = 'Something went wrong while cancelling.';
+        }
+    } else {
+        $_SESSION['flash_error'] = 'You are not enrolled in this class.';
+    }
+    header('Location: /../pages/classes.php');
+    exit;
+}
+
 $stmt = $db->prepare("SELECT id FROM bookings WHERE user_id = ? AND class_id = ?");
 $stmt->execute([$user_id, $class_id]);
 if ($stmt->fetch()) {
@@ -59,14 +87,20 @@ if ($stmt->fetch()) {
 }
 
 // Prevent trainers from enrolling in their own classes
-if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'trainer') {
-    $stmt = $db->prepare("SELECT id FROM trainers WHERE name = ?");
-    $stmt->execute([$_SESSION['user_name']]);
-    $trainer = $stmt->fetch(PDO::FETCH_ASSOC);
-    if ($trainer && (int) $trainer['id'] === (int) $class['trainer_id']) {
-        $_SESSION['flash_error'] = 'You cannot enroll in your own class.';
-        header('Location: classes.php');
-        exit;
+if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'trainer' && isset($_SESSION['user_id'])) {
+    $stmt = $db->prepare("SELECT first_name, last_name FROM users WHERE id = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $user_data = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($user_data) {
+        $full_name = $user_data['first_name'] . ' ' . $user_data['last_name'];
+        $stmt = $db->prepare("SELECT id FROM trainers WHERE name = ?");
+        $stmt->execute([$full_name]);
+        $trainer = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($trainer && (int) $trainer['id'] === (int) $class['trainer_id']) {
+            $_SESSION['flash_error'] = 'You cannot enroll in your own class.';
+            header('Location: classes.php');
+            exit;
+        }
     }
 }
 

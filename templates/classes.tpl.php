@@ -12,7 +12,8 @@ declare(strict_types = 1);
     string $filter_trainer, 
     string $filter_day, 
     string $filter_time, 
-    ?int $logged_trainer_id
+    ?int $logged_trainer_id,
+    array $enrolled_class_ids = []
 ) { ?>
 
 <div class="page-header">
@@ -101,6 +102,11 @@ declare(strict_types = 1);
                             <div class="class-actions">
                                 <?php if ($is_own_class): ?>
                                     <span class="own-class-badge">Your class</span>
+                                <?php elseif (in_array($class['id'], $enrolled_class_ids)): ?>
+                                    <form method="POST" action="../actions/book_class.php">
+                                        <input type="hidden" name="class_id" value="<?= $class['id'] ?>">
+                                        <button class="action-btn cancel" type="submit" name="action_type" value="cancel">Cancel Enrollment</button>
+                                    </form>
                                 <?php else: ?>
                                     <form method="POST" action="../actions/book_class.php">
                                         <input type="hidden" name="class_id" value="<?= $class['id'] ?>">
