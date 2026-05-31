@@ -25,7 +25,6 @@ INSERT INTO equipment (name, category, quantity, description) VALUES
 ('Boxing Bag', 'Boxing', 6, 'Heavy punching bags'),
 ('Kettlebell', 'Strength', 15, 'Cast iron kettlebells various weights');
 
--- Users must be inserted before bookings (FK constraint)
 INSERT INTO users (first_name, last_name, email, password, role, profile_pic) VALUES
 ('Admin', 'FitHub', 'admin@fithub.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin', NULL),
 ('Ana', 'Silva', 'ana@fithub.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'trainer', '../uploads/trainers-pfp/trainer_3.png'),
@@ -38,6 +37,5 @@ INSERT INTO reviews (trainer_id, rating, comment) VALUES
 (1, 5, 'Amazing class. Ana knows how to motivate the whole group.'),
 (1, 4, 'Great sessions, very professional. Would love more advanced levels.');
 
--- John Doe enrolled in Pilates Core (class_id=3) and Boxing Basics (class_id=5)
 INSERT INTO bookings (user_id, class_id) VALUES (6, 3), (6, 5);
 UPDATE classes SET booked_spots = booked_spots + 1 WHERE id IN (3, 5);
