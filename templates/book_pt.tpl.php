@@ -10,8 +10,9 @@ declare(strict_types = 1);
         <h2>Schedule with <?= h($trainer['name']) ?></h2>
         <p>Choose your preferred date and available hour block.</p>
         
-        <form method="POST" class="pt-booking-form">
+        <form method="POST" action="../actions/book_pt_session.php" class="pt-booking-form">
             <?php csrf_input(); ?>
+            <input type="hidden" name="trainer_id" value="<?= $trainer['id'] ?>">
             <div class="form-group">
                 <label for="booking_date">1. Select Date:</label>
                 <input type="date" id="booking_date" name="booking_date" required value="<?= date('Y-m-d') ?>" min="<?= date('Y-m-d') ?>">

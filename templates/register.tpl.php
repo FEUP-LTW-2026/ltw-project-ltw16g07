@@ -29,7 +29,7 @@
             <p class="success-msg"><?= h($success) ?></p>
         <?php endif; ?>
 
-        <form action="register.php" method="post">
+        <form action="../actions/register.php" method="post">
             <?php csrf_input(); ?>
             <input type="text"     name="first_name"       placeholder="First Name"                  required>
             <input type="text"     name="last_name"        placeholder="Last Name"                   required>

@@ -29,6 +29,7 @@ php -S localhost:9000
 | Admin | `admin@fithub.com` | `password` |
 | Trainer | `ana@fithub.com` | `password` |
 
+
 Nota: Para o member é só fazer registo 
 
 
@@ -52,25 +53,20 @@ sqlite3 database/database.db < database/database.sql
 **Members**
 - Procurar aulas com filtros (tipo, treinador, dia, hora, localização)
 - Inscrever/cancelar com verificação de capacidade transacional
-- Lista de espera com **auto-promoção** quando há cancelamento + notificação
-- Avaliar aulas (rating + comentário) — só permitido após inscrição
+- Avaliar trainers (rating + comentário) 
 - Ver perfis de treinadores e disponibilidade de equipamento
 - Editar perfil (nome, username, password, foto)
 - Reservar sessões individuais com personal trainer
-- Abrir disputas / cancelar membership
 
 **Trainers**
 - Editar bio, especialidade e certificações
-- Criar/apagar sessões das suas aulas
 - Ver roster (lista de membros inscritos) por sessão
-- Aceder a analytics próprias
 
 **Admins**
 - CRUD de aulas (com sessões integradas no edit)
 - CRUD de equipamento (com estado: operational / maintenance / out_of_order)
 - CRUD de utilizadores (promover a trainer/admin, ativar/desativar, apagar)
-- Resolver disputas
-- Ver analytics globais
+
 
 **Sistema transversal**
 - Notificações in-app (sino no header com contagem por ler)
@@ -114,25 +110,6 @@ HTML5 semântico · CSS3 (mobile-first, sem frameworks) · PHP 8 (PDO/SQLite)
 
 ### Membros do Grupo
 
-- Ariana —
+- Ariana da Costa — up202404631
 - Madalena Rodrigues — up202404211
 - Ricardo Estevéns — up202405321
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-php -S localhost:8080
-Depois abre no browser http://localhost:8080/index.php (http://localhost:8080/index.php)

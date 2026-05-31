@@ -40,7 +40,7 @@ declare(strict_types = 1);
                             </span>
                         </td>
                         <td class="cell-actions">
-                            <form method="POST" class="inline-form" onsubmit="return confirm('Change status of this user account?')">
+                            <form method="POST" action="../actions/admin_users.php" class="inline-form" onsubmit="return confirm('Change status of this user account?')">
                                 <?php csrf_input(); ?>
                                 <input type="hidden" name="user_id" value="<?= $u['id'] ?>">
                                 <?php if ($is_deactivated): ?>
@@ -59,7 +59,7 @@ declare(strict_types = 1);
     <div class="modal-overlay-admin" id="add-modal">
         <div class="modal-content-admin">
             <h3>Add New User</h3>
-            <form method="POST">
+            <form method="POST" action="../actions/admin_users.php">
                 <?php csrf_input(); ?>
                 
                 <label for="u-first">First Name <span class="required">*</span></label>

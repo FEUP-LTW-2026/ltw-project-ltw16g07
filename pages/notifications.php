@@ -18,24 +18,6 @@ $extra_css    = '../css/notifications.css';
 $db->prepare("UPDATE notifications SET is_read = 1 WHERE user_id = ? AND is_read = 0")
    ->execute([$user_id]);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    validate_csrf(); 
-
-    if (isset($_POST['delete_notification'])) {
-        $db->prepare("DELETE FROM notifications WHERE id = ? AND user_id = ?")
-           ->execute([(int) $_POST['notif_id'], $user_id]);
-        header('Location: notifications.php');
-        exit;
-    }
-
-    if (isset($_POST['clear_all'])) {
-        $db->prepare("DELETE FROM notifications WHERE user_id = ?")
-           ->execute([$user_id]);
-        header('Location: notifications.php');
-        exit;
-    }
-}
-
 // Procurar notificações
 $stmt = $db->prepare("SELECT * FROM notifications WHERE user_id = ? ORDER BY created_at DESC");
 $stmt->execute([$user_id]);
