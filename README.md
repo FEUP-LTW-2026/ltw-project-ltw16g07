@@ -91,8 +91,7 @@ sqlite3 database/database.db < database/database.sql
 
 **Sistema transversal**
 - Notificações in-app (sino no header com contagem por ler)
-- API REST/JSON: `api/api_enroll.php`, `api/api_equipment.php`,
-`api/api_schedule.php`, `api/api_trainers.php`
+- API REST/JSON: `api/schedule.php`, `api/equipment.php`, `api/trainers.php`
 - AJAX progressivo: forms continuam a funcionar sem JavaScript
 
 ### Estrutura
@@ -108,6 +107,46 @@ sqlite3 database/database.db < database/database.sql
 ├── uploads/ # Fotografias de perfil carregadas pelos utilizadores
 └── utils/ # Helpers (Session, CSRF)    
 ```
+
+### REST API
+
+Implementei uma API RESTful pública (`/api/`) que expõe os dados principais do ginásio em formato JSON. Usei **rewrites silenciosos** (`.htaccess`) para URLs limpos — `/api/trainers` em vez de `/api/trainers.php?id=1`.
+
+#### Endpoints
+
+| Endpoint | Métodos | Descrição |
+|----------|---------|-----------|
+| `GET /api` | `GET` | Metadados da API (versão, lista de endpoints) |
+| `GET /api/schedule` | `GET` | Horários das aulas. Filtros opcionais: `type`, `trainer`, `day` (nome do dia em inglês), `time` (`morning`/`afternoon`/`evening`) |
+| `GET /api/trainers` | `GET` | Lista de treinadores. Usar `?id=N` para obter perfil detalhado com classes e reviews |
+| `GET /api/equipment` | `GET` | Disponibilidade de equipamento. Filtros: `status` (`available`/`full`/`maintenance`), `category` |
+
+#### Exemplos de uso
+
+```bash
+# Listar todas as aulas de Yoga ao fim da tarde
+curl "http://localhost:9000/api/schedule?type=Yoga&time=evening"
+
+# Perfil completo do trainer com ID 2 (inclui reviews)
+curl "http://localhost:9000/api/trainers?id=2"
+
+# Equipamento disponível da categoria Cardio
+curl "http://localhost:9000/api/equipment?status=available&category=Cardio"
+```
+
+#### Tratamento de erros
+
+Todos os endpoints devolvem `Content-Type: application/json` e usam códigos HTTP semanticamente corretos:
+- **200** — sucesso
+- **400** — parâmetros inválidos (ex.: filtro `time` com valor desconhecido)
+- **404** — recurso não encontrado (ex.: `?id=999` num trainer)
+- **500** — erro interno (ex.: falha na base de dados)
+
+Mensagens de erro seguem o formato `{"error": "descrição"}`, sem vazar detalhes internos.
+
+#### CORS
+
+Todos os endpoints incluem `Access-Control-Allow-Origin: *`, permitindo consumo a partir de qualquer origem (útil para desenvolvimento com ferramentas como Postman ou frontends separados).
 
 ### Segurança
 
@@ -129,22 +168,3 @@ HTML5 semântico · CSS3 (mobile-first, sem frameworks) · PHP 8 (PDO/SQLite)
 - Ariana —
 - Madalena Rodrigues — up202404211
 - Ricardo Estevéns — up202405321
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-php -S localhost:8080
-Depois abre no browser http://localhost:8080/index.php (http://localhost:8080/index.php)
