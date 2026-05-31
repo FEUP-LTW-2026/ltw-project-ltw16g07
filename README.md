@@ -22,9 +22,7 @@ php -S localhost:9000
 | Tipo | Email | Password |
 |------|-------|----------|
 | Admin | `admin@fithub.com` | `password` |
-| Membro | `ana@fithub.com` | `password` |
-| Membro | `jordan.miller@example.com` | `password` |
-| Trainer | `trainer@fithub.com` | `password` |
+| Trainer | `ana@fithub.com` | `password` |
 
 Site de gestão de um ginásio privado. Membros podem navegar e inscrever-se em
 aulas, ver perfis de treinadores, consultar a disponibilidade de equipamento e
