@@ -21,7 +21,7 @@ php -S localhost:9000
 
 | Tipo | Email | Password |
 |------|-------|----------|
-| Admin | `admin@fithub.com` | `admin123` |
+| Admin | `admin@fithub.com` | `password` |
 | Membro | `ana@fithub.com` | `password` |
 | Membro | `jordan.miller@example.com` | `password` |
 | Trainer | `trainer@fithub.com` | `password` |
