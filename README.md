@@ -87,7 +87,6 @@ php setup.php
 ├── includes/        # Helpers (auth.php)
 ├── config/          # Configuração (database.php)
 └── uploads/         # Imagens enviadas (trainers, gym)
-
 ```
 
 ### Segurança
