@@ -13,11 +13,16 @@ $page_title   = 'Manage Users';
 
 $ALLOWED_ROLES = ['member', 'trainer', 'admin'];
 
-$users = $db->query("SELECT id, first_name, last_name, email, role FROM users ORDER BY role, first_name")->fetchAll(PDO::FETCH_ASSOC);
+$pagination = paginate($db,
+    "SELECT COUNT(*) FROM users",
+    "SELECT id, first_name, last_name, email, role FROM users ORDER BY role, first_name",
+    [], 15
+);
+$users = $pagination['items'];
 
 require_once __DIR__ . '/../templates/header.php';
+require_once __DIR__ . '/../templates/pagination.tpl.php';
 
-// Invocação da renderização isolada do template
-drawAdminUsersPage($users, $ALLOWED_ROLES);
+drawAdminUsersPage($users, $ALLOWED_ROLES, $pagination['current_page'], $pagination['total_pages']);
 require_once __DIR__ . '/../templates/footer.php';
 ?>

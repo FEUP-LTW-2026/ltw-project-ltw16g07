@@ -2,7 +2,7 @@
 declare(strict_types = 1); 
 ?>
 
-<?php function drawAdminEquipmentPage(array $equipment) { ?>
+<?php function drawAdminEquipmentPage(array $equipment, int $current_page = 1, int $total_pages = 1) { ?>
 <main>
     <div class="page-header page-header--row">
         <div class="page-header-title">
@@ -125,4 +125,5 @@ declare(strict_types = 1);
         </div>
     </div>
 </main>
+<?php drawPagination($current_page, $total_pages, 'admin_equipment.php'); ?>
 <?php } ?>

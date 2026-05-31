@@ -2,7 +2,7 @@
 declare(strict_types = 1); 
 ?>
 
-<?php function drawEquipmentPage(array $equipment, array $categories) { ?>
+<?php function drawEquipmentPage(array $equipment, array $categories, int $current_page = 1, int $total_pages = 1) { ?>
 <div class="page-header">
     <h1>Equipment</h1>
     <p>Main training area · Updated now</p>
@@ -42,4 +42,5 @@ declare(strict_types = 1);
         </article>
     <?php endforeach; ?>
 </main>
+<?php drawPagination($current_page, $total_pages, 'equipment.php'); ?>
 <?php } ?>

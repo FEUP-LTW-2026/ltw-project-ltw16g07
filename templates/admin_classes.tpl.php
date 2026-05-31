@@ -6,7 +6,9 @@ declare(strict_types = 1);
     array $classes, 
     array $trainers, 
     array $DAYS_OF_WEEK, 
-    array $CLASS_TYPES
+    array $CLASS_TYPES,
+    int $current_page = 1,
+    int $total_pages = 1
 ) { ?>
 <main>
     <div class="page-header page-header--row">
@@ -180,4 +182,5 @@ declare(strict_types = 1);
         </div>
     </div>
 </main>
+<?php drawPagination($current_page, $total_pages, 'admin_classes.php'); ?>
 <?php } ?>

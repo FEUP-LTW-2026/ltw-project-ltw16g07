@@ -112,7 +112,7 @@
 <?php } ?>
 
 <?php // VISTA 2: Listagem Geral (A Grelha com Todos os Treinadores) ?>
-<?php function drawTrainersGrid(array $all_trainers) { ?>
+<?php function drawTrainersGrid(array $all_trainers, int $current_page = 1, int $total_pages = 1) { ?>
 <div class="page-header">
     <h1>Our Trainers</h1>
     <p>Meet our team of certified professionals</p>
@@ -121,7 +121,6 @@
 <main class="trainers-grid-page">
     <div class="trainers-grid">
         <?php foreach ($all_trainers as $trainer): 
-            // Recupera o array de especialidades exatamente como fazias no teu ciclo original
             $specs = explode(',', $trainer['specialties']);
         ?>
             <a href="trainers.php?id=<?= $trainer['id'] ?>" class="trainer-card-link">
@@ -149,4 +148,5 @@
         <?php endforeach; ?>
     </div>
 </main>
+<?php drawPagination($current_page, $total_pages, 'trainers.php'); ?>
 <?php } ?>
