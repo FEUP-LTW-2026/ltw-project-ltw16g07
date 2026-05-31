@@ -40,11 +40,14 @@
   width: 180px;
   height: 180px;
   border-radius: 50%;
-  border: 1px solid var(--bg-card);
+  background: var(--neon-green);
+  color: black;
+  font-weight: 800;
+  box-shadow: 0 0 15px rgba(204, 255, 0, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 40px;
+  font-size: 48px;
   margin: auto;
   margin-bottom: 20px;
 }
@@ -223,14 +226,15 @@
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  border: 2px solid var(--neon-green);
+  background: var(--neon-green);
+  color: black;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
-  font-weight: 600;
-  color: var(--neon-green);
+  font-size: 24px;
+  font-weight: 800;
   margin: 0 auto 16px;
+  box-shadow: 0 0 10px rgba(204, 255, 0, 0.15);
 }
 
 .trainer-card-page h3 {

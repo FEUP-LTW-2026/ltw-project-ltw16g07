@@ -313,8 +313,8 @@
     margin-top: 8px;
 }
 
-/* --- COMPONENTES DE BOTÕES --- */
-.btn-primary {
+.profile-container .btn-primary,
+.modal-box .btn-primary {
     background: #ccff00;
     color: #000000;
     border: none;
@@ -325,11 +325,13 @@
     transition: background 0.2s;
 }
 
-.btn-primary:hover {
+.profile-container .btn-primary:hover,
+.modal-box .btn-primary:hover {
     background: #b2dd00;
 }
 
-.btn-outline {
+.profile-container .btn-outline,
+.modal-box .btn-outline {
     background: transparent;
     border: 1px solid #444444;
     color: #ffffff;
@@ -340,7 +342,8 @@
     transition: all 0.2s;
 }
 
-.btn-outline:hover {
+.profile-container .btn-outline:hover,
+.modal-box .btn-outline:hover {
     background: #ffffff;
     color: #000000;
     border-color: #ffffff;

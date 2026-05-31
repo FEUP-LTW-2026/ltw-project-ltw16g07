@@ -3,7 +3,14 @@
 ?>
 
 <?php function drawUserProfile(array $user, array $metrics, array $pt_bookings, array $classes_bookings) { ?>
-<main class="profile-container">
+<div class="page-header page-header--row">
+    <div class="page-header-title">
+        <h1>My Profile</h1>
+        <p>Manage your account settings and fitness goals</p>
+    </div>
+</div>
+
+<main class="profile-container" style="margin-top: 20px;">
     <div class="profile-grid">
         <section class="profile-card user-info">
             <div class="avatar-container">
@@ -11,7 +18,7 @@
                     <?php if (!empty($user['profile_pic'])): ?>
                         <img src="<?= h($user['profile_pic']) ?>" alt="Profile Picture" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
                     <?php else: ?>
-                        <?= h($user['photo_initials'] ?? '') ?>
+                        <?= h(strtoupper(substr($user['first_name'] ?? '', 0, 1) . substr($user['last_name'] ?? '', 0, 1))) ?>
                     <?php endif; ?>
                 </div>
                 <button class="btn-small" onclick="document.getElementById('pfp-modal').style.display='flex'">Update Photo</button>

@@ -11,7 +11,7 @@ try {
         $stmt = $db->prepare("
             SELECT t.*, u.profile_pic
             FROM trainers t
-            LEFT JOIN users u ON (u.first_name || ' ' || u.last_name) = t.name
+            LEFT JOIN users u ON LOWER(u.email) = LOWER(t.email)
             WHERE t.id = ?
         ");
         $stmt->execute([$trainer_id]);
@@ -88,7 +88,7 @@ try {
         $trainers = $db->query("
             SELECT t.*, u.profile_pic
             FROM trainers t
-            LEFT JOIN users u ON (u.first_name || ' ' || u.last_name) = t.name
+            LEFT JOIN users u ON LOWER(u.email) = LOWER(t.email)
             ORDER BY t.name
         ")->fetchAll(PDO::FETCH_ASSOC);
 

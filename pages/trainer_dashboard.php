@@ -11,10 +11,10 @@ $extra_css    = '../css/admin.css';
 $extra_js     = '../javascript/trainer_dashboard.js';
 $page_title   = 'Trainer Dashboard';
 
-$trainer_name = $_SESSION['user_name'] ?? '';
+$trainer_email = $_SESSION['user_email'] ?? '';
 
-$stmt = $db->prepare("SELECT * FROM trainers WHERE name = ?");
-$stmt->execute([$trainer_name]);
+$stmt = $db->prepare("SELECT * FROM trainers WHERE LOWER(email) = LOWER(?)");
+$stmt->execute([$trainer_email]);
 $trainer = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$trainer) {

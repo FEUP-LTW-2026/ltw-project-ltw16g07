@@ -12,6 +12,9 @@ $page_title = 'FitHub';
 $stmt = $db->query("SELECT id, name, specialties, rating, photo_initials FROM trainers WHERE id <= 4 ORDER BY rating DESC");
 $featured_trainers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+$stmt = $db->query("SELECT * FROM plans ORDER BY sort_order");
+$index_plans = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 $stmt = $db->query("SELECT DISTINCT type FROM classes ORDER BY type");
 $class_types = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -235,41 +238,36 @@ $stats['avg_rating'] = $stmt->fetch(PDO::FETCH_ASSOC)['avg'];
             <h2>Membership Plans</h2>
             <p class="section-sub">Choose the plan that fits your lifestyle</p>
             <div class="plans">
-                <div class="plan-card" onclick="openPlanModal('monthly')">
-                    <h3>Monthly</h3>
-                    <div class="plan-price">&euro;49<span>/month</span></div>
-                    <ul>
-                        <li>Unlimited classes</li>
-                        <li>Access to equipment</li>
-                        <li>Free locker</li>
-                        <li>Cancel anytime</li>
+                <?php foreach ($index_plans as $plan): 
+                    $is_pro = strtolower($plan['name']) === 'pro';
+                ?>
+                <div class="plan-card <?= $is_pro ? 'plan-featured' : '' ?>" onclick="openPlanModal('<?= $plan['id'] ?>')" style="<?= $is_pro ? 'border-color: ' . h($plan['badge_color']) . ';' : '' ?>">
+                    <?php if ($is_pro): ?>
+                        <div class="plan-badge" style="background: <?= h($plan['badge_color']) ?>; color: #000;">Popular</div>
+                    <?php endif; ?>
+                    <h3 style="color: <?= h($plan['badge_color']) ?>"><?= h($plan['name']) ?></h3>
+                    <div class="plan-price">
+                        <?= $plan['price'] > 0 ? '&euro;' . number_format($plan['price'], 2) : 'Free' ?>
+                        <?= $plan['price'] > 0 ? '<span>/month</span>' : '' ?>
+                    </div>
+                    <p class="plan-note" style="min-height: 40px;"><?= h($plan['description']) ?></p>
+                    <ul style="text-align: left; list-style: none; padding: 0; margin: 20px 0; width: 100%;">
+                        <li style="color: #898989; font-size: 0.85em; padding: 6px 0; display: flex; align-items: center; gap: 8px;">
+                            <span style="color: <?= h($plan['badge_color']) ?>;">✓</span>
+                            <?= $plan['max_bookings'] === null ? 'Unlimited class bookings' : ($plan['max_bookings'] > 0 ? 'Up to ' . $plan['max_bookings'] . ' class bookings' : 'No class bookings') ?>
+                        </li>
+                        <li style="color: #898989; font-size: 0.85em; padding: 6px 0; display: flex; align-items: center; gap: 8px;">
+                            <span style="color: <?= h($plan['badge_color']) ?>;">✓</span>
+                            <?= $plan['can_book_pt'] ? 'Personal training sessions' : 'No personal training' ?>
+                        </li>
+                        <li style="color: #898989; font-size: 0.85em; padding: 6px 0; display: flex; align-items: center; gap: 8px;">
+                            <span style="color: <?= h($plan['badge_color']) ?>;">✓</span>
+                            Full equipment access
+                        </li>
                     </ul>
-                    <button class="btn-primary" onclick="event.stopPropagation();location.href='pages/register.php'">Get Started</button>
+                    <button class="btn-primary" style="margin-top: auto; background: <?= h($plan['badge_color']) ?>; color: #000; border: none;" onclick="event.stopPropagation();location.href='pages/register.php'">Get Started</button>
                 </div>
-                <div class="plan-card plan-featured" onclick="openPlanModal('annual')">
-                    <div class="plan-badge">Popular</div>
-                    <h3>Annual</h3>
-                    <div class="plan-price">&euro;39<span>/month</span></div>
-                    <p class="plan-note">Billed annually (&euro;468/year)</p>
-                    <ul>
-                        <li>Everything in Monthly</li>
-                        <li>2 months free</li>
-                        <li>Free personal training session</li>
-                        <li>Priority booking</li>
-                    </ul>
-                    <button class="btn-primary" onclick="event.stopPropagation();location.href='pages/register.php'">Get Started</button>
-                </div>
-                <div class="plan-card" onclick="openPlanModal('weekly')">
-                    <h3>Weekly</h3>
-                    <div class="plan-price">&euro;15<span>/week</span></div>
-                    <ul>
-                        <li>Up to 5 classes</li>
-                        <li>Access to equipment</li>
-                        <li>No commitment</li>
-                        <li>Perfect for visitors</li>
-                    </ul>
-                    <button class="btn-primary" onclick="event.stopPropagation();location.href='pages/register.php'">Get Started</button>
-                </div>
+                <?php endforeach; ?>
             </div>
 
             <div id="plan-modal" class="modal-overlay" onclick="closePlanModal()">
@@ -305,28 +303,23 @@ $stats['avg_rating'] = $stmt->fetch(PDO::FETCH_ASSOC)['avg'];
     }
 
     const plans = {
-        weekly: {
-            name: 'Weekly Pass',
-            price: '&euro;15<span>/week</span>',
-            note: '',
-            features: ['Up to 5 classes per week', 'Access to all equipment', 'No commitment required', 'Perfect for visitors and trial', 'Locker access']
+        <?php foreach ($index_plans as $plan): ?>
+        '<?= $plan['id'] ?>': {
+            name: '<?= h($plan['name']) ?> Plan',
+            price: '<?= $plan['price'] > 0 ? "&euro;" . number_format($plan['price'], 2) . "<span>/month</span>" : "Free" ?>',
+            note: '<?= h($plan['description']) ?>',
+            features: [
+                '<?= $plan['max_bookings'] === null ? "Unlimited class bookings" : ($plan['max_bookings'] > 0 ? "Up to " . $plan['max_bookings'] . " class bookings" : "No class bookings") ?>',
+                '<?= $plan['can_book_pt'] ? "Access to Personal Training sessions" : "No personal training access" ?>',
+                'Full access to gym equipment',
+                'Free locker access'
+            ]
         },
-        monthly: {
-            name: 'Monthly Membership',
-            price: '&euro;49<span>/month</span>',
-            note: '',
-            features: ['Unlimited classes', 'Full equipment access', 'Free locker', 'Cancel anytime', 'Free fitness assessment', 'Access to all class types']
-        },
-        annual: {
-            name: 'Annual Membership',
-            price: '&euro;39<span>/month</span>',
-            note: 'Billed annually (&euro;468/year)',
-            features: ['Everything in Monthly', '2 months free', 'Free personal training session', 'Priority booking', 'Exclusive member events', 'Guest passes (2/month)']
-        }
+        <?php endforeach; ?>
     };
 
-    function openPlanModal(plan) {
-        const p = plans[plan];
+    function openPlanModal(planId) {
+        const p = plans[planId];
         document.getElementById('modal-plan-name').textContent = p.name;
         document.getElementById('modal-plan-price').innerHTML = p.price;
         document.getElementById('modal-plan-note').textContent = p.note;

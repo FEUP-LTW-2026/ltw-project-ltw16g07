@@ -1,8 +1,8 @@
-INSERT INTO trainers (name, specialties, rating, reviews_count, bio, photo_initials) VALUES
-('Ana Silva', 'Yoga,Pilates,HIIT', 4.9, 142, 'Certified instructor with 8+ years experience in yoga and functional training. Passionate about helping members reach their full potential.', 'AN'),
-('Carlos Mendes', 'Spinning,HIIT', 4.6, 98, 'Former competitive cyclist turned instructor. Specializes in high-intensity cycling classes.', 'CM'),
-('Sofia Nunes', 'Pilates,Yoga', 5.0, 156, 'Dedicated to mindful movement and core strength. Certified in Pilates and Vinyasa Yoga.', 'SN'),
-('Pedro Costa', 'Boxing,HIIT', 4.2, 73, 'Professional boxing coach with 10 years of experience. Ready to push your limits.', 'PC');
+INSERT INTO trainers (name, email, specialties, rating, reviews_count, bio, photo_initials) VALUES
+('Ana Silva', 'ana@fithub.com', 'Yoga,Pilates,HIIT', 4.9, 142, 'Certified instructor with 8+ years experience in yoga and functional training. Passionate about helping members reach their full potential.', 'AN'),
+('Carlos Mendes', 'carlos@fithub.com', 'Spinning,HIIT', 4.6, 98, 'Former competitive cyclist turned instructor. Specializes in high-intensity cycling classes.', 'CM'),
+('Sofia Nunes', 'sofia@fithub.com', 'Pilates,Yoga', 5.0, 156, 'Dedicated to mindful movement and core strength. Certified in Pilates and Vinyasa Yoga.', 'SN'),
+('Pedro Costa', 'pedro@fithub.com', 'Boxing,HIIT', 4.2, 73, 'Professional boxing coach with 10 years of experience. Ready to push your limits.', 'PC');
 
 INSERT INTO classes (title, day_of_week, time_start, time_end, location, trainer_id, total_spots, booked_spots, type, rating) VALUES
 ('Yoga Flow', 'Monday', '09:00', '10:00', 'Studio A', 1, 12, 8, 'Yoga', 4.9),
@@ -15,7 +15,7 @@ INSERT INTO classes (title, day_of_week, time_start, time_end, location, trainer
 INSERT INTO plans (name, description, price, max_bookings, can_book_pt, badge_color, sort_order) VALUES
 ('Free', 'Access to class schedule and basic features. Book up to 3 classes.', 0.00, 3, 0, '#898989', 1),
 ('Pro', 'Unlimited class bookings, personal training access, and priority support.', 19.99, NULL, 1, '#ccff00', 2),
-('Elite', 'Everything in Pro plus exclusive workshops and 1-on-1 nutrition coaching.', 39.99, NULL, 1, '#a855f7', 3);
+('Elite', 'Everything in Pro plus exclusive workshops and 1-on-1 coaching.', 39.99, NULL, 1, '#a855f7', 3);
 
 INSERT INTO equipment (name, category, quantity, description) VALUES
 ('Treadmill', 'Cardio', 12, 'Motorized treadmills with incline control'),
@@ -26,15 +26,18 @@ INSERT INTO equipment (name, category, quantity, description) VALUES
 ('Kettlebell', 'Strength', 15, 'Cast iron kettlebells various weights');
 
 -- Users must be inserted before bookings (FK constraint)
-INSERT INTO users (first_name, last_name, email, password, role) VALUES
-('Admin', 'FitHub', 'admin@fithub.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin'),
-('Ana', 'Silva', 'ana@fithub.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'trainer'),
-('John', 'Doe', 'john@fithub.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'member');
+INSERT INTO users (first_name, last_name, email, password, role, profile_pic) VALUES
+('Admin', 'FitHub', 'admin@fithub.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin', NULL),
+('Ana', 'Silva', 'ana@fithub.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'trainer', '../uploads/trainers-pfp/trainer_3.png'),
+('Carlos', 'Mendes', 'carlos@fithub.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'trainer', '../uploads/trainers-pfp/trainer_2.png'),
+('Sofia', 'Nunes', 'sofia@fithub.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'trainer', '../uploads/trainers-pfp/trainer_3.png'),
+('Pedro', 'Costa', 'pedro@fithub.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'trainer', '../uploads/trainers-pfp/trainer_4.png'),
+('John', 'Doe', 'john@fithub.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'member', NULL);
 
 INSERT INTO reviews (trainer_id, rating, comment) VALUES
 (1, 5, 'Amazing class. Ana knows how to motivate the whole group.'),
 (1, 4, 'Great sessions, very professional. Would love more advanced levels.');
 
 -- John Doe enrolled in Pilates Core (class_id=3) and Boxing Basics (class_id=5)
-INSERT INTO bookings (user_id, class_id) VALUES (3, 3), (3, 5);
+INSERT INTO bookings (user_id, class_id) VALUES (6, 3), (6, 5);
 UPDATE classes SET booked_spots = booked_spots + 1 WHERE id IN (3, 5);

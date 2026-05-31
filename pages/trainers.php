@@ -20,7 +20,7 @@ if ($trainer_id) {
     $stmt = $db->prepare("
         SELECT t.*, u.profile_pic 
         FROM trainers t 
-        LEFT JOIN users u ON (u.first_name || ' ' || u.last_name) = t.name 
+        LEFT JOIN users u ON LOWER(u.email) = LOWER(t.email) 
         WHERE t.id = ?
     ");
     $stmt->execute([$trainer_id]);
@@ -56,8 +56,8 @@ if ($trainer_id) {
 } else {
     // 2. Vista geral - Puxa rigorosamente todos os registos ordenados por nome
     $pagination = paginate($db,
-        "SELECT COUNT(*) FROM trainers t LEFT JOIN users u ON (u.first_name || ' ' || u.last_name) = t.name",
-        "SELECT t.*, u.profile_pic FROM trainers t LEFT JOIN users u ON (u.first_name || ' ' || u.last_name) = t.name ORDER BY t.name",
+        "SELECT COUNT(*) FROM trainers t LEFT JOIN users u ON LOWER(u.email) = LOWER(t.email)",
+        "SELECT t.*, u.profile_pic FROM trainers t LEFT JOIN users u ON LOWER(u.email) = LOWER(t.email) ORDER BY t.name",
         [], 8
     );
     $all_trainers = $pagination['items'];

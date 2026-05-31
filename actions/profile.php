@@ -54,12 +54,20 @@ if (isset($_POST['upload_pfp'])) {
         $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
         if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'gif'])) {
+            $role = $user['role'] ?? 'member';
+            $folderMap = [
+                'member' => 'members-pfp',
+                'admin' => 'admins-pfp',
+                'trainer' => 'trainers-pfp'
+            ];
+            $subFolder = $folderMap[$role] ?? 'members-pfp';
+
             $newFileName = md5(time() . $user_id) . '.' . $fileExtension;
-            $uploadFileDir = __DIR__ . '/../uploads/pfp/';
+            $uploadFileDir = __DIR__ . '/../uploads/' . $subFolder . '/';
             if (!is_dir($uploadFileDir)) mkdir($uploadFileDir, 0755, true);
 
             if (move_uploaded_file($fileTmpPath, $uploadFileDir . $newFileName)) {
-                $dbRelativePath = '../uploads/pfp/' . $newFileName;
+                $dbRelativePath = '../uploads/' . $subFolder . '/' . $newFileName;
                 $db->prepare("UPDATE users SET profile_pic = ? WHERE id = ?")->execute([$dbRelativePath, $user_id]);
                 $_SESSION['user_pfp'] = $dbRelativePath;
                 $_SESSION['flash_success'] = "Profile picture updated!";

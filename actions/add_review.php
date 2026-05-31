@@ -55,27 +55,14 @@ try {
        SISTEMA DE BUSCA APERFEIÇOADO PARA NOTIFICAR A TREINADORA
        ================================================================== */
     
-    // A. Vamos buscar o nome exato da tabela 'trainers'
-    $stmtTrainerName = $db->prepare("SELECT name FROM trainers WHERE id = ?");
-    $stmtTrainerName->execute([$trainer_id]);
-    $trainer_data = $stmtTrainerName->fetch(PDO::FETCH_ASSOC);
+    // A. Vamos buscar os dados do treinador
+    $stmtTrainer = $db->prepare("SELECT name, email FROM trainers WHERE id = ?");
+    $stmtTrainer->execute([$trainer_id]);
+    $trainer_data = $stmtTrainer->fetch(PDO::FETCH_ASSOC);
 
-    if ($trainer_data && !empty($trainer_data['name'])) {
-        $trainer_fullname = trim($trainer_data['name']); // Remove espaços extras
-
-        // B. Procuramos na tabela 'users' fazendo o merge do nome ou por aproximação de email
-        // Criamos uma busca robusta em lowercase para evitar erros de letras maiúsculas
-        $stmtUser = $db->prepare("
-            SELECT id FROM users 
-            WHERE LOWER(first_name || ' ' || last_name) = LOWER(?)
-               OR LOWER(email) = LOWER(?)
-               OR LOWER(first_name) = LOWER(?)
-        ");
-        
-        // Criamos um palpite de email baseado no nome (ex: "Ana Silva" -> "ana@fithub.com")
-        $email_guess = strtolower(str_replace(' ', '', $trainer_fullname)) . '@fithub.com';
-
-        $stmtUser->execute([$trainer_fullname, $email_guess, $trainer_fullname]);
+    if ($trainer_data && !empty($trainer_data['email'])) {
+        $stmtUser = $db->prepare("SELECT id FROM users WHERE LOWER(email) = LOWER(?)");
+        $stmtUser->execute([$trainer_data['email']]);
         $user_data = $stmtUser->fetch(PDO::FETCH_ASSOC);
 
         // C. Se encontramos o ID do utilizador correspondente, a notificação entra!

@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS trainers (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
     specialties TEXT NOT NULL,     
     rating REAL DEFAULT 0.0,
     reviews_count INTEGER DEFAULT 0,

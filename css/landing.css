@@ -561,8 +561,7 @@ body {
 }
 
 .plan-card li::before {
-    content: "✓ ";
-    color: #ccff00;
+    content: none;
 }
 
 .cta-section {
