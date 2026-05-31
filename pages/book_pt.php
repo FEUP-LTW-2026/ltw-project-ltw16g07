@@ -29,6 +29,15 @@ $current_page = 'trainers';
 $extra_css = '../css/profile-trainers.css'; 
 $page_title = 'Book PT Session';
 
+if ($_SESSION['user_role'] === 'member') {
+    $user_plan = get_user_plan($db, $_SESSION['user_id']);
+    if (!$user_plan['can_book_pt']) {
+        $_SESSION['flash_error'] = 'Personal training requires the Pro plan or higher. <a href="plans.php">Upgrade your plan</a>.';
+        header('Location: ../pages/trainers.php?id=' . $trainer_id);
+        exit;
+    }
+}
+
 // Garantir a existência da tabela no SQLite
 $db->exec("CREATE TABLE IF NOT EXISTS pt_bookings (
     id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER NOT NULL, trainer_id INTEGER NOT NULL,

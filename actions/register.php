@@ -37,6 +37,8 @@ if ($first_name === '' || $last_name === '' || $email === '' || $password === ''
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
         $stmt = $db->prepare("INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)");
         $stmt->execute([$first_name, $last_name, $email, $hashed_password]);
+        $new_user_id = $db->lastInsertId();
+        $db->prepare("INSERT INTO user_subscriptions (user_id, plan_id) VALUES (?, 1)")->execute([$new_user_id]);
         $_SESSION['flash_success'] = 'Account created successfully! You can now login.';
     }
 }

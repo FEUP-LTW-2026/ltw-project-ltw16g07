@@ -68,6 +68,24 @@ if (!function_exists('paginate')) {
     }
 }
 
+if (!function_exists('get_user_plan')) {
+    function get_user_plan(PDO $db, int $user_id): array
+    {
+        $stmt = $db->prepare("
+            SELECT p.id, p.name, p.description, p.price, p.max_bookings,
+                   p.can_book_pt, p.badge_color, p.sort_order
+            FROM user_subscriptions us
+            JOIN plans p ON us.plan_id = p.id
+            WHERE us.user_id = ? AND us.is_active = 1
+        ");
+        $stmt->execute([$user_id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: [
+            'id' => 1, 'name' => 'Free', 'price' => 0,
+            'max_bookings' => 3, 'can_book_pt' => 0, 'badge_color' => '#898989'
+        ];
+    }
+}
+
 if (!function_exists('build_pagination_query_string')) {
     function build_pagination_query_string(array $exclude = ['page']): string
     {

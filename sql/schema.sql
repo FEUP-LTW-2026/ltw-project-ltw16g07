@@ -97,6 +97,29 @@ CREATE TABLE IF NOT EXISTS waitlists (
 );
 
 
+-- Tabela de planos de subscrição
+CREATE TABLE IF NOT EXISTS plans (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL,
+    price REAL NOT NULL,
+    max_bookings INTEGER,          -- NULL = unlimited
+    can_book_pt INTEGER DEFAULT 0,
+    badge_color TEXT DEFAULT '#898989',
+    sort_order INTEGER DEFAULT 0
+);
+
+-- Tabela de subscrições dos utilizadores
+CREATE TABLE IF NOT EXISTS user_subscriptions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL UNIQUE,
+    plan_id INTEGER NOT NULL DEFAULT 1,
+    start_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    is_active INTEGER DEFAULT 1,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (plan_id) REFERENCES plans(id)
+);
+
 -- Tabela de notifications in-app
 CREATE TABLE IF NOT EXISTS notifications (
     id INTEGER PRIMARY KEY AUTOINCREMENT,

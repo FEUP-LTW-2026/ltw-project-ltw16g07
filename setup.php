@@ -28,4 +28,8 @@ $db->exec("CREATE TABLE IF NOT EXISTS pt_bookings (
     UNIQUE(trainer_id, booking_date, time_slot)
 )");
 
+// Assign Free plan to any user without a subscription
+$db->exec("INSERT OR IGNORE INTO user_subscriptions (user_id, plan_id)
+           SELECT id, 1 FROM users");
+
 echo "Database created successfully at $db_path\n";
