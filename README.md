@@ -110,7 +110,7 @@ sqlite3 database/database.db < database/database.sql
 
 ### REST API
 
-Implementei uma API RESTful pública (`/api/`) que expõe os dados principais do ginásio em formato JSON. Usei **rewrites silenciosos** (`.htaccess`) para URLs limpos — `/api/trainers` em vez de `/api/trainers.php?id=1`.
+Implementada uma API RESTful pública (`/api/`) que expõe os dados principais do ginásio em formato JSON. Foi usado **rewrites silenciosos** (`.htaccess`) para URLs limpos — `/api/trainers` em vez de `/api/trainers.php?id=1`.
 
 #### Endpoints
 
@@ -165,6 +165,6 @@ HTML5 semântico · CSS3 (mobile-first, sem frameworks) · PHP 8 (PDO/SQLite)
 
 ### Membros do Grupo
 
-- Ariana —
+- Ariana — up202404631
 - Madalena Rodrigues — up202404211
 - Ricardo Estevéns — up202405321
