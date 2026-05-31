@@ -12,6 +12,11 @@ INSERT INTO classes (title, day_of_week, time_start, time_end, location, trainer
 ('Boxing Basics', 'Thursday', '19:00', '20:00', 'Main Hall', 4, 20, 6, 'Boxing', 4.4),
 ('Morning Stretch', 'Friday', '07:30', '08:30', 'Studio A', 1, 10, 3, 'Yoga', 4.7);
 
+INSERT INTO plans (name, description, price, max_bookings, can_book_pt, badge_color, sort_order) VALUES
+('Free', 'Access to class schedule and basic features. Book up to 3 classes.', 0.00, 3, 0, '#898989', 1),
+('Pro', 'Unlimited class bookings, personal training access, and priority support.', 19.99, NULL, 1, '#ccff00', 2),
+('Elite', 'Everything in Pro plus exclusive workshops and 1-on-1 nutrition coaching.', 39.99, NULL, 1, '#a855f7', 3);
+
 INSERT INTO equipment (name, category, quantity, description) VALUES
 ('Treadmill', 'Cardio', 12, 'Motorized treadmills with incline control'),
 ('Stationary Bike', 'Cardio', 15, 'Spin bikes for cycling classes'),

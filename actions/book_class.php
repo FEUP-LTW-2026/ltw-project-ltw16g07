@@ -42,6 +42,21 @@ if (!$class) {
     exit;
 }
 
+// Plan restrictions (only for members, not for enroll cancel)
+if ($action_type !== 'cancel' && isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'member') {
+    $user_plan = get_user_plan($db, $user_id);
+    if ($user_plan['max_bookings'] !== null) {
+        $stmt = $db->prepare("SELECT COUNT(*) FROM bookings WHERE user_id = ?");
+        $stmt->execute([$user_id]);
+        $count = (int) $stmt->fetchColumn();
+        if ($count >= (int) $user_plan['max_bookings']) {
+            $_SESSION['flash_error'] = 'You have reached the booking limit for your ' . $user_plan['name'] . ' plan. Upgrade to book more classes.';
+            header('Location: /../pages/classes.php');
+            exit;
+        }
+    }
+}
+
 // Cancel enrollment (must come before "already enrolled" check)
 if ($action_type === 'cancel') {
     $stmt = $db->prepare("SELECT id FROM bookings WHERE user_id = ? AND class_id = ?");

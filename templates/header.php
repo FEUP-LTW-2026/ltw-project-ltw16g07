@@ -1,9 +1,13 @@
 <?php
 $notif_count = 0;
+$user_plan = null;
 if (isset($_SESSION['user_id'])) {
     $stmt = $db->prepare("SELECT COUNT(*) FROM notifications WHERE user_id = ? AND is_read = 0");
     $stmt->execute([$_SESSION['user_id']]);
     $notif_count = (int) $stmt->fetchColumn();
+    if (function_exists('get_user_plan')) {
+        $user_plan = get_user_plan($db, $_SESSION['user_id']);
+    }
 }
 ?>
 
@@ -53,6 +57,9 @@ if (isset($_SESSION['user_id'])) {
                      <span class="notif-badge"><?= $notif_count ?></span>
                    <?php endif; ?>
                 </a>
+                <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'member' && $user_plan): ?>
+                    <a href="../pages/plans.php" class="plan-badge-header" style="background: <?= h($user_plan['badge_color']) ?>; color: #000; font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 999px; font-weight: 600; text-decoration: none;"><?= h($user_plan['name']) ?></a>
+                <?php endif; ?>
                 <a href="../actions/logout.php"><button type="button" class="btn-outline">Logout</button></a>
             <?php else: ?>
                 <a href="../pages/login.php"><button type="button" class="btn-outline">Login</button></a>

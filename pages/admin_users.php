@@ -15,7 +15,11 @@ $ALLOWED_ROLES = ['member', 'trainer', 'admin'];
 
 $pagination = paginate($db,
     "SELECT COUNT(*) FROM users",
-    "SELECT id, first_name, last_name, email, role FROM users ORDER BY role, first_name",
+    "SELECT u.id, u.first_name, u.last_name, u.email, u.role, COALESCE(p.name, 'Free') AS plan_name
+     FROM users u
+     LEFT JOIN user_subscriptions us ON us.user_id = u.id
+     LEFT JOIN plans p ON p.id = us.plan_id
+     ORDER BY u.role, u.first_name",
     [], 15
 );
 $users = $pagination['items'];

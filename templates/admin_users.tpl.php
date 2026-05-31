@@ -21,6 +21,7 @@ declare(strict_types = 1);
                     <th>Name</th>
                     <th>Email</th>
                     <th>Role</th>
+                    <th>Plan</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
@@ -34,6 +35,7 @@ declare(strict_types = 1);
                         <td><?= h($u['first_name'] . ' ' . $u['last_name']) ?></td>
                         <td><?= h($display_email) ?></td>
                         <td><span class="badge-role <?= h($u['role']) ?>"><?= h($u['role']) ?></span></td>
+                        <td><?= $u['role'] === 'member' ? '<span class="plan-label">' . h($u['plan_name'] ?? 'Free') . '</span>' : '-' ?></td>
                         <td>
                             <span class="badge-status <?= $is_deactivated ? 'inactive' : 'active' ?>">
                                 <?= $is_deactivated ? 'Deactivated' : 'Active' ?>

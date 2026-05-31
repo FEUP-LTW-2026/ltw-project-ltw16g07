@@ -15,6 +15,16 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 validate_csrf();
 
 $user_id = $_SESSION['user_id'];
+
+if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'member') {
+    $user_plan = get_user_plan($db, $user_id);
+    if (!$user_plan['can_book_pt']) {
+        $_SESSION['flash_error'] = 'Personal training requires the Pro plan or higher. Upgrade your plan to book PT sessions.';
+        header('Location: ../pages/plans.php');
+        exit;
+    }
+}
+
 $trainer_id = (int) ($_POST['trainer_id'] ?? 0);
 $b_date = $_POST['booking_date'] ?? '';
 $t_slot = $_POST['time_slot'] ?? '';
