@@ -2,6 +2,11 @@
 
 ## Projeto LTW 2025/26 · FEUP
 
+Site de gestão de um ginásio privado. Membros podem navegar e inscrever-se em
+aulas, ver perfis de treinadores, consultar a disponibilidade de equipamento e
+deixar avaliações. Treinadores gerem as suas sessões e veem a lista de
+inscritos. Administradores gerem o catálogo de aulas, equipamento e utilizadores. Inclui sistema de lista de espera automática e notificações in-app.
+
 ### Como executar (para o professor)
 
 **1. Criar a base de dados**
@@ -21,31 +26,15 @@ php -S localhost:9000
 
 | Tipo | Email | Password |
 |------|-------|----------|
-| Admin | `admin@fithub.com` | `admin123` |
-| Membro | `ana@fithub.com` | `password` |
-| Membro | `jordan.miller@example.com` | `password` |
-| Trainer | `trainer@fithub.com` | `password` |
+| Admin | `admin@fithub.com` | `password` |
+| Trainer | `ana@fithub.com` | `password` |
 
-Site de gestão de um ginásio privado. Membros podem navegar e inscrever-se em
-aulas, ver perfis de treinadores, consultar a disponibilidade de equipamento e
-deixar avaliações. Treinadores gerem as suas sessões e veem a lista de
-inscritos. Administradores gerem o catálogo de aulas, equipamento, utilizadores
-e disputas. Inclui sistema de lista de espera automática e notificações in-app.
+Nota: Para o member é só fazer registo 
 
-### Como executar localmente
-
-A partir da raiz do repositório:
-
-```bash
-php -S localhost:9000
-```
-
-Depois abrir [`http://localhost:9000`](http://localhost:9000) no navegador
-(faz redirect para `pages/`).
 
 ### Inicializar / repor a base de dados
 
-O ficheiro SQLite `database/database.db` já vem populado com dados de
+O ficheiro SQLite `database/fithub.db` já vem populado com dados de
 demonstração. Para repor o estado inicial:
 
 ```bash
@@ -56,13 +45,7 @@ sqlite3 database/database.db < database/database.sql
 > Em macOS/Linux o `sqlite3` está disponível por omissão; em Windows usar
 > [https://sqlite.org/download.html](https://sqlite.org/download.html).
 
-### Contas de demonstração (password: `password`)
 
-| Tipo | Email |
-| ------- | ------------------------------ |
-| Admin | `admin@fithub.com` |
-| Trainer | `ana@fithub.com` |
-| Member | `jordan.miller@example.com` |
 
 ### Funcionalidades
 
@@ -91,33 +74,38 @@ sqlite3 database/database.db < database/database.sql
 
 **Sistema transversal**
 - Notificações in-app (sino no header com contagem por ler)
-- API REST/JSON: `api/api_enroll.php`, `api/api_equipment.php`,
-`api/api_schedule.php`, `api/api_trainers.php`
+- API REST/JSON: `api/index.php`, `api/equipment.php`,
+`api/schedule.php`, `api/trainers.php`
 - AJAX progressivo: forms continuam a funcionar sem JavaScript
 
 ### Estrutura
 
 ```
-├── actions/ # POST handlers (login, register, enrol, review, admin…)
-├── api/ # Endpoints JSON / AJAX
-├── css/ # Folha de estilos única (mobile-first, design tokens)
-├── database/ # Schema SQL, ficheiro SQLite e classes PHP (PDO)
-├── javascript/ # Scripts client-side (vanilla, sem frameworks)
-├── templates/ # Páginas (controllers + partials)
-├── templates/ # Funções drawX() para renderizar HTML
-├── uploads/ # Fotografias de perfil carregadas pelos utilizadores
-└── utils/ # Helpers (Session, CSRF)    
+├── actions/         # POST handlers (login, register, book_class, logout, add_review…)
+├── api/             # Endpoints JSON / AJAX (equipment.php, trainers.php, schedule.php, index.php)
+├── css/             # Folhas de estilo (style.css + pages específicas)
+├── database/        # Ficheiro SQLite local (database/fithub.db) 
+├── sql              # Schema + seed
+├── javascript/      # Scripts client-side (vanilla JS)
+├── templates/       # Templates .tpl.php (funções draw_*/render_* para apresentação)
+├── pages/           # Controladores / páginas PHP que preparam dados e chamam templates
+├── includes/        # Helpers (auth.php)
+├── config/          # Configuração (database.php)
+└── uploads/         # Imagens enviadas (trainers, gym)
+
 ```
 
 ### Segurança
 
-- Senhas com `password_hash` (bcrypt)
-- **Prepared statements** em todas as queries (PDO)
-- **CSRF tokens** em todos os formulários POST (validados com `hash_equals`)
-- `htmlspecialchars` em todos os outputs dinâmicos
-- Validação de MIME real em uploads de imagens
-- Cookies de sessão com `HttpOnly` + `SameSite=Lax`
-- Foreign keys ativas em SQLite (`PRAGMA foreign_keys = ON`)
+- Senhas com password_hash() (bcrypt).
+- Prepared statements (PDO) em todas as queries.
+- CSRF tokens em formulários POST (csrf_input/validate_csrf, comparação com hash_equals).
+- Escapa todos os outputs com htmlspecialchars / helper h().
+- Validação de MIME e extensão em uploads de imagem; armazenamento em uploads/ com nomes seguros.
+- Sessões com cookies HttpOnly e SameSite=Lax (configurar em session_start / envio de cookies).
+- SQLite: PRAGMA foreign_keys = ON ativado nas ligações.
+- Não commitar ficheiros de base de dados locais — adicionar ao .gitignore (ex.: /database/*.db, *.db, *.sqlite*).
+
 
 ### Tecnologias
 
