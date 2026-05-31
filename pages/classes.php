@@ -34,59 +34,48 @@ $filter_trainer = $_GET['trainer'] ?? '';
 $filter_day     = $_GET['day'] ?? '';
 $filter_time    = $_GET['time'] ?? '';
 
-// Construção dinâmica da query SQL baseado nos filtros ativos
-$sql = "
-    SELECT c.*, t.name as trainer_name 
-    FROM classes c 
-    JOIN trainers t ON c.trainer_id = t.id 
-    WHERE 1=1
-";
+// Construção dinâmica do WHERE
+$where = "WHERE 1=1";
 $params = [];
 
 if ($filter_type !== 'All' && $filter_type !== '') {
-    $sql .= " AND c.type = ?";
+    $where .= " AND c.type = ?";
     $params[] = $filter_type;
 }
 
 if ($filter_trainer !== '') {
-    $sql .= " AND t.id = ?";
+    $where .= " AND t.id = ?";
     $params[] = $filter_trainer;
 }
 
 if ($filter_day !== '') {
-    $sql .= " AND c.day_of_week = ?";
+    $where .= " AND c.day_of_week = ?";
     $params[] = $filter_day;
 }
 
 if ($filter_time !== '') {
     switch ($filter_time) {
         case 'morning':
-            $sql .= " AND c.time_start < '12:00'";
+            $where .= " AND c.time_start < '12:00'";
             break;
         case 'afternoon':
-            $sql .= " AND c.time_start >= '12:00' AND c.time_start < '17:00'";
+            $where .= " AND c.time_start >= '12:00' AND c.time_start < '17:00'";
             break;
         case 'evening':
-            $sql .= " AND c.time_start >= '17:00'";
+            $where .= " AND c.time_start >= '17:00'";
             break;
     }
 }
 
-$sql .= " ORDER BY 
-    CASE c.day_of_week 
-        WHEN 'Monday' THEN 1 
-        WHEN 'Tuesday' THEN 2 
-        WHEN 'Wednesday' THEN 3 
-        WHEN 'Thursday' THEN 4 
-        WHEN 'Friday' THEN 5 
-        WHEN 'Saturday' THEN 6 
-        WHEN 'Sunday' THEN 7 
-    END, 
-    c.time_start";
+$from   = "FROM classes c JOIN trainers t ON c.trainer_id = t.id";
+$order  = "ORDER BY CASE c.day_of_week WHEN 'Monday' THEN 1 WHEN 'Tuesday' THEN 2 WHEN 'Wednesday' THEN 3 WHEN 'Thursday' THEN 4 WHEN 'Friday' THEN 5 WHEN 'Saturday' THEN 6 WHEN 'Sunday' THEN 7 END, c.time_start";
 
-$stmt = $db->prepare($sql);
-$stmt->execute($params);
-$classes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$count_sql  = "SELECT COUNT(*) $from $where";
+$select_sql = "SELECT c.*, t.name as trainer_name $from $where $order";
+
+$per_page = 10;
+$pagination = paginate($db, $count_sql, $select_sql, $params, $per_page);
+$classes = $pagination['items'];
 
 // Agrupamento estruturado das aulas organizadas por cada dia da semana
 $days_order = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -107,8 +96,8 @@ if (isset($_SESSION['user_id'])) {
     $enrolled_class_ids = $stmt->fetchAll(PDO::FETCH_COLUMN);
 }
 
-// Início do output gráfico sequencial
 require_once __DIR__ . '/../templates/header.php';
+require_once __DIR__ . '/../templates/pagination.tpl.php';
 
 drawClassesPage(
     $classes, 
@@ -121,7 +110,9 @@ drawClassesPage(
     $filter_day, 
     $filter_time, 
     $logged_trainer_id,
-    $enrolled_class_ids
+    $enrolled_class_ids,
+    $pagination['current_page'],
+    $pagination['total_pages']
 );
 
 require_once __DIR__ . '/../templates/footer.php';

@@ -11,11 +11,16 @@ $extra_css    = '../css/admin.css';
 $extra_js     = '../javascript/admin_equipment.js';
 $page_title   = 'Manage Equipment';
 
-$equipment = $db->query("SELECT * FROM equipment ORDER BY category, name")->fetchAll(PDO::FETCH_ASSOC);
+$pagination = paginate($db,
+    "SELECT COUNT(*) FROM equipment",
+    "SELECT * FROM equipment ORDER BY category, name",
+    [], 15
+);
+$equipment = $pagination['items'];
 
 require_once __DIR__ . '/../templates/header.php';
+require_once __DIR__ . '/../templates/pagination.tpl.php';
 
-// Renderiza a página recorrendo ao template purificado
-drawAdminEquipmentPage($equipment);
+drawAdminEquipmentPage($equipment, $pagination['current_page'], $pagination['total_pages']);
 require_once __DIR__ . '/../templates/footer.php';
 ?>

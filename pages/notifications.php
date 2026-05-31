@@ -19,9 +19,12 @@ $db->prepare("UPDATE notifications SET is_read = 1 WHERE user_id = ? AND is_read
    ->execute([$user_id]);
 
 // Procurar notificações
-$stmt = $db->prepare("SELECT * FROM notifications WHERE user_id = ? ORDER BY created_at DESC");
-$stmt->execute([$user_id]);
-$notifications = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$pagination = paginate($db,
+    "SELECT COUNT(*) FROM notifications WHERE user_id = ?",
+    "SELECT * FROM notifications WHERE user_id = ? ORDER BY created_at DESC",
+    [$user_id], 10
+);
+$notifications = $pagination['items'];
 
 $icons = [
     'booking' => '📅',
@@ -30,11 +33,10 @@ $icons = [
     'general' => '🔔',
 ];
 
-// Renderiza a estrutura da página
 require_once __DIR__ . '/../templates/header.php';
+require_once __DIR__ . '/../templates/pagination.tpl.php';
 
-// Chama a função do template passando os dados reais
-drawNotificationsList($notifications, $icons);
+drawNotificationsList($notifications, $icons, $pagination['current_page'], $pagination['total_pages']);
 
 require_once __DIR__ . '/../templates/footer.php'; 
 ?>

@@ -55,15 +55,17 @@ if ($trainer_id) {
  
 } else {
     // 2. Vista geral - Puxa rigorosamente todos os registos ordenados por nome
-    $all_trainers = $db->query("
-        SELECT t.*, u.profile_pic 
-        FROM trainers t 
-        LEFT JOIN users u ON (u.first_name || ' ' || u.last_name) = t.name \n        ORDER BY t.name
-    ")->fetchAll(PDO::FETCH_ASSOC);
+    $pagination = paginate($db,
+        "SELECT COUNT(*) FROM trainers t LEFT JOIN users u ON (u.first_name || ' ' || u.last_name) = t.name",
+        "SELECT t.*, u.profile_pic FROM trainers t LEFT JOIN users u ON (u.first_name || ' ' || u.last_name) = t.name ORDER BY t.name",
+        [], 8
+    );
+    $all_trainers = $pagination['items'];
 
     // Renderiza a listagem completa
     require_once __DIR__ . '/../templates/header.php';
-    drawTrainersGrid($all_trainers);
+    require_once __DIR__ . '/../templates/pagination.tpl.php';
+    drawTrainersGrid($all_trainers, $pagination['current_page'], $pagination['total_pages']);
     require_once __DIR__ . '/../templates/footer.php';
 }
 ?>

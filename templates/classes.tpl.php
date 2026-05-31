@@ -13,7 +13,9 @@ declare(strict_types = 1);
     string $filter_day, 
     string $filter_time, 
     ?int $logged_trainer_id,
-    array $enrolled_class_ids = []
+    array $enrolled_class_ids = [],
+    int $current_page = 1,
+    int $total_pages = 1
 ) { ?>
 
 <div class="page-header">
@@ -125,4 +127,5 @@ declare(strict_types = 1);
         </section>
     <?php endforeach; ?>
 </main>
+<?php drawPagination($current_page, $total_pages, 'classes.php'); ?>
 <?php } ?>

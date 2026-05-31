@@ -2,7 +2,7 @@
 declare(strict_types = 1); 
 ?>
 
-<?php function drawNotificationsList(array $notifications, array $icons) { ?>
+<?php function drawNotificationsList(array $notifications, array $icons, int $current_page = 1, int $total_pages = 1) { ?>
 <main class="notifications-page">
     <header class="notif-header">
         <div class="notif-title-group">
@@ -51,4 +51,5 @@ declare(strict_types = 1);
         </section>
     <?php endif; ?>
 </main>
+<?php drawPagination($current_page, $total_pages, 'notifications.php'); ?>
 <?php } ?>

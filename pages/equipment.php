@@ -15,13 +15,18 @@ $extra_css = '../css/equipment.css';
 $extra_js = '../javascript/equipment.js';
 
 // Lógica de recolha de dados
-$equipment = $db->query("SELECT * FROM equipment ORDER BY category, name")->fetchAll(PDO::FETCH_ASSOC);
+$pagination = paginate($db, 
+    "SELECT COUNT(*) FROM equipment",
+    "SELECT * FROM equipment ORDER BY category, name",
+    [], 10
+);
+$equipment  = $pagination['items'];
 $categories = $db->query("SELECT DISTINCT category FROM equipment ORDER BY category")->fetchAll(PDO::FETCH_ASSOC);
 
-// Renderização estrutural (Header, Template Visual e Footer)
 require_once __DIR__ . '/../templates/header.php';
+require_once __DIR__ . '/../templates/pagination.tpl.php';
 
-drawEquipmentPage($equipment, $categories);
+drawEquipmentPage($equipment, $categories, $pagination['current_page'], $pagination['total_pages']);
 
 require_once __DIR__ . '/../templates/footer.php';
 ?>

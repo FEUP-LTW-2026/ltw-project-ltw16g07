@@ -41,6 +41,46 @@ if (!function_exists('csrf_input')) {
     }
 }
 
+if (!function_exists('paginate')) {
+    function paginate(PDO $db, string $count_sql, string $select_sql, array $params, int $per_page = 10): array
+    {
+        $page = max(1, (int) ($_GET['page'] ?? 1));
+
+        $stmt = $db->prepare($count_sql);
+        $stmt->execute($params);
+        $total = (int) $stmt->fetchColumn();
+
+        $total_pages = max(1, (int) ceil($total / $per_page));
+        $page = min($page, $total_pages);
+        $offset = ($page - 1) * $per_page;
+
+        $stmt = $db->prepare($select_sql . " LIMIT $per_page OFFSET $offset");
+        $stmt->execute($params);
+        $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return [
+            'items'        => $items,
+            'current_page' => $page,
+            'total_pages'  => $total_pages,
+            'total'        => $total,
+            'per_page'     => $per_page,
+        ];
+    }
+}
+
+if (!function_exists('build_pagination_query_string')) {
+    function build_pagination_query_string(array $exclude = ['page']): string
+    {
+        $parts = [];
+        foreach ($_GET as $key => $value) {
+            if (!in_array($key, $exclude) && $value !== '') {
+                $parts[] = urlencode($key) . '=' . urlencode($value);
+            }
+        }
+        return implode('&', $parts);
+    }
+}
+
 // Função para validar o token enviado em requisições POST
 if (!function_exists('validate_csrf')) {
     function validate_csrf() {
